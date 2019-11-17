@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Activar Cuenta";
+}
+
+<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+<div class="col-lg-6" style="min-height: 42rem">
+    <div class="p-5">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-2">Envio con existo!</h1>
+            <p class="mb-4">
+                Se envio el correo de activación a su bandeja de correo
+            </p>
+        </div>
+        <hr>
+        <div class="text-center">
+            <a class="small" href="@Url.Action("Index","Authentication")">Regresar a Login</a>
+        </div>
+    </div>
+</div>

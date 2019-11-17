@@ -1,0 +1,171 @@
+﻿.fa {
+    margin-right: 5px;
+}
+
+.bg-gradient-primary {
+    background-image: url(../img/ic_login_background.png) !important;
+    background-size: 300px !important;
+    background-color: #ff6969;
+    background-image: linear-gradient(180deg,#ff6969 10%,#ffffff 100%);
+    background-size: cover;
+}
+
+.field-validation-error {
+    font-size: .8rem;
+}
+
+.bg-login-image {
+    background-image: url('../img/bg-login.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+dl, ol, ul {
+    padding-left: 1rem;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #ff6969;
+    border-color: #ff6969;
+}
+
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #ff4e4e;
+        border-color: #ff6969;
+    }
+    .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+        color: #fff;
+        background-color: #ff4e4e;
+        border-color: #ff6969;
+    }
+    .btn-primary.focus, .btn-primary:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 105, 105, .5);
+    }
+    .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 105, 105, .5);
+        
+    }
+    .btn-primary.disabled, .btn-primary:disabled {
+        color: #fff;
+        background-color: #ff4e4e;
+        border-color: #ff4e4e;
+    }
+/*.btn-primary.focus, .btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 105, .5);
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #ff6969;
+    border-color: #ff6969;
+}
+    .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 105, 105, .5);
+    }*/
+.overlay {
+    background-color: rgba(113, 113, 113, .4);
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+
+    position: fixed;
+    z-index: 999;
+    width: 6rem;
+    margin: auto;
+    top: 0px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+    .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid #fff;
+        border-color: #fff transparent #fff transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.ld-ext-right.running > .ld, .ld-ext-left.running > .ld, .ld-ext-bottom.running > .ld, .ld-ext-top.running > .ld, .ld-over.running > .ld, .ld-over-inverse.running > .ld, .ld-over-full.running > .ld, .ld-over-full-inverse.running > .ld {
+    opacity: 1;
+    z-index: auto;
+    visibility: visible;
+}
+
+.ld.ld-spin {
+    animation: ld-spin 1s infinite linear;
+}
+
+.ld-ext-right > .ld {
+    top: 50%;
+    left: auto;
+    right: 1.25em;
+}
+
+.ld-ext-right > .ld, .ld-ext-left > .ld, .ld-ext-bottom > .ld, .ld-ext-top > .ld, .ld-over > .ld, .ld-over-inverse > .ld, .ld-over-full > .ld, .ld-over-full-inverse > .ld {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    margin: -0.5em;
+    opacity: 0;
+    z-index: -1;
+    transition: all .3s;
+    transition-timing-function: ease-in;
+}
+
+.ld-ball, .ld-ring, .ld-hourglass, .ld-loader, .ld-cross, .ld-square, .ld-pie, .ld-spinner {
+    width: 1em;
+    height: 1em;
+    position: relative;
+    color: inherit;
+    display: inline-block;
+    box-sizing: content-box;
+}
+
+.ld {
+    transform-origin: 50% 50%;
+    transform-box: fill-box;
+}
+
+.img-max-150 {
+    height: 150px;
+    max-height: 150px;
+    border: 1px solid #e3e6f0;
+}
+
+.tab-content > .active {
+    padding-left: 0rem;
+    padding-right: 0rem;
+    margin-left: 0;
+    margin-right: 0px;
+    width: 100%;
+    max-width: 100%;
+}  

@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Register";
+    @model Tacovela.MVC.Models.User.UserRegisterViewModel
+}
+
+@*<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>*@
+<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+<div class="col-lg-6" style="min-height: 42rem">
+    <div class="p-5">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-4">TACOVELA</h1>
+            <h1 class="h4 text-gray-900 mb-4">Crear una Cuenta!</h1>
+        </div>
+        <div asp-valitadion-summary-custom="None"></div>
+        <form class="user" method="post" asp-action="Register">
+            <div class="form-group">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <input asp-for="FirstName" type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre (s)">
+            </div>
+            <div class="form-group">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+                <input asp-for="LastName" type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Apellidos">
+            </div>
+            <div class="form-group">
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <input asp-for="Email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <input asp-for="Password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Contraseña">
+
+            </div><div class="form-group">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                <input asp-for="ConfirmPassword" type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Re-Contraseña">
+            </div>
+            <button class="btn btn-primary btn-user btn-block" type="submit">Registrar Cuenta</button>
+        </form>
+        <hr>
+        <div class="text-center">
+            <a class="small" href="@Url.Action("ResetPassword","Authentication")">Olvidaste la contraseña?</a>
+        </div>
+        <div class="text-center">
+            <a class="small" href="@Url.Action("Index","Authentication")">Ya tienes una cuenta? Login!</a>
+        </div>
+    </div>
+</div>
