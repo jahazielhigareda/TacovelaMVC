@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>@ViewData["Title"]</title>
 
     <!-- Custom fonts for this template-->
     @*<link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">*@
@@ -19,6 +19,8 @@
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet" />
+
+    @RenderSection("Styles", false)
 </head>
 
 <body id="page-top">
@@ -66,16 +68,16 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Config. de Compras</h6>
-                        <a class="collapse-item" href="buttons.html">Ingredientes</a>
-                        <a class="collapse-item" href="cards.html">Productos</a>
-                        <a class="collapse-item" href="cards.html">Categorias</a>
+                        <a class="collapse-item" href="@Url.Action("Index","Ingredient")">Ingredientes</a>
+                        <a class="collapse-item" href="@Url.Action("Index","Product")">Productos</a>
+                        <a class="collapse-item" href="@Url.Action("Index","Category")">Categorias</a>
                         <h6 class="collapse-header">Config. de Publicidad</h6>
                         <a class="collapse-item" href="cards.html">Benner App</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
+            @*<!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
@@ -134,7 +136,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span>
                 </a>
-            </li>
+            </li>*@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -433,6 +435,8 @@
 
         });
     </script>
+
+    @RenderSection("Scripts", required: false)
 
 </body>
 

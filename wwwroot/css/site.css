@@ -156,9 +156,23 @@ dl, ol, ul {
 }
 
 .img-max-150 {
+    width: 150px;
     height: 150px;
     max-height: 150px;
+    max-width: 150px;
+}
+.img-max-200 {
+    width: 200px;
+    height: 200px;
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.img-cover {
     border: 1px solid #e3e6f0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
 
 .tab-content > .active {
@@ -168,4 +182,18 @@ dl, ol, ul {
     margin-right: 0px;
     width: 100%;
     max-width: 100%;
-}  
+}
+
+/*este esta en duda*/
+.nav-tabs {
+    border-bottom: 0px solid #dddfeb;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+    border-bottom-width: 0px;
+    border-top-width: 0px;
+}
+table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+    border-bottom-width: 0px;
+}
+

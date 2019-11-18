@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Core\Helpers\" />
+    <Folder Include="wwwroot\lib\datatable\" />
   </ItemGroup>
 
 </Project>
