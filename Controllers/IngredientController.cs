@@ -17,5 +17,9 @@ namespace Tacovela.MVC.Controllers
             return View();
         }
 
+        public IActionResult Edit()
+        {
+            return View();
+        }
     }
 }

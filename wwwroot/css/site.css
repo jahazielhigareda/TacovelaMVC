@@ -1,4 +1,4 @@
-﻿.fa {
+﻿.fa-c {
     margin-right: 5px;
 }
 
@@ -35,18 +35,21 @@ dl, ol, ul {
         background-color: #ff4e4e;
         border-color: #ff6969;
     }
+
     .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
         color: #fff;
         background-color: #ff4e4e;
         border-color: #ff6969;
     }
+
     .btn-primary.focus, .btn-primary:focus {
         box-shadow: 0 0 0 0.2rem rgba(255, 105, 105, .5);
     }
+
     .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
         box-shadow: 0 0 0 0.2rem rgba(255, 105, 105, .5);
-        
     }
+
     .btn-primary.disabled, .btn-primary:disabled {
         color: #fff;
         background-color: #ff4e4e;
@@ -77,7 +80,6 @@ dl, ol, ul {
     display: inline-block;
     width: 80px;
     height: 80px;
-
     position: fixed;
     z-index: 999;
     width: 6rem;
@@ -155,12 +157,17 @@ dl, ol, ul {
     transform-box: fill-box;
 }
 
+.max-100 {
+    width: 100px;
+}
+
 .img-max-150 {
     width: 150px;
     height: 150px;
     max-height: 150px;
     max-width: 150px;
 }
+
 .img-max-200 {
     width: 200px;
     height: 200px;
@@ -193,7 +200,14 @@ dl, ol, ul {
     border-bottom-width: 0px;
     border-top-width: 0px;
 }
+
 table.table-bordered.dataTable th, table.table-bordered.dataTable td {
     border-bottom-width: 0px;
 }
 
+.img-banner {
+    width: 500px;
+    height: 200px;
+    max-height: 200px;
+    max-width: 500px;
+}
