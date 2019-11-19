@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Tacovela.MVC.Core.Enums;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Tacovela.MVC.Models.Api;
 
 namespace Tacovela.MVC.Core.TagHelpers
 {
@@ -44,31 +46,6 @@ namespace Tacovela.MVC.Core.TagHelpers
             }
 
             if (messages.Any() == false)
-                output.SuppressOutput();
-
-
-
-        }
-    }
-
-    [HtmlTargetElement("div", Attributes = AttributeName)]
-    public class ValidationSummaryLiItemsTagHelperCustom : TagHelper
-    {
-        private const string AttributeName = "asp-valitadion-summary-custom-testing";
-
-        [HtmlAttributeNotBound]
-        [ViewContext]
-        public ViewContext ViewContext { get; set; }
-
-        public override void Process(TagHelperContext context, TagHelperOutput output)
-        {
-            var errors = ViewContext.ModelState.Where(x => x.Key == "").SelectMany(x => x.Value.Errors).ToList();
-            foreach (var error in errors)
-            {
-                output.Content.AppendFormat("<li>{0}</li>", error.ErrorMessage);
-            }
-
-            if (errors.Any() == false)
                 output.SuppressOutput();
         }
     }

@@ -6,6 +6,7 @@ using Refit;
 using System;
 using System.Threading.Tasks;
 using Tacovela.MVC.Core.Enums;
+using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.User;
@@ -35,12 +36,15 @@ namespace Tacovela.MVC.Controllers
                 if (resultService.IsSuccessStatusCode)
                 {
                     var result = resultService.Content;
-                    HttpContext.Session.SetString("Token", result.Data.Token);
+                    var userSession = result.Data;
+                    userSession.ImageProfile = string.IsNullOrEmpty(userSession.ImageProfile) ? "//placehold.it/60" : userSession.ImageProfile;
+                    //HttpContext.Session.SetString("Token", result.Data.Token);
+                    HttpContext.Session.SetObjectAsJson("UserSession", userSession);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<LoginResponse>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
                     if (Convert.ToInt32(error.ErrorCode) == (int)ErrorApiRequestEnums.CuentaNoActivada)
                     {
                         //var result = apiService.SendMailValidation(model.Email);
@@ -81,7 +85,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<LoginResponse>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
                 //var serviceApi = RestService.For<ILoginAPI>(_enforcerApi.Url);
@@ -116,7 +120,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<LoginResponse>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
@@ -159,7 +163,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<LoginResponse>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
@@ -179,7 +183,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<LoginResponse>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
@@ -212,7 +216,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<LoginResponse>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }

@@ -25,7 +25,7 @@ namespace Tacovela.MVC.Controllers
             var action = ControllerContext.RouteData.Values["action"].ToString();
 
             //var menuSystem = HttpContext.Session.GetObjectFromJson<List<MenuSystemViewModel>>("MenuSystem");
-            var token = HttpContext.Session.Get("Token");
+            var token = HttpContext.Session.GetObjectFromJson<UserResponse>("UserSession");
             ///var token = Microsoft.AspNetCore.Http.SessionExtensions.Get(HttpContext.Session, "Token");
             //HttpContext.Session.TryGetValue("Token");
             //token = new byte[12];

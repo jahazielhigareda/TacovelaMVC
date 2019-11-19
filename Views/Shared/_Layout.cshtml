@@ -45,7 +45,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="@Url.Action("Index","Home")">
+                <a class="nav-link" href="@Url.Action("Index", "Home")">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Estadisticas</span>
                 </a>
@@ -68,11 +68,11 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Config. de Compras</h6>
-                        <a class="collapse-item" href="@Url.Action("Index","Ingredient")">Complementos</a>
-                        <a class="collapse-item" href="@Url.Action("Index","Product")">Productos</a>
-                        <a class="collapse-item" href="@Url.Action("Index","Category")">Categorias</a>
+                        <a class="collapse-item" href="@Url.Action("Index", "Ingredient")">Complementos</a>
+                        <a class="collapse-item" href="@Url.Action("Index", "Product")">Productos</a>
+                        <a class="collapse-item" href="@Url.Action("Index", "Category")">Categorias</a>
                         <h6 class="collapse-header">Config. de Publicidad</h6>
-                        <a class="collapse-item" href="@Url.Action("Index","Banner")">Benner App</a>
+                        <a class="collapse-item" href="@Url.Action("Index", "Banner")">Benner App</a>
                     </div>
                 </div>
             </li>
@@ -123,27 +123,9 @@
                                 </form>
                             </div>
                         </li>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                                <img class="img-profile rounded-circle" src="//placehold.it/60">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="@Url.Action("Profile","User")">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-
+                        @{
+                            await Html.RenderPartialAsync("_ProfileTopbar");
+                        }
                     </ul>
 
                 </nav>

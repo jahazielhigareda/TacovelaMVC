@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace Tacovela.MVC.Models.Api
 {
-    public class TokenResponse
+    public class UserResponse
     {
+        public Guid Id { get; set; }
         public string Token { get; set; }
+        public string Email { get; set; }
+        public string ImageProfile { get; set; }
     }
 }

@@ -14,22 +14,22 @@ namespace Tacovela.MVC.Core.Interfaces
     public interface ILoginAPI
     {
         [Post("/user/login")]
-        Task<ApiResponse<LoginResponse>> LoginUser([Body] UserLoginViewModel user);
+        Task<ApiResponse<BasicResponse<UserResponse>>> LoginUser([Body] UserLoginViewModel user);
         
         [Post("/user/post")]
-        Task<ApiResponse<LoginResponse>> RegisterUser(UserRegisterViewModel userRegister);
+        Task<ApiResponse<BasicResponse<UserResponse>>> RegisterUser(UserRegisterViewModel userRegister);
 
         [Get("/user/sendmailforgotpassword")]
-        Task<ApiResponse<LoginResponse>> ResetPasswordVerify(string email);
+        Task<ApiResponse<BasicResponse<UserResponse>>> ResetPasswordVerify(string email);
 
         [Post("/user/resetpassword")]
-        Task<ApiResponse<LoginResponse>> ResetPassword([Body] ResetPasswordViewModel user);
+        Task<ApiResponse<BasicResponse<UserResponse>>> ResetPassword([Body] ResetPasswordViewModel user);
 
         [Get("/user/sendmailvalidation")]
-        Task<ApiResponse<LoginResponse>> SendMailValidation(string email);
+        Task<ApiResponse<BasicResponse<UserResponse>>> SendMailValidation(string email);
 
         [Get("/user/confirmemail")]
-        Task<ApiResponse<LoginResponse>> ConfirmEmail(string email);
+        Task<ApiResponse<BasicResponse<UserResponse>>> ConfirmEmail(string email);
         
     }
 }
