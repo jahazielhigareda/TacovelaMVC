@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Tacovela.MVC.Models.Api
 {
-    public class LoginResponse : BasicResponse<TokenResponse>
+    public class ListResultViewModel<T> : ResultViewModelBase
     {
-        public object ErrorCode { get; set; } = 0;
+        public T Data { get; set; }
+        public int Count { get; set; }
     }
 }

@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "Complementos";
+    @model List<Tacovela.MVC.Models.Ingredient.IngredientViewModel>
+}
+
+
+@section Styles {
+    <link href="~/vendor/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">&nbsp;</h6>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-10">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th class="text-center max-100">Estatus</th>
+                                <th class="text-center max-100">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th class="text-center max-100">Estatus</th>
+                                <th class="text-center max-100">Acciones</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@item.Name</td>
+                                    <td>@item.Value</td>
+                                    <th class="text-center max-100">
+                                        <span class="badge badge-success">Activo</span>
+                                    </th>
+                                    <td class="text-center max-100">
+                                        <a href="@Url.Action("Edit","Ingredient")" class="btn btn-warning btn-circle btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit","Ingredient")" class="btn btn-primary btn-circle btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>
+}

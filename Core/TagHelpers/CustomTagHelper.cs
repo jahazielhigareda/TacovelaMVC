@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Tacovela.MVC.Core.Enums;
 using System.Linq;
+using Tacovela.MVC.Core.Enums;
 
 namespace Tacovela.MVC.Core.TagHelpers
 {
@@ -35,6 +35,10 @@ namespace Tacovela.MVC.Core.TagHelpers
 
             output.Attributes.SetAttribute("class", classDiv);
 
+            output.Content.AppendFormat(@"<button type=""button"" class=""close"" data-dismiss=""alert"" aria-label=""Close"">
+                                    <span aria-hidden=""true"">&times;</span>
+                                  </button>");
+
             var messages = ViewContext.ModelState.Where(x => x.Key == TagHelperStatusEnums.Error.ToString() ||
                                                            x.Key == TagHelperStatusEnums.Success.ToString())
                                                            .SelectMany(x => x.Value.Errors).ToList();
@@ -44,31 +48,6 @@ namespace Tacovela.MVC.Core.TagHelpers
             }
 
             if (messages.Any() == false)
-                output.SuppressOutput();
-
-
-
-        }
-    }
-
-    [HtmlTargetElement("div", Attributes = AttributeName)]
-    public class ValidationSummaryLiItemsTagHelperCustom : TagHelper
-    {
-        private const string AttributeName = "asp-valitadion-summary-custom-testing";
-
-        [HtmlAttributeNotBound]
-        [ViewContext]
-        public ViewContext ViewContext { get; set; }
-
-        public override void Process(TagHelperContext context, TagHelperOutput output)
-        {
-            var errors = ViewContext.ModelState.Where(x => x.Key == "").SelectMany(x => x.Value.Errors).ToList();
-            foreach (var error in errors)
-            {
-                output.Content.AppendFormat("<li>{0}</li>", error.ErrorMessage);
-            }
-
-            if (errors.Any() == false)
                 output.SuppressOutput();
         }
     }
