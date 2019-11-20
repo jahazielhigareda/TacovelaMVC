@@ -4,7 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Refit;
+using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Common;
+using Tacovela.MVC.Models.Ingredient;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -14,7 +18,10 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var model = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+
+            return View(model);
         }
 
         public IActionResult Edit()

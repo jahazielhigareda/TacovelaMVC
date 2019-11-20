@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Complementos";
+    @model List<Tacovela.MVC.Models.Ingredient.IngredientViewModel>
 }
 
 
@@ -10,6 +11,8 @@
 
 
 <h2>@ViewData["Title"]</h2>
+
+
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -38,66 +41,27 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>Taco Norteño</td>
-                                <td>$320,800</td>
-                                <th class="text-center max-100">
-                                    <span class="badge badge-success">Activo</span>
-                                </th>
-                                <td class="text-center max-100">
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Taco Carne Asada</td>
-                                <td>$320,800</td>
-                                <th class="text-center max-100">
-                                    <span class="badge badge-success">Activo</span>
-                                </th>
-                                <td class="text-center max-100">
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Taco</td>
-                                <td>$320,800</td>
-                                <th class="text-center max-100">
-                                    <span class="badge badge-success">Activo</span>
-                                </th>
-                                <td class="text-center max-100">
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Taco</td>
-                                <td>$320,800</td>
-                                <th class="text-center max-100">
-                                    <span class="badge badge-success">Activo</span>
-                                </th>
-                                <td class="text-center max-100">
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="@Url.Action("Edit","Ingredient")" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@item.Name</td>
+                                    <td>@item.Value</td>
+                                    <th class="text-center max-100">
+                                        <span class="badge badge-success">Activo</span>
+                                    </th>
+                                    <td class="text-center max-100">
+                                        <a href="@Url.Action("Edit","Ingredient")" class="btn btn-warning btn-circle btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit","Ingredient")" class="btn btn-primary btn-circle btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
                         </tbody>
                     </table>
                 </div>

@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Perfil";
+    @model Tacovela.MVC.Models.User.UserAddressViewModel
+}
+
+<h2>Perfil de Usuario</h2>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("EditProfile","User")">Perfil</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#address">Dirección</a>
+    </li>
+</ul>
+
+<div class="row mb-5">
+    <div class="col-lg-6">
+        <div class="card">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container active" id="address">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-10">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-2">Dirección del Usuario</h1>
+                                    <p class="mb-4">Cualquier información mal registrada podra alterar aqui.</p>
+                                </div>
+                                <form class="user" role="form" method="post" asp-action="EditAddress">
+                                    <div asp-valitadion-summary-custom="None"></div>
+                                    <div class="form-group">
+                                        <span asp-validation-for="Street" class="text-danger"></span>
+                                        <input asp-for="Street" name="street" class="form-control form-control-user" type="text" placeholder="Calle" />
+                                    </div>
+                                    <div class="form-group">
+                                        <span asp-validation-for="Number" class="text-danger"></span>
+                                        <input asp-for="Number" name="number" class="form-control form-control-user" type="text" placeholder="Numero" />
+                                    </div>
+                                    <div class="form-group">
+                                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                        <input asp-for="PostalCode" name="postalcode" class="form-control form-control-user" type="text" placeholder="Código postal" />
+                                    </div>
+                                    <div class="form-group">
+                                        <span asp-validation-for="State" class="text-danger"></span>
+                                        <input asp-for="State" name="state" class="form-control form-control-user" type="text" placeholder="Estado" />
+                                    </div>
+                                    <div class="form-group">
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                        <input asp-for="City" name="city" class="form-control form-control-user" type="text" placeholder="Ciudad" />
+                                    </div>
+                                    <div class="form-group">
+                                        <span asp-validation-for="SubCity" class="text-danger"></span>
+                                        <input asp-for="SubCity" name="subcity" class="form-control form-control-user" type="text" placeholder="Colonia" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="reset" class="btn btn-secondary" value="Cancelar" />
+                                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="" style="margin: 1.25rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="//placehold.it/200" class="img-cover img-max-200 rounded-circle" alt="avatar" id="img-profile" />
+
+                    </div>
+                    <h6 class="mt-2">Subir Foto</h6>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" data-img-preview="img-profile" accept="image/*">
+                        <label class="custom-file-label" for="customFile">Escoger una Foto</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,9 +1,9 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @using Tacovela.MVC.Core.Extensions;
-@using Tacovela.MVC.Models.Api;
+@using Tacovela.MVC.Models.User;
 
 @{
-    var userSession = SessionExtension.GetObjectFromJson<UserResponse>(HttpContextAccessor.HttpContext.Session, "UserSession");
+    var userSession = SessionExtension.GetObjectFromJson<UserViewModel>(HttpContextAccessor.HttpContext.Session, "UserSession");
 }
 
 <!-- Nav Item - User Information -->
@@ -15,7 +15,7 @@
     </a>
     <!-- Dropdown - User Information -->
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="@Url.Action("Profile","User")">
+        <a class="dropdown-item" href="@Url.Action("EditProfile","User")">
             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
             Profile
         </a>

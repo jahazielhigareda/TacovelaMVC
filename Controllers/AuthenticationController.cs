@@ -29,7 +29,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
                 //try
                 //{
                 var resultService = await apiService.LoginUser(model);
@@ -44,7 +44,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     if (Convert.ToInt32(error.ErrorCode) == (int)ErrorApiRequestEnums.CuentaNoActivada)
                     {
                         //var result = apiService.SendMailValidation(model.Email);
@@ -75,7 +75,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
                 var resultService = await apiService.RegisterUser(model);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -85,7 +85,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
                 //var serviceApi = RestService.For<ILoginAPI>(_enforcerApi.Url);
@@ -111,7 +111,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ResetPasswordVerify(model.Email);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -120,7 +120,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
@@ -154,7 +154,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ResetPassword(model);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -163,7 +163,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
@@ -174,7 +174,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ConfirmEmail(email);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -183,7 +183,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
@@ -206,7 +206,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
                 var resultService = await apiService.SendMailValidation(model.Email);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -216,7 +216,7 @@ namespace Tacovela.MVC.Controllers
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }

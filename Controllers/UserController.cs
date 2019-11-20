@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Refit;
+using System.Threading.Tasks;
 using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
@@ -21,58 +18,93 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
-        public IActionResult Profile()
+        public IActionResult EditProfile()
         {
-            return View();
+            var userId = GetUserSession().Id;
+
+            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var model = apiService.GetUserById(userId).Result.Content.Data;
+
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profile(EditProfileViewModel model)
+        public async Task<IActionResult> EditProfile(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                try
+                model.Id = GetUserSession().Id;
+
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var resultService = await apiService.EditUser(model);
+                if (resultService.IsSuccessStatusCode)
                 {
-                    //var apiService = RestService.For<ILoginAPI>(_enforcerApi.Url);
-
-                    //var resultService = await apiService.LoginUser(model);
-                    //if (resultService.IsSuccessStatusCode)
-                    //{
-                    //    var result = resultService.Content;
-                    //    var userSession = result.Data;
-                    //    //userSession.ImageProfile = string.IsNullOrEmpty(userSession.ImageProfile) ? "//placehold.it/60" : userSession.ImageProfile;
-                    //    //HttpContext.Session.SetString("Token", result.Data.Token);
-                    //    //HttpContext.Session.SetObjectAsJson("UserSession", userSession);
-                    //    return RedirectToAction("Index", "Home");
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<BasicResponse<UserResponse>>(resultService.Error.Content);
-                    //    if (Convert.ToInt32(error.ErrorCode) == (int)ErrorApiRequestEnums.CuentaNoActivada)
-                    //    {
-                    //        //var result = apiService.SendMailValidation(model.Email);
-                    //        return RedirectToAction("SendMailActivationAccount", "Authentication", new { email = model.Email });
-                    //    }
-                    //    else
-                    //    {
-                    //        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
-                    //    }
-                    //}
-
+                    HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
                 }
-                catch (Exception ex)
+                else
                 {
-                    ExeptionError(ex);
-                    return View(model);
+                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
+                    HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
             }
-
-            ModelState.Clear();
             return View();
         }
+
+        public IActionResult EditAddress()
+        {
+            var userId = GetUserSession().Id;
+
+            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var model = apiService.GetAddressByIdUser(userId).Result.Content.Data;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAddress(UserAddressViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                model.UserId = GetUserSession().Id;
+
+                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var address = apiService.GetAddressByIdUser(model.UserId).Result.Content.Data;
+                if (address == null)
+                {
+                    var resultService = await apiService.CreateAddress(model);
+                    if (resultService.IsSuccessStatusCode)
+                    {
+                        HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
+                        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+                    }
+                }
+                else
+                {
+                    model.Id = address.Id;
+                    var resultService = await apiService.UpdateAddress(model);
+                    if (resultService.IsSuccessStatusCode)
+                    {
+                        HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
+                        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+                    }
+                }
+                
+            }
+            return View();
+        }
+
 
         public IActionResult ChangePassword()
         {

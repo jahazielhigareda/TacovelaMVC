@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Tacovela.MVC.Core.Enums;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Core.Enums;
 
 namespace Tacovela.MVC.Core.TagHelpers
 {
@@ -36,6 +34,10 @@ namespace Tacovela.MVC.Core.TagHelpers
             }
 
             output.Attributes.SetAttribute("class", classDiv);
+
+            output.Content.AppendFormat(@"<button type=""button"" class=""close"" data-dismiss=""alert"" aria-label=""Close"">
+                                    <span aria-hidden=""true"">&times;</span>
+                                  </button>");
 
             var messages = ViewContext.ModelState.Where(x => x.Key == TagHelperStatusEnums.Error.ToString() ||
                                                            x.Key == TagHelperStatusEnums.Success.ToString())

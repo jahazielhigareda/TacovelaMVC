@@ -196,17 +196,12 @@
 
     <script type="text/javascript">
         $("form").submit(function (e) {
-            var formId = this.id;  // "this" is a reference to the submitted form
-
-            //var submit = $(this).find(':submit');
             var submit = $(this).find('[type=submit]');
             submit.prepend('<i class="fa fa-c fa-circle-notch fa-spin"></i>');
             submit.prop('disabled', true);
-            //e.preventDefault();
         });
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
-            //var filename = e.target.result.lenght;
             if (fileName.length >= 10) {
                 var arrayFileName = fileName.split('.');
                 fileName = "imagen-perfil." + arrayFileName[arrayFileName.length - 1];
@@ -223,7 +218,6 @@
 
                     $('#' + idImgage).attr('src', e.target.result);
                 }
-
                 reader.readAsDataURL(input.files[0]);
             }
 

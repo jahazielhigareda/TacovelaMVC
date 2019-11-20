@@ -12,4 +12,10 @@ namespace Tacovela.MVC.Models.Api
         public T Data { get; set; }
         public string[] Errors { get; set; }
     }
+    public class BasicResponse
+    {
+        public object ErrorCode { get; set; } = 0;
+        public bool Success { get; set; }
+        public string[] Errors { get; set; }
+    }
 }
