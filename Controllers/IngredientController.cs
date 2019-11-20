@@ -18,7 +18,7 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
-            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var apiService = RestService.For<IAPI>(_enforcerApi.Url);
             var model = apiService.IngredientList(new IngredientViewModel()).Result.Data;
 
             return View(model);
