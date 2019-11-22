@@ -29,7 +29,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
                 //try
                 //{
                 var resultService = await apiService.LoginUser(model);
@@ -75,26 +75,19 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
                 var resultService = await apiService.RegisterUser(model);
                 if (resultService.IsSuccessStatusCode)
                 {
                     var result = resultService.Content;
-                    //HttpContext.Session.SetString("Token", result.Data.Token);
-                    return RedirectToAction("Dashboard", "Home");
+                    //return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("Index", "Authentication");
                 }
                 else
                 {
                     var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
                     HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
                 }
-                //var serviceApi = RestService.For<ILoginAPI>(_enforcerApi.Url);
-                //var result = serviceApi.RegisterUser(model).Result;
-                //if (result.Success)
-                //{
-                //    //HttpContext.Session.SetString("Token", result.Data.Token);
-                //    return RedirectToAction("Login", "Home");
-                //}
             }
             return PartialView("Register", model);
         }
@@ -111,7 +104,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ResetPasswordVerify(model.Email);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -154,7 +147,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ResetPassword(model);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -174,7 +167,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ConfirmEmail(email);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -206,7 +199,7 @@ namespace Tacovela.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
                 var resultService = await apiService.SendMailValidation(model.Email);
                 if (resultService.IsSuccessStatusCode)
                 {

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Refit;
 using System.Threading.Tasks;
 using Tacovela.MVC.Core.Enums;
+using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.User;
@@ -26,7 +27,7 @@ namespace Tacovela.MVC.Controllers
         {
             var userId = GetUserSession().Id;
 
-            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.GetUserById(userId).Result.Content.Data;
 
             return View(model);
@@ -39,7 +40,7 @@ namespace Tacovela.MVC.Controllers
             {
                 model.Id = GetUserSession().Id;
 
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                 var resultService = await apiService.EditUser(model);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -58,7 +59,7 @@ namespace Tacovela.MVC.Controllers
         {
             var userId = GetUserSession().Id;
 
-            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.GetAddressByIdUser(userId).Result.Content.Data;
             return View(model);
         }
@@ -71,7 +72,7 @@ namespace Tacovela.MVC.Controllers
             {
                 model.UserId = GetUserSession().Id;
 
-                var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+                var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                 var address = apiService.GetAddressByIdUser(model.UserId).Result.Content.Data;
                 if (address == null)
                 {

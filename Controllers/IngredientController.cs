@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Refit;
+using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Common;
@@ -18,7 +19,7 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
-            var apiService = RestService.For<IUserAPI>(_enforcerApi.Url);
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.IngredientList(new IngredientViewModel()).Result.Data;
 
             return View(model);
