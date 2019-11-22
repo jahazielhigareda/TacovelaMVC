@@ -1,9 +1,9 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @using Tacovela.MVC.Core.Extensions;
-@using Tacovela.MVC.Models.User;
+@using Tacovela.MVC.Models.Authentication;
 
 @{
-    var userSession = SessionExtension.GetObjectFromJson<UserViewModel>(HttpContextAccessor.HttpContext.Session, "UserSession");
+    var userSession = SessionExtension.GetObjectFromJson<LoginUserViewModel>(HttpContextAccessor.HttpContext.Session, "UserSession");
 }
 
 <!-- Nav Item - User Information -->

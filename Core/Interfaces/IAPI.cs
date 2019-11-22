@@ -1,15 +1,12 @@
-﻿using Newtonsoft.Json;
-using Refit;
-using Tacovela.MVC.Models.Api;
-using Tacovela.MVC.Models.User;
+﻿using Refit;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.Ingredient;
-using Tacovela.MVC.Models.Common;
 using Tacovela.MVC.Models.Product;
+using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Core.Interfaces
 {
@@ -18,7 +15,7 @@ namespace Tacovela.MVC.Core.Interfaces
         #region User
 
         [Post("/user/login")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> LoginUser([Body] UserLoginViewModel user);
+        Task<ApiResponse<BasicResponse<LoginUserViewModel>>> LoginUser([Body] UserLoginViewModel user);
 
         [Post("/user")]
         Task<ApiResponse<BasicResponse<UserViewModel>>> RegisterUser(UserRegisterViewModel userRegister);
@@ -35,23 +32,23 @@ namespace Tacovela.MVC.Core.Interfaces
         [Get("/user/confirmemail")]
         Task<ApiResponse<BasicResponse<UserViewModel>>> ConfirmEmail(string email);
 
-        [Post("/user/edit")]
+        [Post("/user/getbyid"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse<UserViewModel>>> GetUserById(Guid id);
+
+        [Post("/user/edit"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse<UserViewModel>>> EditUser(UserViewModel model);
 
         #endregion
 
-        #region Address User
+        #region Address User        
 
-        [Post("/user/getbyid")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> GetUserById(Guid id);
-
-        [Get("/user/getaddressbyiduser")]
+        [Get("/user/getaddressbyiduser"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse<UserAddressViewModel>>> GetAddressByIdUser(Guid id);
 
-        [Post("/user/address")]
+        [Post("/user/address"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> CreateAddress(UserAddressViewModel model);
 
-        [Put("/user/address")]
+        [Put("/user/address"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> UpdateAddress(UserAddressViewModel model);
 
 
@@ -60,14 +57,14 @@ namespace Tacovela.MVC.Core.Interfaces
 
         #region Ingredient
 
-        [Post("/ingredient/Get")]
+        [Post("/ingredient/Get"), Headers("Authorization: Bearer")]
         Task<ListResultViewModel<List<IngredientViewModel>>> IngredientList(IngredientViewModel filter);
 
         #endregion
 
         #region Product
 
-        [Get("/product")]
+        [Get("/product"), Headers("Authorization: Bearer")]
         Task<ListResultViewModel<List<ProductViewModel>>> ProductList();
 
         #endregion

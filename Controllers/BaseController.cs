@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
@@ -80,9 +81,9 @@ namespace Tacovela.MVC.Controllers
         //}
 
 
-        public UserViewModel GetUserSession()
+        public LoginUserViewModel GetUserSession()
         {
-            return HttpContext.Session.GetObjectFromJson<UserViewModel>("UserSession");
+            return HttpContext.Session.GetObjectFromJson<LoginUserViewModel>("UserSession");
         }
     }
 }
