@@ -40,7 +40,7 @@ namespace Tacovela.MVC.Controllers
             {
                 model.Id = GetUserSession().Id;
 
-                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
+                var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                 var resultService = await apiService.EditUser(model);
                 if (resultService.IsSuccessStatusCode)
                 {
@@ -59,7 +59,7 @@ namespace Tacovela.MVC.Controllers
         {
             var userId = GetUserSession().Id;
 
-            var apiService = RestService.For<IAPI>(_enforcerApi.Url);
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.GetAddressByIdUser(userId).Result.Content.Data;
             return View(model);
         }
@@ -72,7 +72,7 @@ namespace Tacovela.MVC.Controllers
             {
                 model.UserId = GetUserSession().Id;
 
-                var apiService = RestService.For<IAPI>(_enforcerApi.Url);
+                var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                 var address = apiService.GetAddressByIdUser(model.UserId).Result.Content.Data;
                 if (address == null)
                 {
