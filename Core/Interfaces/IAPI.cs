@@ -57,9 +57,7 @@ namespace Tacovela.MVC.Core.Interfaces
 
         #region Ingredient
 
-        [Post("/ingredient/Get"), Headers("Authorization: Bearer")]
-        Task<ListResultViewModel<List<IngredientViewModel>>> IngredientList(IngredientViewModel filter);
-
+       
         #endregion
 
         #region Product

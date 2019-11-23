@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Refit;
+using System;
+using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
-using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -13,6 +14,69 @@ namespace Tacovela.MVC.Controllers
         public BaseController(IOptions<Api> enforcerApi) : base(enforcerApi)
         {
         }
+
+        public void BasicResponse<T>(T model, ApiResponse<BasicResponse> resultService, bool clean = false)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                HandleMessages(new string[] { "Operación Completada." }, TagHelperStatusEnums.Success.ToString());
+                if (clean)
+                {
+                    ModelState.Clear();
+                    ViewData["success"] = "Operación Completada.";
+                }                
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+            }
+        }
+
+        //public T AwaitDataResult<T>(T model, ApiResponse<BasicResponse<T>> resultService)
+        //{
+        //    var list = new List<T>();
+        //    if (resultService.IsSuccessStatusCode)
+        //    {
+        //        model = resultService.Content.Data;
+        //        list.Add(model);
+        //    }
+        //    else
+        //    {
+        //        var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+        //        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+        //    }
+        //    var ss = (T)Activator.CreateInstance(typeof(List<T>), list);
+        //    return (T)Activator.CreateInstance(typeof(T), model);
+        //}
+        public T AwaitDataResult<T>(T model, ApiResponse<BasicResponse<T>> resultService)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                model = resultService.Content.Data;
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+            }
+            return model;
+        }
+
+        public T AwaitPaginationResult<T>(T model, ApiResponse<ListResultViewModel<T>> resultService)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                model = resultService.Content.Data;
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+            }
+            return (T)Activator.CreateInstance(typeof(T), model);
+        }
+
 
         //public override void OnActionExecuted(ActionExecutedContext context)
         //{
