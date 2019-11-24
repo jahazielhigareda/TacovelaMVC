@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Tacovela.MVC.Core.Enums
+﻿namespace Tacovela.MVC.Core.Enums
 {
     public enum GlobalApplicationEnum
     {
-        CuentaNoActivada = 1,
-        TempDataMessage = 2
+        TempDataMessage = 1
+    }
+
+    public enum ErrorTypeApiEnum
+    {
+        CuentaNoActivada = 1
+    }
+    public enum TagHelperStatusEnum
+    {
+        Error = 1,
+        Success = 2
     }
 }
