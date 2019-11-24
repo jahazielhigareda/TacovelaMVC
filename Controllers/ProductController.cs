@@ -17,7 +17,7 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
-            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.ProductList().Result.Data;
 
             return View(model);

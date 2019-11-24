@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Refit;
+using System;
+using System.Collections.Generic;
+using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
-using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -13,6 +15,8 @@ namespace Tacovela.MVC.Controllers
         public BaseController(IOptions<Api> enforcerApi) : base(enforcerApi)
         {
         }
+
+        
 
         //public override void OnActionExecuted(ActionExecutedContext context)
         //{
