@@ -10,33 +10,15 @@ using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Core.Interfaces
 {
-    public interface IAPI
+    public interface IUserAPI
     {
         #region User
-
-        [Post("/user/login")]
-        Task<ApiResponse<BasicResponse<LoginUserViewModel>>> LoginUser([Body] UserLoginViewModel user);
-
-        [Post("/user")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> RegisterUser(UserRegisterViewModel userRegister);
-
-        [Get("/user/sendmailforgotpassword")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> ResetPasswordVerify(string email);
-
-        [Post("/user/resetpassword")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> ResetPassword([Body] ResetPasswordViewModel user);
-
-        [Get("/user/sendmailvalidation")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> SendMailValidation(string email);
-
-        [Get("/user/confirmemail")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> ConfirmEmail(string email);
-
+        
         [Post("/user/getbyid"), Headers("Authorization: Bearer")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> GetUserById(Guid id);
+        Task<ApiResponse<BasicResponse<UserViewModel>>> GetById(Guid id);
 
         [Post("/user/edit"), Headers("Authorization: Bearer")]
-        Task<ApiResponse<BasicResponse<UserViewModel>>> EditUser(UserViewModel model);
+        Task<ApiResponse<BasicResponse<UserViewModel>>> Edit(UserViewModel model);
 
         #endregion
 
@@ -51,13 +33,6 @@ namespace Tacovela.MVC.Core.Interfaces
         [Put("/user/address"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> UpdateAddress(UserAddressViewModel model);
 
-
-
-        #endregion
-
-        #region Ingredient
-
-       
         #endregion
 
         #region Product

@@ -12,7 +12,8 @@
             <h1 class="h4 text-gray-900 mb-4">TACOVELA</h1>
             <h1 class="h4 text-gray-900 mb-4">Crear una Cuenta!</h1>
         </div>
-        <div asp-valitadion-summary-custom="None"></div>
+        @*<div asp-valitadion-summary-custom="None"></div>*@
+        <div asp-msg-tempdata="None"></div>
         <form class="user" method="post" asp-action="Register">
             <div class="form-group">
                 <span asp-validation-for="FirstName" class="text-danger"></span>

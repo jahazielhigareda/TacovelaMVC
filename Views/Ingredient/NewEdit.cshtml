@@ -14,16 +14,8 @@
                     <p class="mb-4">@ViewData["SubTitleDescription"]</p>
                 </div>
                 <form class="user" role="form" method="post" asp-action="NewEdit">
-                    @if (ViewData["success"] != null)
-                    {
-                        <div class="alert alert-success text-success small">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <li>@ViewData["success"]</li>
-                        </div>
-                    }
-                    <div asp-valitadion-summary-custom="None"></div>
+                    <div asp-msg-tempdata="None"></div>                   
+                    @*<div asp-valitadion-summary-custom="None"></div>*@
                     <input asp-for="Id" type="hidden" />
                     <div class="form-group">
                         <span asp-validation-for="Name" class="text-danger"></span>

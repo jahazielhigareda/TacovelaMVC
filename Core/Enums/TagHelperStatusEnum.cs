@@ -1,6 +1,6 @@
 ﻿namespace Tacovela.MVC.Core.Enums
 {
-    public enum TagHelperStatusEnums
+    public enum TagHelperStatusEnum
     {
         Error = 1,
         Success = 2

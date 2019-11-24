@@ -20,7 +20,7 @@ namespace Tacovela.MVC.Controllers
             var apiService = RestServiceExtension<IIngredientAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var resultService = await apiService.GetList(new IngredientViewModel());
 
-            model = AwaitPaginationResult<List<IngredientViewModel>>(model, resultService);
+            model = GetPagginationData<List<IngredientViewModel>>(resultService);
             return View(model);
         }
 
@@ -36,7 +36,7 @@ namespace Tacovela.MVC.Controllers
 
                 var resultService = await apiService.GetById(id.Value);
 
-                model = AwaitDataResult<IngredientViewModel>(model, resultService);
+                model = GetData<IngredientViewModel>(resultService);
                 ViewData["SubTitle"] = "Editar";
                 ViewData["SubTitleDescription"] = "Para editar el componentes debera llenar el siguiente formulario.";
             }
@@ -54,7 +54,7 @@ namespace Tacovela.MVC.Controllers
                 {
                     var apiService = RestServiceExtension<IIngredientAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                     var resultService = await apiService.Create(model);
-                    BasicResponse<IngredientViewModel>(model, resultService, true);
+                    TempDataMessage<IngredientViewModel>(resultService, true);
                     ViewData["SubTitle"] = "Nuevo";
                     ViewData["SubTitleDescription"] = "Para crear un nuevo componentes debera llenar el siguiente formulario.";
                 }
@@ -62,7 +62,7 @@ namespace Tacovela.MVC.Controllers
                 {
                     var apiService = RestServiceExtension<IIngredientAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                     var resultService = await apiService.Edit(model);
-                    BasicResponse<IngredientViewModel>(model, resultService);
+                    ModelStateMessage<IngredientViewModel>(resultService);
                     ViewData["SubTitle"] = "Editar";
                     ViewData["SubTitleDescription"] = "Para editar el componentes debera llenar el siguiente formulario.";
                 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Refit;
 using System.Net;
 using Newtonsoft.Json;
+using Tacovela.MVC.Core.Enums;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -19,11 +20,21 @@ namespace Tacovela.MVC.Controllers
             _enforcerApi = enforcerApi.Value;
         }
 
-        protected void HandleMessages(string[] errors, string messageType)
+        protected void TempDataMessages(string[] errors, string messageType)
         {
-            foreach (var erro in errors)
+            var dictionary = new Dictionary<string, string>();
+            foreach (var error in errors)
             {
-                ModelState.AddModelError(messageType, erro);
+                dictionary.Add(messageType, error);
+            }
+            TempData[GlobalApplicationEnum.TempDataMessage.ToString()] = dictionary;
+        }
+
+        protected void ModelStateMessages(string[] errors, string messageType)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError(messageType, error);
             }
         }
 
@@ -57,5 +68,122 @@ namespace Tacovela.MVC.Controllers
                 }
             }
         }
+        #region Handler Message
+
+        public void TempDataMessage<T>(ApiResponse<BasicResponse> resultService, bool clean = false)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                TempDataMessages(new string[] { "Operación Completada." }, TagHelperStatusEnum.Success.ToString());
+                if (clean)
+                {
+                    ModelState.Clear();
+                }
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+        }
+
+        public void ModelStateMessage<T>(ApiResponse<BasicResponse> resultService, bool clean = false)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                ModelStateMessages(new string[] { "Operación Completada." }, TagHelperStatusEnum.Success.ToString());
+                if (clean)
+                {
+                    ModelState.Clear();
+                }
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                ModelStateMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+        }
+
+        public void TempDataMessage<T>(ApiResponse<BasicResponse<T>> resultService, bool clean = false)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                TempDataMessages(new string[] { "Operación Completada." }, TagHelperStatusEnum.Success.ToString());
+                if (clean)
+                {
+                    ModelState.Clear();
+                }
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+        }
+
+        public void ModelStateMessage<T>(ApiResponse<BasicResponse<T>> resultService, bool clean = false)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                ModelStateMessages(new string[] { "Operación Completada." }, TagHelperStatusEnum.Success.ToString());
+                if (clean)
+                {
+                    ModelState.Clear();
+                }
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                ModelStateMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+        }
+
+        #endregion
+
+        //public T AwaitDataResult<T>(T model, ApiResponse<BasicResponse<T>> resultService)
+        //{
+        //    var list = new List<T>();
+        //    if (resultService.IsSuccessStatusCode)
+        //    {
+        //        model = resultService.Content.Data;
+        //        list.Add(model);
+        //    }
+        //    else
+        //    {
+        //        var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+        //        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
+        //    }
+        //    var ss = (T)Activator.CreateInstance(typeof(List<T>), list);
+        //    return (T)Activator.CreateInstance(typeof(T), model);
+        //}
+
+        public T GetData<T>(ApiResponse<BasicResponse<T>> resultService)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                return resultService.Content.Data;
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+            return default(T);
+        }
+
+        public T GetPagginationData<T>(ApiResponse<ListResultViewModel<T>> resultService)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                return resultService.Content.Data;
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+            return default(T);
+        }
+
     }
 }
