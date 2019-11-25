@@ -22,5 +22,8 @@ namespace Tacovela.MVC.Core.Interfaces
 
         [Put("/ingredient"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> Edit([FromBody] IngredientViewModel model);
+
+        [Delete("/ingredient"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> Delete(Guid id);
     }
 }

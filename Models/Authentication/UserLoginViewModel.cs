@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.ApplicationInsights.AspNetCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Tacovela.MVC.Core.Languages;
 
-namespace Tacovela.MVC.Models.User
+namespace Tacovela.MVC.Models.Authentication
 {
     public class UserLoginViewModel
     {
