@@ -10605,6 +10605,12 @@ form.user .custom-checkbox.small label {
   line-height: 1.5rem;
 }
 
+.form-control-select {
+    font-size: .8rem;
+    border-radius: 10rem;
+    height: 3.2rem
+}
+
 form.user .form-control-user {
   font-size: 0.8rem;
   border-radius: 10rem;

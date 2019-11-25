@@ -26,13 +26,13 @@
                             <img class="w-100 mt-2 mb-3" src="~/images/taco-bg.jpg" />
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a class="btn btn-warning btn-block mb-2" href="@Url.Action("Edit","Product")">
+                                    <a class="btn btn-warning btn-block mb-2" href="@Url.Action("Edit","Product", new { id = item.Id } )">
                                         <i class="fa fa-edit mr-1"></i>
                                         Editar
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a class="btn btn-danger btn-block text-white mb-2">
+                                    <a class="btn btn-danger btn-block text-white mb-2" href="@Url.Action("Delete","Product", new { id = item.Id } )">
                                         <i class="fa fa-trash mr-1"></i>
                                         Eliminar
                                     </a>
