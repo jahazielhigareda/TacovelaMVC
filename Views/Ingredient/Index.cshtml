@@ -17,15 +17,13 @@
         <h6 class="m-0 font-weight-bold text-primary">&nbsp;</h6>
     </div>
     <div class="card-body">
-        @*<div class="d-flex justify-content-center">*@
         <div class="row">
-            @*<div asp-valitadion-summary-custom="None"></div>*@
             <div class="col-lg-12 ml-4 mb-3">
                 <a href="@Url.Action("NewEdit","Ingredient")" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Nuevo Componente</span>
+                    <span class="text">Nuevo Complemento</span>
                 </a>
             </div>
 
@@ -66,7 +64,8 @@
                                         <a href="@Url.Action("NewEdit","Ingredient", new { id = item.Id})" class="btn btn-warning btn-circle btn-sm">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="#" class="btn btn-primary btn-circle btn-sm">
+
+                                        <a href="#" class="btn btn-primary btn-circle btn-sm btn-open-modal" data-toggle="modal" data-target="#mdl-global" data-view="@Url.Action("Delete","Ingredient", new { id = item.Id })">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

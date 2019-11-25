@@ -159,20 +159,10 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mdl-global" tabindex="-1" role="dialog" aria-labelledby="mdl-global" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="@Url.Action("Logout","Home")">Logout</a>
-                </div>
+
             </div>
         </div>
     </div>
@@ -220,8 +210,16 @@
                 }
                 reader.readAsDataURL(input.files[0]);
             }
-
         });
+
+        $(document).on('click','.btn-open-modal', function (e) {
+            var target = $(this).data("target");
+            var view = $(this).data("view");
+            $(target).find('.modal-content').load(view, function () {
+
+            });
+        });
+
     </script>
 
     @RenderSection("Scripts", required: false)

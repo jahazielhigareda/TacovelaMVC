@@ -19,4 +19,10 @@
     <Folder Include="wwwroot\lib\datatable\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Core\Languages\es-mx.resx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

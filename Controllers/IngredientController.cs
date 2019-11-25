@@ -43,8 +43,6 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> NewEdit(IngredientViewModel model)
         {
@@ -70,5 +68,27 @@ namespace Tacovela.MVC.Controllers
             model = new IngredientViewModel { Id = model.Id };
             return View(model);
         }
+
+        public IActionResult Delete()
+        {
+            //var model = new DeleteIngredientViewModel
+            //{
+            //    Id = id
+            //};
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (ModelState.IsValid)
+            {
+                var apiService = RestServiceExtension<IIngredientAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.Delete(id);
+                ModelStateMessage<BasicResponse>(resultService, true);
+            }
+            return PartialView();
+        }
+
     }
 }
