@@ -1,7 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Complementos";
-    @model List<Tacovela.MVC.Models.Ingredient.IngredientViewModel>
+    ViewData["Title"] = "Usuarios Administradores";
+    @model List<Tacovela.MVC.Models.User.UserViewModel>
 }
+
 
 
 @section Styles {
@@ -11,22 +12,23 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<div class="col-lg-12 col-md-12 col-sm-12 col-xl-8 p-0">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xl-10 p-0">
     <div asp-msg-tempdata="None"></div>
 </div>
 
-<div class="card shadow mb-5 col-lg-12 col-md-12 col-sm-12 col-xl-8 p-0">
+<div class="card shadow mb-5 col-lg-12 col-md-12 col-sm-12 col-xl-10 p-0">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">&nbsp;</h6>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-lg-12 ml-4 mb-3">
-                <a href="@Url.Action("NewEdit","Ingredient")" class="btn btn-success btn-icon-split">
+                @*<a href="@Url.Action("NewAdmin","User")" class="btn btn-success btn-icon-split">*@
+                <a href="@Url.Action("NewEditAdmin","User")" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Nuevo Complemento</span>
+                    <span class="text">Nuevo Administrador</span>
                 </a>
             </div>
 
@@ -39,16 +41,18 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Precio</th>
-                                <th class="text-center max-100">Estatus</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th class="text-center max-100">Rol</th>
                                 <th class="text-center max-100">Acciones</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Precio</th>
-                                <th class="text-center max-100">Estatus</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th class="text-center max-100">Rol</th>
                                 <th class="text-center max-100">Acciones</th>
                             </tr>
                         </tfoot>
@@ -57,14 +61,26 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        <div class="row text-center">
+                                            <a class="col-md-12" href="#">
+                                                <img class="img-profile rounded-circle" src="@item.ImageProfile">
+                                            </a>
+                                            <div class="col-md-12">
+                                                <p class="m-0">
+                                                    <a class="hover-primary" href="#"><strong>@item.FirstName&nbsp;@item.LastName</strong></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
 
-                                    <td>@item.Name</td>
-                                    <td>@item.Value</td>
                                     <th class="text-center max-100">
-                                        <span class="badge badge-success">Activo</span>
+                                        <span class="badge badge-success">Administrador</span>
                                     </th>
                                     <td class="text-center max-100">
-                                        <a href="@Url.Action("NewEdit","Ingredient", new { id = item.Id})" class="btn btn-warning btn-circle btn-sm">
+                                        <a href="@Url.Action("EditAdmin","User", new { id = item.Id})" class="btn btn-warning btn-circle btn-sm">
                                             <i class="fa fa-edit"></i>
                                         </a>
 

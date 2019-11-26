@@ -29,7 +29,7 @@
                                     <p class="mb-4">Cualquier información mal registrada podra alterar aqui.</p>
                                 </div>
                                 <form class="user" role="form" method="post" asp-action="EditAddress">
-                                    <div asp-valitadion-summary-custom="None"></div>
+                                    <div asp-msg-tempdata="None"></div>
                                     <div class="form-group">
                                         <span asp-validation-for="Street" class="text-danger"></span>
                                         <input asp-for="Street" name="street" class="form-control form-control-user" type="text" placeholder="Calle" />

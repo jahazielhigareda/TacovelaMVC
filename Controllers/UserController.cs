@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Refit;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
@@ -23,13 +22,13 @@ namespace Tacovela.MVC.Controllers
             return View();
         }
 
-        public IActionResult EditProfile()
+        public async Task<IActionResult> EditProfile()
         {
             var userId = GetUserSession().Id;
 
-            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var model = apiService.GetUserById(userId).Result.Content.Data;
-
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var result = await apiService.GetById(userId);
+            var model = GetData<UserViewModel>(result);
             return View(model);
         }
 
@@ -40,27 +39,33 @@ namespace Tacovela.MVC.Controllers
             {
                 model.Id = GetUserSession().Id;
 
-                var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-                var resultService = await apiService.EditUser(model);
-                if (resultService.IsSuccessStatusCode)
-                {
-                    HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
-                }
-                else
-                {
-                    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                    HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
-                }
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.Edit(model);
+                ModelStateMessage<UserViewModel>(resultService);
+
+                //var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                //var resultService = await apiService.Edit(model);
+                //if (resultService.IsSuccessStatusCode)
+                //{
+                //    TempDataMessages(new string[] { "Editción Completa." }, TagHelperStatusEnum.Success.ToString());
+                //}
+                //else
+                //{
+                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
+                //    TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+                //}
             }
             return View();
         }
 
-        public IActionResult EditAddress()
+        public async Task<IActionResult> EditAddress()
         {
             var userId = GetUserSession().Id;
 
-            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var model = apiService.GetAddressByIdUser(userId).Result.Content.Data;
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var result = await apiService.GetAddressByIdUser(userId);
+            var model = GetData<UserAddressViewModel>(result);
+
             return View(model);
         }
 
@@ -72,36 +77,52 @@ namespace Tacovela.MVC.Controllers
             {
                 model.UserId = GetUserSession().Id;
 
-                var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-                var address = apiService.GetAddressByIdUser(model.UserId).Result.Content.Data;
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var result = await apiService.GetAddressByIdUser(model.UserId);
+                var address = GetData<UserAddressViewModel>(result);
+
                 if (address == null)
                 {
-                    var resultService = await apiService.CreateAddress(model);
-                    if (resultService.IsSuccessStatusCode)
-                    {
-                        HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
-                    }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
-                    }
+                    var subResult = await apiService.CreateAddress(model);
+                    ModelStateMessage<BasicResponse>(subResult);
                 }
                 else
                 {
                     model.Id = address.Id;
-                    var resultService = await apiService.UpdateAddress(model);
-                    if (resultService.IsSuccessStatusCode)
-                    {
-                        HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
-                    }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                        HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
-                    }
+                    var subResult = await apiService.UpdateAddress(model);
+                    ModelStateMessage<BasicResponse>(subResult);
                 }
-                
+
+
+                //var address = apiService.GetAddressByIdUser(model.UserId).Result.Content.Data;
+                //if (address == null)
+                //{
+                //    var resultService = await apiService.CreateAddress(model);
+                //    if (resultService.IsSuccessStatusCode)
+                //    {
+                //        TempDataMessages(new string[] { "Editción Completa." }, TagHelperStatusEnum.Success.ToString());
+                //    }
+                //    else
+                //    {
+                //        var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
+                //        TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+                //    }
+                //}
+                //else
+                //{
+                //    model.Id = address.Id;
+                //    var resultService = await apiService.UpdateAddress(model);
+                //    if (resultService.IsSuccessStatusCode)
+                //    {
+                //        TempDataMessages(new string[] { "Editción Completa." }, TagHelperStatusEnum.Success.ToString());
+                //    }
+                //    else
+                //    {
+                //        var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
+                //        TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+                //    }
+                //}
+
             }
             return View();
         }
@@ -111,5 +132,43 @@ namespace Tacovela.MVC.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Id = GetUserSession().Id;
+
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.ResetPassword(model);
+                TempDataMessage<UserViewModel>(resultService, true);
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> ListAdmin()
+        {
+            var model = new List<UserViewModel>();
+
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var resultService = await apiService.GetList(new UserViewModel { Type = 2 });
+            model = GetPagginationData<List<UserViewModel>>(resultService);
+
+            return View(model);
+        }
+
+        
+        public IActionResult NewEditAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewEditAdmin(UserRegisterViewModel model)
+        {
+            return View();
+        }
+
     }
 }

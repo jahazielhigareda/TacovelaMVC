@@ -30,7 +30,7 @@
                                 </div>
 
                                 <form class="user" role="form" method="post" asp-action="EditProfile">
-                                    <div asp-valitadion-summary-custom="None"></div>
+                                    <div asp-msg-tempdata="None"></div>
                                     <div class="form-group">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                         <input asp-for="FirstName" type="text" class="form-control form-control-user" placeholder="Nombre(s)" />

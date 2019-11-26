@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_LoginLayout";
     ViewData["Title"] = "Activar Cuenta";
-    @model Tacovela.MVC.Models.User.ActivationAccountViewModel
+    @model Tacovela.MVC.Models.Authentication.ActivationAccountViewModel
 }
 
 <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
@@ -13,7 +13,7 @@
                 Podemos enviar un correo de activación a su correo electronico registrado para activar la cuenta.
             </p>
         </div>
-        <div asp-valitadion-summary-custom="None"></div>
+        <div asp-msg-tempdata="None"></div>
         <form class="user" method="post" asp-action="SendMailActivationAccount">
             <input asp-for="Email" type="hidden">
             <button class="btn btn-primary btn-user btn-block" type="submit">Enviar correo de activación</button>

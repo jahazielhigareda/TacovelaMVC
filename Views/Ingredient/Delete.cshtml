@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+    @*@model Tacovela.MVC.Models.Ingredient.DeleteIngredientViewModel*@
+}
+
+
+<form method="post" asp-action="Delete">
+    <div class="modal-header">
+        <h5 class="modal-title">Estas seguro de eliminar el Complemento?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        Selecciona "Si, Eliminar" para que el complemento sea eliminado.
+        @*<input asp-for="Id" type="hidden" />*@
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Si, Eliminar</button>
+
+    </div>
+</form>
+

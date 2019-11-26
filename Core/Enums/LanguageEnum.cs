@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Tacovela.MVC.Core.Enums
 {
-    public enum ErrorApiRequestEnums
+    public enum LanguageEnum
     {
-        CuentaNoActivada = 1
+        Email
     }
 }

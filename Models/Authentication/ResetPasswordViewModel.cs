@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tacovela.MVC.Models.User
+namespace Tacovela.MVC.Models.Authentication
 {
     public class ResetPasswordViewModel
     {
