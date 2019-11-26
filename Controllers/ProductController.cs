@@ -76,15 +76,7 @@ namespace Tacovela.MVC.Controllers
                 resultService = await apiService.UpdateProduct(product, null);
             }
 
-            if (resultService.IsSuccessStatusCode)
-            {
-                HandleMessages(new string[] { "Editción Completa." }, TagHelperStatusEnums.Success.ToString());
-            }
-            else
-            {
-                var error = JsonConvert.DeserializeObject<BasicResponse>(resultService.Error.Content);
-                HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
-            }
+            ModelStateMessage<ApiResponse<BasicResponse>>(resultService);
 
             var categories = apiService.GetCategory().Result.Data;
             ViewBag.Categories = new SelectList(categories.Select(p => new { p.Id, p.Name }), "Id", "Name");
@@ -109,23 +101,26 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var model = apiService.ProductList().Result.Data;
+
+            return View(model.FirstOrDefault());
+        }
+
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var result = await apiService.DeleteProduct(id);
+            var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
 
-            if (result.IsSuccessStatusCode)
-            {
-                HandleMessages(new string[] { "Producto Eliminado." }, TagHelperStatusEnums.Success.ToString());
-                return Json(result.Content);
-            }
-            else
-            {
-                var error = JsonConvert.DeserializeObject<BasicResponse>(result.Error.Content);
-                HandleMessages(error.Errors, TagHelperStatusEnums.Error.ToString());
-                return Json(error);
-            }
+            model.IsActive = false;
+
+            var resultService = await apiService.UpdateProduct(model, null);
+
+            return RedirectToAction("Index");
         }
     }
 }
