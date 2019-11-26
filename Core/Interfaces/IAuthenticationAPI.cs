@@ -11,22 +11,22 @@ namespace Tacovela.MVC.Core.Interfaces
 {
     public interface IAuthenticationAPI
     {
-        [Post("/user/login")]
+        [Post("/auth/login")]
         Task<ApiResponse<BasicResponse<LoginUserViewModel>>> Login([Body] UserLoginViewModel user);
 
-        [Post("/user")]
+        [Post("/auth/register")]
         Task<ApiResponse<BasicResponse>> Register(UserRegisterViewModel userRegister);
 
-        [Get("/user/sendmailforgotpassword")]
+        [Get("/auth/sendmailforgotpassword")]
         Task<ApiResponse<BasicResponse>> ResetPasswordVerify(string email);
 
-        [Post("/user/resetpassword")]
+        [Post("/auth/resetpassword")]
         Task<ApiResponse<BasicResponse>> ResetPassword([Body] ResetPasswordViewModel user);
 
-        [Get("/user/sendmailvalidation")]
+        [Get("/auth/sendmailvalidation")]
         Task<ApiResponse<BasicResponse>> SendMailValidation(string email);
 
-        [Get("/user/confirmemail")]
+        [Get("/auth/confirmemail")]
         Task<ApiResponse<BasicResponse>> ConfirmEmail(string email);
     }
 }

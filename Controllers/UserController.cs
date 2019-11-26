@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Refit;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
@@ -93,7 +92,7 @@ namespace Tacovela.MVC.Controllers
                     var subResult = await apiService.UpdateAddress(model);
                     ModelStateMessage<BasicResponse>(subResult);
                 }
-                
+
 
                 //var address = apiService.GetAddressByIdUser(model.UserId).Result.Content.Data;
                 //if (address == null)
@@ -123,7 +122,7 @@ namespace Tacovela.MVC.Controllers
                 //        TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
                 //    }
                 //}
-                
+
             }
             return View();
         }
@@ -133,5 +132,43 @@ namespace Tacovela.MVC.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Id = GetUserSession().Id;
+
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.ResetPassword(model);
+                TempDataMessage<UserViewModel>(resultService, true);
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> ListAdmin()
+        {
+            var model = new List<UserViewModel>();
+
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var resultService = await apiService.GetList(new UserViewModel { Type = 2 });
+            model = GetPagginationData<List<UserViewModel>>(resultService);
+
+            return View(model);
+        }
+
+        
+        public IActionResult NewEditAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewEditAdmin(UserRegisterViewModel model)
+        {
+            return View();
+        }
+
     }
 }
