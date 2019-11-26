@@ -85,9 +85,9 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestServiceExtension<IIngredientAPI>.For(_enforcerApi.Url, GetUserSession().Token);
                 var resultService = await apiService.Delete(id);
-                ModelStateMessage<BasicResponse>(resultService, true);
+                TempDataMessage<BasicResponse>(resultService, true);
             }
-            return PartialView();
+            return RedirectToAction("Index");
         }
 
     }
