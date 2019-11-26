@@ -38,7 +38,21 @@ namespace Tacovela.MVC.Controllers
             
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
 
-            model.Ingredients = apiService.GetIngredients(id).Result.Data;
+            var productIngredients = apiService.GetIngredients(id).Result.Data;
+            var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+
+            model.ProductIngredients = productIngredients;
+            foreach (var ingredient in ingredients)
+            {
+                if(!productIngredients.Select(p => p.IngredientId).Contains(ingredient.Id))
+                {
+                    model.ProductIngredients.Add(new ProductIngredientViewModel()
+                    {
+                        Ingredient = ingredient,
+                        IngredientId = ingredient.Id,
+                    });
+                }
+            }
 
             return View(model);
         }
@@ -75,8 +89,24 @@ namespace Tacovela.MVC.Controllers
             var categories = apiService.GetCategory().Result.Data;
             ViewBag.Categories = new SelectList(categories.Select(p => new { p.Id, p.Name }), "Id", "Name");
 
-            var model = apiService.ProductList(product.Id).Result.Data;
-            return View(model.FirstOrDefault());
+            var model = apiService.ProductList(product.Id).Result.Data.FirstOrDefault();
+            var productIngredients = apiService.GetIngredients(product.Id).Result.Data;
+            var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+
+            model.ProductIngredients = productIngredients;
+            foreach (var ingredient in ingredients)
+            {
+                if (!productIngredients.Select(p => p.IngredientId).Contains(ingredient.Id))
+                {
+                    model.ProductIngredients.Add(new ProductIngredientViewModel()
+                    {
+                        Ingredient = ingredient,
+                        IngredientId = ingredient.Id,
+                    });
+                }
+            }
+
+            return View(model);
         }
 
         [HttpPost]

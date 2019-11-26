@@ -34,6 +34,6 @@ namespace Tacovela.MVC.Models.Product
 
         public string Description { get; set; }
 
-        public List<ProductIngredientViewModel> Ingredients {get; set;}
+        public List<ProductIngredientViewModel> ProductIngredients {get; set;}
     }
 }

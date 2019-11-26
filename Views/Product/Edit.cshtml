@@ -12,8 +12,8 @@
                     @*<p class="mb-4">Cualquier información mal registrada podra alterar aqui.</p>*@
                 </div>
                 <form class="user row" role="form" method="post" enctype="multipart/form-data" asp-action="Edit">
-                    <div asp-valitadion-summary-custom="None"></div>
                     <div class="col-lg-6">
+                        <div asp-valitadion-summary-custom="None"></div>
                         <div class="form-group">
                             <span asp-validation-for="Name" class="text-danger"></span>
                             <input asp-for="Name" type="text" class="form-control form-control-user" placeholder="Nombre" />
@@ -67,20 +67,23 @@
                     </div>
                     <div class="col-lg-6 text-uppercase pl-5">
                         <h1 class="h6 text-gray-500 mb-2">Activar ingredientes extras</h1>
-                        @for (int i = 0; i < Model.Ingredients.Count; i++)
+                        @for (int i = 0; i < Model.ProductIngredients.Count; i++)
                         {
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox small">
-                                    <input asp-for="Ingredients[i].Addable" type="checkbox" class="custom-control-input" id="@Model.Ingredients[i].IngredientId" />
-                                    <input asp-for="Ingredients[i].Ingredient.Name" type="hidden"/>
-                                    <label class="custom-control-label" for="@Model.Ingredients[i].IngredientId">@Model.Ingredients[i].Ingredient.Name</label>
+                                    <input asp-for="ProductIngredients[i].Addable" type="checkbox" class="custom-control-input" id="@Model.ProductIngredients[i].IngredientId" />
+                                    <input asp-for="ProductIngredients[i].Ingredient.Name" type="hidden" />
+                                    <input asp-for="ProductIngredients[i].Ingredient.Value" type="hidden" />
+                                    <input asp-for="ProductIngredients[i].Ingredient.Id" type="hidden" />
+                                    <input asp-for="ProductIngredients[i].IngredientId" type="hidden" />
+                                    <label class="custom-control-label" for="@Model.ProductIngredients[i].IngredientId">@Model.ProductIngredients[i].Ingredient.Name</label>
                                 </div>
                             </div>
                         }
                     </div>
                     <br />
                     <br />
-                    <div class="form-group">
+                    <div class="form-group p-4">
                         <input type="reset" class="btn btn-secondary" value="Cancelar" />
                         <button type="submit" class="btn btn-success">Guardar Cambios</button>
                     </div>
