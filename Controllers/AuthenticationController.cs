@@ -40,48 +40,15 @@ namespace Tacovela.MVC.Controllers
                         var data = GetData<LoginUserViewModel>(resultService);
 
                         data.ImageProfile = string.IsNullOrEmpty(data.ImageProfile) ? "//placehold.it/60" : data.ImageProfile;
-                        HttpContext.Session.SetObjectAsJson("UserSession", data);
+                        //HttpContext.Session.SetObjectAsJson("UserSession", data);
+                        SetUserSession(data);
                         return RedirectToAction("Index", "Home");
                     }
                 }
                 catch (Exception e)
                 {
-
+                    ModelStateMessages(new string[] { "Error de conexión." }, TagHelperStatusEnum.Error.ToString());
                 }
-                
-
-
-                //var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
-                //try
-                //{
-                //var resultService = await apiService.LoginUser(model);
-                //if (resultService.IsSuccessStatusCode)
-                //{
-                //    var result = resultService.Content;
-                //    var userSession = result.Data;
-                //    userSession.ImageProfile = string.IsNullOrEmpty(userSession.ImageProfile) ? "//placehold.it/60" : userSession.ImageProfile;
-                //    HttpContext.Session.SetObjectAsJson("UserSession", userSession);
-                //    return RedirectToAction("Index", "Home");
-                //}
-                //else
-                //{
-                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                //    if (Convert.ToInt32(error.ErrorCode) == (int)GlobalApplicationEnum.CuentaNoActivada)
-                //    {
-                //        //var result = apiService.SendMailValidation(model.Email);
-                //        return RedirectToAction("SendMailActivationAccount", "Authentication", new { email = model.Email });
-                //    }
-                //    else
-                //    {
-                //        TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
-                //    }
-                //}
-                //}
-                //catch (Exception)
-                //{
-
-                //}
-
             }
             return PartialView("Index", model);
         }
@@ -98,26 +65,12 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
                 var resultService = await apiService.Register(model);
-                ModelStateMessage<UserViewModel>(resultService);
+                ModelStateMessage<BasicResponse>(resultService);
                 if (resultService.IsSuccessStatusCode)
                 {
                     //var result = resultService.Content;
                     return RedirectToAction("Index", "Authentication");
                 }
-
-                //var apiService = RestService.For<IAPI>(_enforcerApi.Url);
-                //var resultService = await apiService.RegisterUser(model);
-                //if (resultService.IsSuccessStatusCode)
-                //{
-                //    var result = resultService.Content;
-                //    //return RedirectToAction("Dashboard", "Home");
-                //    return RedirectToAction("Index", "Authentication");
-                //}
-                //else
-                //{
-                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                //    TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
-                //}
             }
             return PartialView("Register", model);
         }
@@ -136,26 +89,12 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ResetPasswordVerify(model.Email);
-                ModelStateMessage<UserViewModel>(resultService);
+                ModelStateMessage<BasicResponse>(resultService);
                 if (resultService.IsSuccessStatusCode)
                 {
                     //var result = resultService.Content;
                     return RedirectToAction("SendMailForgotPassword", "Authentication");
                 }
-
-
-                //var apiService = RestService.For<IAPI>(_enforcerApi.Url);
-                //var resultService = await apiService.ResetPasswordVerify(model.Email);
-                //if (resultService.IsSuccessStatusCode)
-                //{
-                //    var result = resultService.Content;
-                //    return RedirectToAction("SendMailForgotPassword", "Authentication");
-                //}
-                //else
-                //{
-                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                //    TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
-                //}
             }
             return PartialView("ResetPassword", model);
         }
@@ -189,25 +128,12 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ResetPassword(model);
-                ModelStateMessage<UserViewModel>(resultService);
+                ModelStateMessage<BasicResponse>(resultService);
                 if (resultService.IsSuccessStatusCode)
                 {
                     var result = resultService.Content;
                     return RedirectToAction("ResetPasswordSuccess", "Authentication");
                 }
-
-                //var apiService = RestService.For<IAPI>(_enforcerApi.Url);
-                //var resultService = await apiService.ResetPassword(model);
-                //if (resultService.IsSuccessStatusCode)
-                //{
-                //    var result = resultService.Content;
-                //    return RedirectToAction("ResetPasswordSuccess", "Authentication");
-                //}
-                //else
-                //{
-                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                //    TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
-                //}
             }
             return PartialView("ResetPasswordVerification", model);
         }
@@ -218,20 +144,7 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
                 var resultService = await apiService.ConfirmEmail(email);
-                ModelStateMessage<UserViewModel>(resultService);
-
-                //var apiService = RestService.For<IAPI>(_enforcerApi.Url);
-                //var resultService = await apiService.ConfirmEmail(email);
-                //if (resultService.IsSuccessStatusCode)
-                //{
-                //    //var result = resultService.Content;
-                //    //HandleMessages(new string[] { "Se activo la cuenta." }, TagHelperStatusEnums.Success.ToString());                 
-                //}
-                //else
-                //{
-                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                //    TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
-                //}
+                ModelStateMessage<BasicResponse>(resultService);
             }
             return View();
         }
@@ -254,25 +167,11 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
                 var resultService = await apiService.SendMailValidation(model.Email);
-                ModelStateMessage<UserViewModel>(resultService);
+                ModelStateMessage<BasicResponse>(resultService);
                 if (resultService.IsSuccessStatusCode)
                 {
                     return RedirectToAction("SendMailActivationAccountSuccess", "Authentication");
                 }
-
-                //var apiService = RestService.For<IAPI>(_enforcerApi.Url);
-                //var resultService = await apiService.SendMailValidation(model.Email);
-                //if (resultService.IsSuccessStatusCode)
-                //{
-                //    //var result = resultService.Content;
-                //    //HandleMessages(new string[] { "Se envio el correo de activación a su bandeja de correo" }, TagHelperStatusEnums.Success.ToString());
-                //    return RedirectToAction("SendMailActivationAccountSuccess", "Authentication");
-                //}
-                //else
-                //{
-                //    var error = JsonConvert.DeserializeObject<BasicResponse<UserViewModel>>(resultService.Error.Content);
-                //    TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
-                //}
             }
             return PartialView("SendMailActivationAccount", model);
         }

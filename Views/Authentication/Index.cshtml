@@ -1,8 +1,7 @@
 ﻿@{
     Layout = "_LoginLayout";
     ViewData["Title"] = "Login";
-    @model Tacovela.MVC.Models.User.UserLoginViewModel
-
+    @model Tacovela.MVC.Models.Authentication.UserLoginViewModel
 }
 
 <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
@@ -12,7 +11,6 @@
             <h1 class="h4 text-gray-900 mb-4">TACOVELA</h1>
             <h1 class="h4 text-gray-900 mb-4">Iniciar sesion</h1>
         </div>
-        @*<div asp-valitadion-summary-custom="None"></div>*@
         <div asp-msg-tempdata="None"></div>
         <form class="user" method="post" asp-action="Index">
             <div class="form-group">

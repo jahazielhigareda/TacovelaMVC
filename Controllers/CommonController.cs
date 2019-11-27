@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Tacovela.MVC.Models.Api;
+using Newtonsoft.Json;
+using Refit;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Refit;
 using System.Net;
-using Newtonsoft.Json;
 using Tacovela.MVC.Core.Enums;
+using Tacovela.MVC.Core.Extensions;
+using Tacovela.MVC.Core.Languages;
+using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Authentication;
 
 namespace Tacovela.MVC.Controllers
 {
     public class CommonController : Controller
     {
         protected readonly Api _enforcerApi;
+
         public CommonController(IOptions<Api> enforcerApi)
         {
             _enforcerApi = enforcerApi.Value;
@@ -68,9 +70,10 @@ namespace Tacovela.MVC.Controllers
                 }
             }
         }
+
         #region Handler Message
 
-        public void TempDataMessage<T>(ApiResponse<BasicResponse> resultService, bool clean = false)
+        protected void TempDataMessage<T>(ApiResponse<BasicResponse> resultService, bool clean = false)
         {
             if (resultService.IsSuccessStatusCode)
             {
@@ -87,7 +90,7 @@ namespace Tacovela.MVC.Controllers
             }
         }
 
-        public void ModelStateMessage<T>(ApiResponse<BasicResponse> resultService, bool clean = false)
+        protected void ModelStateMessage<T>(ApiResponse<BasicResponse> resultService, bool clean = false)
         {
             if (resultService.IsSuccessStatusCode)
             {
@@ -104,7 +107,7 @@ namespace Tacovela.MVC.Controllers
             }
         }
 
-        public void TempDataMessage<T>(ApiResponse<BasicResponse<T>> resultService, bool clean = false)
+        protected void TempDataMessage<T>(ApiResponse<BasicResponse<T>> resultService, bool clean = false)
         {
             if (resultService.IsSuccessStatusCode)
             {
@@ -121,7 +124,7 @@ namespace Tacovela.MVC.Controllers
             }
         }
 
-        public void ModelStateMessage<T>(ApiResponse<BasicResponse<T>> resultService, bool clean = false)
+        protected void ModelStateMessage<T>(ApiResponse<BasicResponse<T>> resultService, bool clean = false)
         {
             if (resultService.IsSuccessStatusCode)
             {
@@ -157,7 +160,9 @@ namespace Tacovela.MVC.Controllers
         //    return (T)Activator.CreateInstance(typeof(T), model);
         //}
 
-        public T GetData<T>(ApiResponse<BasicResponse<T>> resultService)
+        #region Get Data API
+
+        protected T GetData<T>(ApiResponse<BasicResponse<T>> resultService)
         {
             if (resultService.IsSuccessStatusCode)
             {
@@ -171,7 +176,7 @@ namespace Tacovela.MVC.Controllers
             return default(T);
         }
 
-        public T GetPagginationData<T>(ApiResponse<ListResultViewModel<T>> resultService)
+        protected T GetPagginationData<T>(ApiResponse<ListResultViewModel<T>> resultService)
         {
             if (resultService.IsSuccessStatusCode)
             {
@@ -183,6 +188,17 @@ namespace Tacovela.MVC.Controllers
                 TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
             }
             return default(T);
+        }
+
+        #endregion
+
+        public LoginUserViewModel GetUserSession()
+        {
+            return HttpContext.Session.GetObjectFromJson<LoginUserViewModel>("UserSession");
+        }
+        public void SetUserSession(LoginUserViewModel data)
+        {
+            HttpContext.Session.SetObjectAsJson("UserSession", data);
         }
 
     }

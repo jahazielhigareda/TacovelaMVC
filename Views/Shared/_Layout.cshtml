@@ -73,6 +73,8 @@
                         <a class="collapse-item" href="@Url.Action("Index", "Category")">Categorias</a>
                         <h6 class="collapse-header">Config. de Publicidad</h6>
                         <a class="collapse-item" href="@Url.Action("Index", "Banner")">Benner App</a>
+                        <h6 class="collapse-header">Config. de Usarios</h6>
+                        <a class="collapse-item" href="@Url.Action("ListAdmin", "User")">Usuarios</a>
                     </div>
                 </div>
             </li>
@@ -159,20 +161,10 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mdl-global" tabindex="-1" role="dialog" aria-labelledby="mdl-global" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="@Url.Action("Logout","Home")">Logout</a>
-                </div>
+
             </div>
         </div>
     </div>
@@ -187,20 +179,14 @@
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="~/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="~/js/demo/chart-area-demo.js"></script>
-    <script src="~/js/demo/chart-pie-demo.js"></script>
-
     <script type="text/javascript">
-        $("form").submit(function (e) {
+        $(document).submit('form', function (e) {
             var submit = $(this).find('[type=submit]');
             submit.prepend('<i class="fa fa-c fa-circle-notch fa-spin"></i>');
             submit.prop('disabled', true);
         });
-        $(".custom-file-input").on("change", function () {
+
+        $(document).on("change", '.custom-file-input', function () {
             var fileName = $(this).val().split("\\").pop();
             if (fileName.length >= 10) {
                 var arrayFileName = fileName.split('.');
@@ -220,8 +206,16 @@
                 }
                 reader.readAsDataURL(input.files[0]);
             }
-
         });
+
+        $(document).on('click', '.btn-open-modal', function (e) {
+            var target = $(this).data("target");
+            var view = $(this).data("view");
+            $(target).find('.modal-content').load(view, function () {
+
+            });
+        });
+
     </script>
 
     @RenderSection("Scripts", required: false)

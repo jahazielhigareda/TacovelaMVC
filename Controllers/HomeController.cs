@@ -27,7 +27,14 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.SetString("Token", string.Empty);
+            //SetUserSession(null);
+            //return RedirectToAction("Index", "Authentication");
+            return View();
+        }
+
+        public IActionResult SessionLogout()
+        {
+            SetUserSession(null);
             return RedirectToAction("Index", "Authentication");
         }
 

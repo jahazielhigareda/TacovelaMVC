@@ -20,6 +20,12 @@ namespace Tacovela.MVC.Core.Interfaces
         [Post("/user/edit"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse<UserViewModel>>> Edit(UserViewModel model);
 
+        [Post("/user/resetpassword"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> ResetPassword([Body] ChangePasswordViewModel user);
+
+        [Post("/user/get"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<ListResultViewModel<List<UserViewModel>>>> GetList(UserViewModel filter);
+
         #endregion
 
         #region Address User        
