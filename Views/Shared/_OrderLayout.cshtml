@@ -9,16 +9,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["Title"] - Tacovela.MVC</title>
 
     <!-- Custom fonts for this template-->
-    @*<link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">*@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/site.css?v=1.0.0.0" rel="stylesheet" />
 
     @RenderSection("Styles", false)
 </head>
@@ -27,68 +26,6 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">TACOVELA</div>
-                @*<div class="sidebar-brand-text mx-3">TACOVELA<sup>2</sup></div>*@
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="@Url.Action("Index", "Home")">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Estadisticas</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Configuración</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Config. de Compras</h6>
-                        <a class="collapse-item" href="@Url.Action("Index", "Ingredient")">Complementos</a>
-                        <a class="collapse-item" href="@Url.Action("Index", "Product")">Productos</a>
-                        <a class="collapse-item" href="@Url.Action("Index", "Category")">Categorias</a>
-                        <h6 class="collapse-header">Config. de Publicidad</h6>
-                        <a class="collapse-item" href="@Url.Action("Index", "Banner")">Benner App</a>
-                        <h6 class="collapse-header">Config. de Usarios</h6>
-                        <a class="collapse-item" href="@Url.Action("ListAdmin", "User")">Usuarios</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -104,7 +41,14 @@
                     </button>
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav">
+
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                            <div class="sidebar-brand-icon rotate-n-15">
+                                <i class="fas fa-laugh-wink"></i>
+                            </div>
+                            <div class="sidebar-brand-text mx-3">TACOVELA</div>
+                        </a>
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
@@ -125,15 +69,12 @@
                                 </form>
                             </div>
                         </li>
-                        @{
-                            await Html.RenderPartialAsync("_ProfileTopbar");
-                        }
                     </ul>
 
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid col-lg-9">
                     @RenderBody()
                 </div>
                 <!-- /.container-fluid -->
@@ -155,8 +96,6 @@
 
     </div>
     <!-- End of Page Wrapper -->
-
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -223,5 +162,7 @@
     @RenderSection("Scripts", required: false)
 
 </body>
+
+
 
 </html>

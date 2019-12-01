@@ -55,6 +55,8 @@ namespace Tacovela.MVC.Core.Interfaces
         [Put("/category"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> UpdateCategory([Query] CategoryViewModel model, [AliasAs("stream")]StreamPart stream);
 
+        [Get("/category/getallbyanonymous")]
+        Task<ApiResponse<ListResultViewModel<List<CategoryViewModel>>>> GetCategoryListByAnonymous();
         #endregion
     }
 }
