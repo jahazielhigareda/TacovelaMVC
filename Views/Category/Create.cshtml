@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Editar Categoría";
+    ViewData["Title"] = "Crear Categoría";
     @model Tacovela.MVC.Models.Category.CategoryViewModel
 }
 
@@ -8,9 +8,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div>
-                    <h1 class="h4 text-gray-900 mb-2">@ViewData["TypeView"]&nbsp;@ViewData["Title"]</h1>
+                    <h2>@ViewData["Title"]</h2>
                 </div>
-                <form class="user" role="form" method="post" enctype="multipart/form-data" asp-action="Edit">
+                <form class="user" role="form" method="post" enctype="multipart/form-data" asp-action="Create">
+                    <div asp-msg-tempdata="None"></div>
                     <div asp-valitadion-summary-custom="None"></div>
                     <div class="form-group">
                         <span asp-validation-for="Name" class="text-danger"></span>
@@ -34,13 +35,13 @@
                                             <i class="fas fa-trash"></i>
                                         </a>
                                         @if (string.IsNullOrEmpty(Model.ImageUrl))
-                                        {
-                                            <img src="//placehold.it/200" class="img-cover img-max-200" alt="avatar" id="img-profile" />
-                                        }
-                                        else
-                                        {
-                                            <img src="@string.Concat("https://files.tacovela.com", Model.ImageUrl)" class="img-cover img-max-200" alt="avatar" id="img-profile" />
-                                        }
+                                            {
+                                        <img src="//placehold.it/200" class="img-cover img-max-200" alt="avatar" id="img-profile" />
+                                            }
+                                            else
+                                            {
+                                        <img src="@string.Concat("https://files.tacovela.com", Model.ImageUrl)" class="img-cover img-max-200" alt="avatar" id="img-profile" />
+                                            }
                                     </div>
                                     <div class="custom-file">
                                         <input asp-for="Image" type="file" class="custom-file-input" data-img-preview="img-profile" accept="image/*" style="opacity:initial">

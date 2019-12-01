@@ -33,6 +33,10 @@ namespace Tacovela.MVC.Core.Interfaces
         [Put("/product"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> UpdateProduct([Query] ProductViewModel model, [AliasAs("stream")]StreamPart stream);
 
+        [Multipart]
+        [Post("/product"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> CreateProduct([Query] ProductViewModel model, [AliasAs("stream")]StreamPart stream);
+
         [Delete("/product"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> DeleteProduct(Guid id);
 
@@ -41,7 +45,15 @@ namespace Tacovela.MVC.Core.Interfaces
         #region Category
 
         [Get("/category"), Headers("Authorization: Bearer")]
-        Task<ListResultViewModel<List<CategoryViewModel>>> GetCategory();
+        Task<ListResultViewModel<List<CategoryViewModel>>> GetCategory(Guid? id = null);
+
+        [Multipart]
+        [Post("/category"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> CreateCategory([Query] CategoryViewModel model, [AliasAs("stream")]StreamPart stream);
+
+        [Multipart]
+        [Put("/category"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> UpdateCategory([Query] CategoryViewModel model, [AliasAs("stream")]StreamPart stream);
 
         #endregion
     }

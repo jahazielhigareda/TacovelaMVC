@@ -1,73 +1,53 @@
 ﻿@{
     ViewData["Title"] = "Categorías";
+    @model List<Tacovela.MVC.Models.Category.CategoryViewModel>
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <div class="row">
-
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 p-0">
+        <div asp-msg-tempdata="None"></div>
+    </div>
     <div class="col-md-12">
         <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 px-2 mb-3">
-                <div class="product-card card">
-                    <div class="card-body">
-                        <span class="text-secondary small text-uppercase">Menu 1</span>
-                        <h3 class="h6 mb-2 font-weight-bold text-uppercase">Combo Asada</h3>
-                        <div class="d-flex">
-                            @*<h4 class="h5 w-50 font-weight-bold text-danger">$25 <sup><strike class="text-secondary font-weight-normal">$60</strike></sup></h4>*@
-                            <h4 class="h5 w-50 font-weight-bold text-danger">$25</h4>
-                            <div class="w-50 text-right">
-                                <input data-filled="fa fa-star text-warning" data-empty="fa fa-star-o text-secondary" value="5" type="hidden" class="rating" data-readonly />
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 px-2 mb-3">
+                    <div class="product-card card">
+                        <div class="card-body">
+                            <h3 class="h6 mb-2 font-weight-bold text-uppercase">@item.Name</h3>
+                            <div class="d-flex">
+                                <div class="w-50 text-right">
+                                    <input data-filled="fa fa-star text-warning" data-empty="fa fa-star-o text-secondary" value="5" type="hidden" class="rating" data-readonly />
+                                </div>
                             </div>
-                        </div>
-                        <img class="w-100 mt-2 mb-3" src="~/images/taco-bg.jpg" />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a class="btn btn-warning btn-block mb-2" href="@Url.Action("Edit","Category")">
-                                    <i class="fa fa-edit mr-1"></i>
-                                    Editar
-                                </a>
-                            </div>
-                            <div class="col-md-6">
-                                <a class="btn btn-danger btn-block text-white mb-2">
-                                    <i class="fa fa-trash mr-1"></i>
-                                    Eliminar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 px-2 mb-3">
-                <div class="product-card card">
-                    <div class="card-body">
-                        <span class="text-secondary small text-uppercase">Menu 1</span>
-                        <h3 class="h6 mb-2 font-weight-bold text-uppercase">Combo Asada</h3>
-                        <div class="d-flex">
-                            @*<h4 class="h5 w-50 font-weight-bold text-danger">$25 <sup><strike class="text-secondary font-weight-normal">$60</strike></sup></h4>*@
-                            <h4 class="h5 w-50 font-weight-bold text-danger">$25</h4>
-                            <div class="w-50 text-right">
-                                <input data-filled="fa fa-star text-warning" data-empty="fa fa-star-o text-secondary" value="5" type="hidden" class="rating" data-readonly />
-                            </div>
-                        </div>
-                        <img class="w-100 mt-2 mb-3" src="~/images/taco-bg.jpg" />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a class="btn btn-warning btn-block mb-2" href="@Url.Action("Edit","Category")">
-                                    <i class="fa fa-edit mr-1"></i>
-                                    Editar
-                                </a>
-                            </div>
-                            <div class="col-md-6">
-                                <a class="btn btn-danger btn-block text-white mb-2">
-                                    <i class="fa fa-trash mr-1"></i>
-                                    Eliminar
-                                </a>
+                            @if (string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img class="w-100 mt-2 mb-3 size-image img-cover img-max-200" src="//placehold.it/200" />
+                            }
+                            else
+                            {
+                                <img class="w-100 mt-2 mb-3 size-image img-cover img-max-200" src="@string.Concat("https://files.tacovela.com", item.ImageUrl)" />
+                            }
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a class="btn btn-warning btn-block mb-2" href="@Url.Action("Edit","Category", new { id = item.Id })">
+                                        <i class="fa fa-edit mr-1"></i>
+                                        Editar
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a class="btn btn-danger btn-block text-white mb-2 btn-open-modal" data-toggle="modal" data-target="#mdl-global" data-view="@Url.Action("Delete","Category", new { id = item.Id })">
+                                        <i class="fa fa-trash mr-1"></i>
+                                        Eliminar
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div><div asp-profile="None"></div>
 </div>

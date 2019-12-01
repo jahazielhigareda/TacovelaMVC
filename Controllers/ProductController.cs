@@ -23,8 +23,70 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
-            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.ProductList().Result.Data;
+
+            return View(model);
+        }
+
+        public IActionResult Create()
+        {
+            var model = new ProductViewModel();
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+            var categories = apiService.GetCategory().Result.Data;
+
+            categories.Add(new Models.Category.CategoryViewModel());
+            ViewBag.Categories = new SelectList(categories.Select(p => new { p.Id, p.Name }), "Id", "Name");
+            model.ProductIngredients = new List<ProductIngredientViewModel>();
+
+            foreach (var ingredient in ingredients)
+            {
+                model.ProductIngredients.Add(new ProductIngredientViewModel()
+                {
+                    Ingredient = ingredient,
+                    IngredientId = ingredient.Id,
+                });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ProductViewModel product)
+        {
+            ApiResponse<BasicResponse> resultService;
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+
+            if (product.Image != null)
+            {
+                using (var stream = product.Image.OpenReadStream())
+                {
+                    resultService = await apiService.CreateProduct(product, new StreamPart(stream, product.Image.FileName));
+                }
+            }
+            else
+            {
+                product.UrlImage = product.UrlImage ?? "";
+                resultService = await apiService.CreateProduct(product, null);
+            }
+
+            ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
+
+            var categories = apiService.GetCategory().Result.Data;
+            ViewBag.Categories = new SelectList(categories.Select(p => new { p.Id, p.Name }), "Id", "Name");
+
+            var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+            var model = new ProductViewModel() { ProductIngredients = new List<ProductIngredientViewModel>() };
+
+            foreach (var ingredient in ingredients)
+            {
+                model.ProductIngredients.Add(new ProductIngredientViewModel()
+                {
+                    Ingredient = ingredient,
+                    IngredientId = ingredient.Id,
+                });
+            }
 
             return View(model);
         }
@@ -101,18 +163,13 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-        //public IActionResult Delete(Guid id)
-        public IActionResult Delete()
+        public IActionResult Delete(Guid id)
         {
-            //var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            //var model = apiService.ProductList().Result.Data;
-
-            //return View(model.FirstOrDefault());
-            return View();
+            return View(new ProductViewModel() { Id = id });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
@@ -120,6 +177,8 @@ namespace Tacovela.MVC.Controllers
             model.IsActive = false;
 
             var resultService = await apiService.UpdateProduct(model, null);
+
+            TempDataMessage<BasicResponse>(resultService, true);
 
             return RedirectToAction("Index");
         }
