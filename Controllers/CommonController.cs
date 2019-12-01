@@ -173,6 +173,19 @@ namespace Tacovela.MVC.Controllers
             }
             return default(T);
         }
+        protected T GetData<T>(ApiResponse<ListResultViewModel<T>> resultService)
+        {
+            if (resultService.IsSuccessStatusCode)
+            {
+                return resultService.Content.Data;
+            }
+            else
+            {
+                var error = JsonConvert.DeserializeObject<BasicResponse<T>>(resultService.Error.Content);
+                TempDataMessages(error.Errors, TagHelperStatusEnum.Error.ToString());
+            }
+            return default(T);
+        }
 
         protected T GetPagginationData<T>(ApiResponse<ListResultViewModel<T>> resultService)
         {
@@ -187,6 +200,7 @@ namespace Tacovela.MVC.Controllers
             }
             return default(T);
         }
+
 
         #endregion
 

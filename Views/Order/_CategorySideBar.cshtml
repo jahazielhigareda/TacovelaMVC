@@ -1,0 +1,37 @@
+﻿@{
+    @model List<Tacovela.MVC.Models.Category.CategoryViewModel>
+}
+<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+
+    <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+        <div class="filter-toggle"><span class="filter-toggle-text">Categories By</span><i class="icon-chevron-down"></i></div><div class="filter-wrapper">
+            <div class="categories-menu">
+                <h6><i class="fa fa-utensils"></i>Categorias</h6>
+                <ul class="menu-list">
+                    @*<li class="active"><a href="javascript:void(0)" class="menu-category-link" data-id="0"> Calzone </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="1"> Garlic Bread </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="2"> Kebabs </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="3"> Burgers </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="4"> Specials </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="5"> Wraps </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="6"> Chicken </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="7"> Paninis </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="8"> Jacket Potatoes </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="9"> Starters </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="10"> Traditional Curries </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="11"> Biryani Dishes </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="12"> Vegetarian Dishes </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="13"> Rice </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="14"> Bread </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="15"> Sauces </a></li>
+                    <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="16"> Pizzas </a></li>*@
+                    @foreach (var item in Model)
+                    {
+                        <li class=""><a href="javascript:void(0)" class="menu-category-link" data-id="16">@item.Name</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

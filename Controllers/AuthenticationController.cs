@@ -22,6 +22,7 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Index()
         {
+            //return RedirectToAction("Index","Order");
             return View();
         }
 

@@ -19,6 +19,8 @@ namespace Tacovela.MVC.Models.Category
 
         public IFormFile Image { get; set; }
 
+        public bool IsActive { get; set; }
+
         public List<ProductViewModel> Products { get; set; }
     }
 }

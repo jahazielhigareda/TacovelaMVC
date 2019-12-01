@@ -86,6 +86,8 @@ namespace Tacovela.MVC.Core.Interfaces
         [Get("/category"), Headers("Authorization: Bearer")]
         Task<ListResultViewModel<List<CategoryViewModel>>> GetCategory();
 
+        [Get("/category/getallbyanonymous")]
+        Task<ApiResponse<ListResultViewModel<List<CategoryViewModel>>>> GetCategoryListByAnonymous();
         #endregion
 
     }
