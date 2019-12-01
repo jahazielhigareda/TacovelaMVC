@@ -163,7 +163,6 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-        [HttpGet]
         public IActionResult Delete(Guid id)
         {
             return View(new ProductViewModel() { Id = id });
