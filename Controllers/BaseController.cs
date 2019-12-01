@@ -40,10 +40,10 @@ namespace Tacovela.MVC.Controllers
             }
             else
             {
-                //if (("/" + controller + "/" + action) == "/Home/Index")
-                //{
-                //    context.Result = new RedirectResult("/Home/Dashboard");
-                //}
+                if (controller == "Authentication")
+                {
+                    context.Result = new RedirectResult("/Home/Index");
+                }
                 //else
                 //{
                 //if (menuSystem == null)
@@ -87,13 +87,6 @@ namespace Tacovela.MVC.Controllers
         }
 
 
-        public LoginUserViewModel GetUserSession()
-        {
-            return HttpContext.Session.GetObjectFromJson<LoginUserViewModel>("UserSession");
-        }
-        public void SetUserSession(LoginUserViewModel data)
-        {
-            HttpContext.Session.SetObjectAsJson("UserSession", data);
-        }
+        
     }
 }

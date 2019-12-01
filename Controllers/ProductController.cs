@@ -101,17 +101,18 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Delete(Guid id)
+        //public IActionResult Delete(Guid id)
+        public IActionResult Delete()
         {
-            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var model = apiService.ProductList().Result.Data;
+            //var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            //var model = apiService.ProductList().Result.Data;
 
-            return View(model.FirstOrDefault());
+            //return View(model.FirstOrDefault());
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteProduct(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
