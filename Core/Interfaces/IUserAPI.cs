@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
+using Tacovela.MVC.Models.Category;
 using Tacovela.MVC.Models.Ingredient;
 using Tacovela.MVC.Models.Product;
 using Tacovela.MVC.Models.User;
@@ -44,7 +45,7 @@ namespace Tacovela.MVC.Core.Interfaces
         #region Product
 
         [Get("/product"), Headers("Authorization: Bearer")]
-        Task<ListResultViewModel<List<ProductViewModel>>> ProductList();
+        Task<ListResultViewModel<List<CategoryViewModel>>> ProductList();
 
         #endregion
     }
