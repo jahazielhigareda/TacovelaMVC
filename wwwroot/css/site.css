@@ -211,3 +211,9 @@ table.table-bordered.dataTable th, table.table-bordered.dataTable td {
     max-height: 200px;
     max-width: 500px;
 }
+
+.size-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Tacovela.MVC.Core.Enums;
+using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Languages;
 using Tacovela.MVC.Models.Api;
+using Tacovela.MVC.Models.Authentication;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -203,6 +205,15 @@ namespace Tacovela.MVC.Controllers
 
 
         #endregion
+
+        public LoginUserViewModel GetUserSession()
+        {
+            return HttpContext.Session.GetObjectFromJson<LoginUserViewModel>("UserSession");
+        }
+        public void SetUserSession(LoginUserViewModel data)
+        {
+            HttpContext.Session.SetObjectAsJson("UserSession", data);
+        }
 
     }
 }

@@ -41,7 +41,8 @@ namespace Tacovela.MVC.Controllers
                         var data = GetData<LoginUserViewModel>(resultService);
 
                         data.ImageProfile = string.IsNullOrEmpty(data.ImageProfile) ? "//placehold.it/60" : data.ImageProfile;
-                        HttpContext.Session.SetObjectAsJson("UserSession", data);                        
+                        //HttpContext.Session.SetObjectAsJson("UserSession", data);
+                        SetUserSession(data);
                         return RedirectToAction("Index", "Home");
                     }
                 }
