@@ -8,6 +8,15 @@ using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Models.Order
 {
+    public class ShopViewModel
+    {
+        public List<CategoryViewModel> Categories { get; set; }
+        public List<ProductOrderViewModel> Products { get; set; } = new List<ProductOrderViewModel>();
+
+        public Guid? FilterCategory { get; set; }
+        public Guid UserAddress { get; set; }
+    }
+
     public class OrderViewModel
     {
         public Guid? Id { get; set; }
@@ -20,6 +29,7 @@ namespace Tacovela.MVC.Models.Order
         public UserAddressViewModel UserAddress { get; set; }
         public List<CategoryViewModel> Categories { get; set; }
         public List<ProductOrderViewModel> Products { get; set; }
+        //public List<OrderProductViewModel> Products { get; set; } = new List<OrderProductViewModel>();
     }
 
     public enum OrderStatus
@@ -31,4 +41,11 @@ namespace Tacovela.MVC.Models.Order
         Canceled,
         Delivered
     }
+
+    //public class OrderProductViewModel : ProductViewModel {
+    //    public int Number { get; set; }
+    //    public decimal Cost { get; set; }
+    //    public int Quantity { get; set; }
+    //    public Guid? ProductId { get; set; }
+    //}
 }

@@ -41,6 +41,9 @@ namespace Tacovela.MVC.Core.Interfaces
         [Delete("/product"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> DeleteProduct(Guid id);
 
+        [Get("/product/getbyidcategorybyanonymous")]
+        Task<ApiResponse<ListResultViewModel<List<ProductViewModel>>>> GetProdutByIdCategoryByAnonymous(Guid? id);
+
         #endregion
 
         #region Category
@@ -67,6 +70,9 @@ namespace Tacovela.MVC.Core.Interfaces
 
         [Post("/order/changestatus"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> ChangeOrderStatus(Guid orderId, int status);
+
+        [Post("/order"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> CreateOrder([FromBody] OrderViewModel model);
 
         #endregion
     }

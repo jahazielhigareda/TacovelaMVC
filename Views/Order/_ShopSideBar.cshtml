@@ -1,0 +1,105 @@
+﻿@{
+    @model Tacovela.MVC.Models.Order.ShopViewModel
+}
+
+<div class="sticky-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+    <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+        <div class="user-order-holder">
+            <div class="user-order">
+                <h6><i class="fa fa-shopping-cart"></i>Tu Pedido</h6>
+                <span class="error-message pre-order-msg" style="display: none;">This restaurant allows Pre orders.</span>                                <span class="discount-info" style="display: none;">If you have a discount code,<br> you will be able to input it<br> at the payments stage.</span>
+                <div class="select-option dev-select-fee-option" data-rid="1704">
+                    <ul class="row text-center p-0">
+                        @*<li class="col-md-6 m-0">
+                    <input id="order-pick-up-fee" type="radio" name="order_fee_type" data-fee="15.00" data-label="Pick-Up" data-type="pickup">
+                    <label for="order-pick-up-fee">Pick-Up</label>
+                    <span>£15.00</span>
+                </li>*@
+                        <li class="col-md-12 m-0">
+                            <input id="order-delivery-fee" checked="checked" type="radio" name="order_fee_type" data-fee="10.00" data-label="Delivery" data-type="delivery">
+                            <label for="order-delivery-fee">Servicio a Domicilio</label>
+                            @*<span>£10.00</span>*@
+                        </li>
+                    </ul>
+                </div>
+                <div id="dev-menu-orders-list" style="display: block;">
+
+                    <ul class="categories-order" data-rid="1704">
+                        @foreach (var item in Model.Products)
+                        {
+                        <li id="menu-added-@item.ProductId" data-pr="@item.Product.Value" data-conpr="@item.Product.Value">
+                            <a href="javascript:void(0)" class="btn-cross dev-remove-menu-item"><i class=" icon-cross3"></i></a>
+                            <a>@item.Product.Name</a>
+                            @if (@item.Quantity > 1)
+                            {
+                                <sup>&nbsp;x @item.Quantity</sup>
+                            }
+                            <a href="@Url.Action("DeleteCard","Order", new { id = item.Product.Id, categoryId = Model.FilterCategory })" class="pl-3" style="color: #c33332 !important;">Eliminar</a>
+                            <span class="category-price">$@item.Product.Value</span>
+                        </li>
+                        }
+                        @*<li id="menu-added-47622419" data-pr="3.50" data-conpr="3.50">
+                    <a href="javascript:void(0)" class="btn-cross dev-remove-menu-item"><i class=" icon-cross3"></i></a>
+                    <a>Vegetarian 12" Deep Pan</a>
+                    <span class="category-price">£3.50</span>
+                </li>*@
+                    </ul>
+
+
+                    <div class="price-area dev-menu-price-con" data-vatsw="on" data-vat="13">
+                        <ul>
+                            @*<input type="hidden" id="order_subtotal_price" name="order_subtotal_price" value="3.50">*@
+                            <li>Subtotal <span class="price">$<em class="dev-menu-subtotal">@Model.Products.Sum(s => s.Product.Value)</em></span></li>
+
+                            <li class="restaurant-fee-con"><span class="fee-title">Envio</span> <span class="price">$<em class="dev-menu-charges" data-confee="10.00" data-fee="10.00">0.00</em></span></li>
+                            @*<input type="hidden" id="order_vat_percent" name="order_vat_percent" value="13">
+                    <input type="hidden" id="order_vat_cal_price" name="order_vat_cal_price" value="1.76">*@
+                            @*<li>VAT (13%) <span class="price">£<em class="dev-menu-vtax">1.76</em></span></li>*@
+                        </ul>
+                        <p class="total-price">Total <span class="price">$<em class="dev-menu-grtotal">@(Model.Products.Sum(s => s.Product.Value) + (0)) </em></span></p>
+                    </div>
+                </div>
+                <div id="dev-no-menu-orders-list" style="display: none;">
+                    <span class="success-message">There are no items in your basket.</span>
+                </div>
+                <div class="pay-option dev-order-pay-options">
+                    <ul class="row text-center p-0">
+                        <li class="col-md-12 m-0">
+                            <input id="order-cash-payment" type="radio" name="order_payment_method" data-type="cash" checked="checked">
+                            <label for="order-cash-payment">
+                                <i class="fa fa-money-bill-alt"></i>
+                                Cash
+                            </label>
+                        </li>
+                        @*<li class="col-md-6 m-0">
+                    <input id="order-card-payment" type="radio" checked="checked" name="order_payment_method" data-type="card">
+                    <label for="order-card-payment">
+                        <i class="far fa-credit-card"></i>
+                        Online
+                    </label>
+                </li>*@
+                    </ul>
+                </div>
+                @*<div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="input-group date">
+                        <input type="text" name="delivery_date" id="datetimepicker1" class="form-control" value="01-12-2019 15:33" placeholder="Select Date and Time">
+                        <span class="input-group-addon">
+                            <span class="icon-event_available"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>*@
+                <form method="post" asp-action="EndOrder">
+                    <button type="submit" class="menu-order-confirm">Finalizar Pedido</button>
+                </form>
+                @*<a href="@Url.Action("EndOrder","Order")" class="menu-order-confirm" data-rid="1704">Finalizar Pedido</a>*@
+                @*<span class="menu-loader"></span>*@
+            </div>
+        </div>
+    </div>
+</div>
