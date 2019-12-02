@@ -63,8 +63,17 @@ namespace Tacovela.MVC.Core.Interfaces
         Task<ApiResponse<ListResultViewModel<List<CategoryViewModel>>>> GetCategoryListByAnonymous();
         #endregion
 
+        #region Order
+
+        [Get("/order"), Headers("Authorization: Bearer")]
+        Task<ListResultViewModel<List<OrderViewModel>>> GetOrder(Guid? userId = null);
+
+        [Post("/order/changestatus"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> ChangeOrderStatus(Guid orderId, int status);
 
         [Post("/order"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> CreateOrder([FromBody] OrderViewModel model);
+
+        #endregion
     }
 }

@@ -28,15 +28,15 @@
                     <ul class="categories-order" data-rid="1704">
                         @foreach (var item in Model.Products)
                         {
-                        <li id="menu-added-@item.Id" data-pr="@item.Value" data-conpr="@item.Value">
+                        <li id="menu-added-@item.ProductId" data-pr="@item.Product.Value" data-conpr="@item.Product.Value">
                             <a href="javascript:void(0)" class="btn-cross dev-remove-menu-item"><i class=" icon-cross3"></i></a>
-                            <a>@item.Name</a>
+                            <a>@item.Product.Name</a>
                             @if (@item.Quantity > 1)
                             {
                                 <sup>&nbsp;x @item.Quantity</sup>
                             }
-                            <a href="@Url.Action("DeleteCard","Order", new { id = item.Id, categoryId = Model.FilterCategory })" class="pl-3" style="color: #c33332 !important;">Eliminar</a>
-                            <span class="category-price">$@item.Value</span>
+                            <a href="@Url.Action("DeleteCard","Order", new { id = item.Product.Id, categoryId = Model.FilterCategory })" class="pl-3" style="color: #c33332 !important;">Eliminar</a>
+                            <span class="category-price">$@item.Product.Value</span>
                         </li>
                         }
                         @*<li id="menu-added-47622419" data-pr="3.50" data-conpr="3.50">
@@ -50,14 +50,14 @@
                     <div class="price-area dev-menu-price-con" data-vatsw="on" data-vat="13">
                         <ul>
                             @*<input type="hidden" id="order_subtotal_price" name="order_subtotal_price" value="3.50">*@
-                            <li>Subtotal <span class="price">$<em class="dev-menu-subtotal">@Model.Products.Sum(s => s.Value)</em></span></li>
+                            <li>Subtotal <span class="price">$<em class="dev-menu-subtotal">@Model.Products.Sum(s => s.Product.Value)</em></span></li>
 
                             <li class="restaurant-fee-con"><span class="fee-title">Envio</span> <span class="price">$<em class="dev-menu-charges" data-confee="10.00" data-fee="10.00">0.00</em></span></li>
                             @*<input type="hidden" id="order_vat_percent" name="order_vat_percent" value="13">
                     <input type="hidden" id="order_vat_cal_price" name="order_vat_cal_price" value="1.76">*@
                             @*<li>VAT (13%) <span class="price">£<em class="dev-menu-vtax">1.76</em></span></li>*@
                         </ul>
-                        <p class="total-price">Total <span class="price">$<em class="dev-menu-grtotal">@(Model.Products.Sum(s => s.Value) + (0)) </em></span></p>
+                        <p class="total-price">Total <span class="price">$<em class="dev-menu-grtotal">@(Model.Products.Sum(s => s.Product.Value) + (0)) </em></span></p>
                     </div>
                 </div>
                 <div id="dev-no-menu-orders-list" style="display: none;">

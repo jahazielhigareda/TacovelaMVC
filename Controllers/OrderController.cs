@@ -41,14 +41,17 @@ namespace Tacovela.MVC.Controllers
                     lisProduct.AddRange(item);
                 }
 
-                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.Id)).Select(s => new OrderProductViewModel
+                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.Id)).Select(s => new ProductOrderViewModel
                 {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Description = s.Description,
-                    //Image = item.FirstOrDefault().Image,
-                    UrlImage = s.UrlImage,
-                    Value = s.Value * listShop.Where(w => w.Id == s.Id).Count(),
+                    Product = new ProductViewModel()
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Description = s.Description,
+                        //Image = item.FirstOrDefault().Image,
+                        UrlImage = s.UrlImage,
+                        Value = s.Value * listShop.Where(w => w.Id == s.Id).Count(),
+                    },
                     Quantity = listShop.Where(w => w.Id == s.Id).Count()
                 }).ToList();
                 model.Products = productWasAdd;
@@ -60,7 +63,13 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-
+        public async Task<IActionResult> List()
+        {
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var userId = GetUserSession().Id;
+            var model = apiService.GetOrder(userId).Result.Data;
+            return View(model);
+        }
         public async Task<IActionResult> EndOrder()
         {
             var listShop = GetCardSession();
@@ -98,14 +107,14 @@ namespace Tacovela.MVC.Controllers
                     lisProduct.AddRange(item);
                 }
 
-                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.Id)).Select(s => new OrderProductViewModel
+                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.Id)).Select(s => new ProductOrderViewModel
                 {
-                    ProductId = s.Id,
+                    ProductId = s.Id.Value,
                     Quantity = listShop.Where(w => w.Id == s.Id).Count()
                 }).ToList();
 
                 #endregion
-                model.UserAddress = address.Id;
+                model.UserAddressId = address.Id;
                 model.Products = productWasAdd;
                 model.Date = DateTime.Now;
 
@@ -134,6 +143,15 @@ namespace Tacovela.MVC.Controllers
             return RedirectToAction("Index", new { id = categoryId });
         }
 
+        public async Task<IActionResult> ChangeStatus(Guid orderId, int status)
+        {
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
 
+            var resultService = await apiService.ChangeOrderStatus(orderId, status);
+
+            ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
+
+            return RedirectToAction("Index");
+        }
     }
 }

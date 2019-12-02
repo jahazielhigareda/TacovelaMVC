@@ -32,7 +32,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Dashboard","Home")">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -71,10 +71,20 @@
                         <a class="collapse-item" href="@Url.Action("Index", "Ingredient")">Complementos</a>
                         <a class="collapse-item" href="@Url.Action("Index", "Product")">Productos</a>
                         <a class="collapse-item" href="@Url.Action("Index", "Category")">Categorias</a>
-                        <h6 class="collapse-header">Config. de Publicidad</h6>
-                        <a class="collapse-item" href="@Url.Action("Index", "Banner")">Benner App</a>
+                        @*<h6 class="collapse-header">Config. de Publicidad</h6>
+                        <a class="collapse-item" href="@Url.Action("Index", "Banner")">Benner App</a>*@
                         <h6 class="collapse-header">Config. de Usarios</h6>
                         <a class="collapse-item" href="@Url.Action("ListAdmin", "User")">Usuarios</a>
+                    </div>
+                </div>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Historial</span>
+                </a>
+                <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        @*<h6 class="collapse-header">Config. de Compras</h6>*@
+                        <a class="collapse-item" href="@Url.Action("List", "Order")">Pedidos</a>
                     </div>
                 </div>
             </li>
