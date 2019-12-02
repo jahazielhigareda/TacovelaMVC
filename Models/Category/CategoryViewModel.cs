@@ -21,6 +21,6 @@ namespace Tacovela.MVC.Models.Category
 
         public bool IsActive { get; set; }
 
-        public List<ProductOrderViewModel> Products { get; set; }
+        public List<ProductViewModel> Products { get; set; }
     }
 }

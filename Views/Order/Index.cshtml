@@ -3,6 +3,21 @@
     ViewData["Title"] = "Pedido";
     Layout = "_OrderLayout";
     @model Tacovela.MVC.Models.Order.ShopViewModel
+
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @using Tacovela.MVC.Core.Extensions;
+    @using Tacovela.MVC.Models.Authentication;
+
+    var userSession = SessionExtension.GetObjectFromJson<LoginUserViewModel>(HttpContextAccessor.HttpContext.Session, "UserSession");
+
+    if (userSession.Type == (int)Tacovela.MVC.Core.Enums.UserType.Client)
+    {
+        Layout = "_OrderLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }
 @section Styles{
     <style type="text/css">
@@ -85,27 +100,27 @@
                                                                 <a href="#" rel="prettyPhoto">
 
 
-                                                                    @if (string.IsNullOrEmpty(subItem.Product.UrlImage))
+                                                                    @if (string.IsNullOrEmpty(subItem.UrlImage))
                                                                     {
                                                                         @*<img src="//placehold.it/200" class="img-cover img-max-200" alt="avatar" id="img-profile" />*@
                                                                         <img src="//placehold.it/200" class="img-cover img-max-65">
                                                                     }
                                                                     else
                                                                     {
-                                                                        <img src="@string.Concat("https://files.tacovela.com", subItem.Product.UrlImage)" class="img-cover img-max-65" />
+                                                                        <img src="@string.Concat("https://files.tacovela.com", subItem.UrlImage)" class="img-cover img-max-65" />
                                                                     }
                                                                 </a>
                                                             </div>
                                                             <div class="text-holder">
-                                                                <h6>@subItem.Product.Name</h6>
-                                                                <span>@subItem.Product.Description</span>
+                                                                <h6>@subItem.Name</h6>
+                                                                <span>@subItem.Description</span>
                                                             </div>
                                                             <div class="price-holder">
                                                                 <span class="price">
-                                                                    $@subItem.Product.Value
+                                                                    $@subItem.Value
                                                                 </span>
-                                                                
-                                                                <a href="@Url.Action("AddCard","Order", new { id = subItem.ProductId, categoryId = Model.FilterCategory })" class="restaurant-add-menu-btn restaurant-add-menu-btn-0" data-rid="1704" data-id="0" data-cid="0"><i class="fa fa-plus"></i></a>
+
+                                                                <a href="@Url.Action("AddCard","Order", new { id = subItem.Id, categoryId = Model.FilterCategory })" class="restaurant-add-menu-btn restaurant-add-menu-btn-0" data-rid="1704" data-id="0" data-cid="0"><i class="fa fa-plus"></i></a>
                                                                 <span id="add-menu-loader-0"></span>
                                                             </div>
                                                         </li>

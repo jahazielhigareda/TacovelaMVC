@@ -35,24 +35,24 @@ namespace Tacovela.MVC.Controllers
             if (listShop != null && listShop.Any())
             {
                 var list = model.Categories.Select(s => s.Products).ToList();
-                var lisProduct = new List<ProductOrderViewModel>();
+                var lisProduct = new List<ProductViewModel>();
                 foreach (var item in list)
                 {
                     lisProduct.AddRange(item);
                 }
 
-                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.ProductId)).Select(s => new ProductOrderViewModel
+                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.Id)).Select(s => new ProductOrderViewModel
                 {
-                    Quantity = listShop.Where(w => w.Id == s.ProductId).Count(),
                     Product = new ProductViewModel()
                     {
-                        Id = s.ProductId,
-                        Name = s.Product.Name,
-                        Description = s.Product.Description,
+                        Id = s.Id,
+                        Name = s.Name,
+                        Description = s.Description,
                         //Image = item.FirstOrDefault().Image,
-                        UrlImage = s.Product.UrlImage,
-                        Value = s.Product.Value * listShop.Where(w => w.Id == s.ProductId).Count(),
-                    }
+                        UrlImage = s.UrlImage,
+                        Value = s.Value * listShop.Where(w => w.Id == s.Id).Count(),
+                    },
+                    Quantity = listShop.Where(w => w.Id == s.Id).Count()
                 }).ToList();
                 model.Products = productWasAdd;
             }
@@ -66,9 +66,8 @@ namespace Tacovela.MVC.Controllers
         public async Task<IActionResult> List()
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-
-            var model = apiService.GetOrder().Result.Data;
-
+            var userId = GetUserSession().Id;
+            var model = apiService.GetOrder(userId).Result.Data;
             return View(model);
         }
         public async Task<IActionResult> EndOrder()
@@ -102,16 +101,16 @@ namespace Tacovela.MVC.Controllers
                 var categories = GetData<List<CategoryViewModel>>(resultServiceCategories);
 
                 var list = categories.Select(s => s.Products).ToList();
-                var lisProduct = new List<ProductOrderViewModel>();
+                var lisProduct = new List<ProductViewModel>();
                 foreach (var item in list)
                 {
                     lisProduct.AddRange(item);
                 }
 
-                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.ProductId)).Select(s => new ProductOrderViewModel
+                var productWasAdd = lisProduct.Where(w => listShop.Select(s => s.Id).Contains(w.Id)).Select(s => new ProductOrderViewModel
                 {
-                    ProductId = s.ProductId,
-                    Quantity = listShop.Where(w => w.Id == s.ProductId).Count()
+                    ProductId = s.Id.Value,
+                    Quantity = listShop.Where(w => w.Id == s.Id).Count()
                 }).ToList();
 
                 #endregion
@@ -150,7 +149,7 @@ namespace Tacovela.MVC.Controllers
 
             var resultService = await apiService.ChangeOrderStatus(orderId, status);
 
-            ModelStateMessage<BasicResponse>(resultService, true);
+            ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
 
             return RedirectToAction("Index");
         }
