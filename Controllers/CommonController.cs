@@ -4,12 +4,13 @@ using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
-using Tacovela.MVC.Core.Languages;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
+using Tacovela.MVC.Models.Product;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -214,6 +215,44 @@ namespace Tacovela.MVC.Controllers
         {
             HttpContext.Session.SetObjectAsJson("UserSession", data);
         }
+
+        public void AddCardSession(ProductViewModel data)
+        {
+            var cardshop = GetCardSession();
+            if (cardshop == null)
+            {
+                var listShop = new List<ProductViewModel> { data };
+                HttpContext.Session.SetObjectAsJson("CardShopSession", listShop);
+            }
+            else
+            {
+                cardshop.Add(data);
+                HttpContext.Session.SetObjectAsJson("CardShopSession", cardshop);
+            }
+        }
+
+        public void DeleteCardSession(ProductViewModel data)
+        {
+            var cardshop = GetCardSession();
+            var listDelete = cardshop.Where(w => w.Id == data.Id).ToList();
+            foreach (var item in listDelete)
+            {
+                var delete = cardshop.FirstOrDefault(f => f.Id == item.Id);
+                cardshop.Remove(delete);
+            }
+            HttpContext.Session.SetObjectAsJson("CardShopSession", cardshop);
+        }
+
+        public List<ProductViewModel> GetCardSession()
+        {
+            return HttpContext.Session.GetObjectFromJson<List<ProductViewModel>>("CardShopSession");
+        }
+
+        public void CleanCardSession()
+        {
+            HttpContext.Session.SetObjectAsJson("CardShopSession", null);
+        }
+
 
     }
 }
