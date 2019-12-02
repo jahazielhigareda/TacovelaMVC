@@ -14,4 +14,10 @@
         Error = 1,
         Success = 2
     }
+    public enum UserType
+    {
+        Client,
+        Developer,
+        Admin
+    }
 }

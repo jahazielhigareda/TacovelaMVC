@@ -18,8 +18,6 @@ namespace Tacovela.MVC.Controllers
         {
         }
 
-
-
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             var controller = ControllerContext.RouteData.Values["controller"].ToString();

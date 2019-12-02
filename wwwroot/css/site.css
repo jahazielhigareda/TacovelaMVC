@@ -161,6 +161,13 @@ dl, ol, ul {
     width: 100px;
 }
 
+.img-max-65 {
+    width: 65px;
+    height: 65px;
+    max-height: 65px;
+    max-width: 65px;
+}
+
 .img-max-150 {
     width: 150px;
     height: 150px;

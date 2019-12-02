@@ -7,6 +7,7 @@ using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.Category;
 using Tacovela.MVC.Models.Ingredient;
+using Tacovela.MVC.Models.Order;
 using Tacovela.MVC.Models.Product;
 using Tacovela.MVC.Models.User;
 
@@ -40,6 +41,9 @@ namespace Tacovela.MVC.Core.Interfaces
         [Delete("/product"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> DeleteProduct(Guid id);
 
+        [Get("/product/getbyidcategorybyanonymous")]
+        Task<ApiResponse<ListResultViewModel<List<ProductViewModel>>>> GetProdutByIdCategoryByAnonymous(Guid? id);
+
         #endregion
 
         #region Category
@@ -58,5 +62,9 @@ namespace Tacovela.MVC.Core.Interfaces
         [Get("/category/getallbyanonymous")]
         Task<ApiResponse<ListResultViewModel<List<CategoryViewModel>>>> GetCategoryListByAnonymous();
         #endregion
+
+
+        [Post("/order"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> CreateOrder([FromBody] OrderViewModel model);
     }
 }

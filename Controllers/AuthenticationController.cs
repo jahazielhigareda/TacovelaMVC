@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Threading.Tasks;
 using Tacovela.MVC.Core.Enums;
-using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
-using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -43,10 +39,18 @@ namespace Tacovela.MVC.Controllers
                         data.ImageProfile = string.IsNullOrEmpty(data.ImageProfile) ? "//placehold.it/60" : data.ImageProfile;
                         //HttpContext.Session.SetObjectAsJson("UserSession", data);
                         SetUserSession(data);
-                        return RedirectToAction("Index", "Home");
+                        if (data.Type == (int)UserType.Client)
+                        {
+                            return RedirectToAction("Index", "Order");
+
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     ModelStateMessages(new string[] { "Error de conexión." }, TagHelperStatusEnum.Error.ToString());
                 }
