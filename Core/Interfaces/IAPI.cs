@@ -7,6 +7,7 @@ using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.Category;
 using Tacovela.MVC.Models.Ingredient;
+using Tacovela.MVC.Models.Order;
 using Tacovela.MVC.Models.Product;
 using Tacovela.MVC.Models.User;
 
@@ -57,6 +58,16 @@ namespace Tacovela.MVC.Core.Interfaces
 
         [Get("/category/getallbyanonymous")]
         Task<ApiResponse<ListResultViewModel<List<CategoryViewModel>>>> GetCategoryListByAnonymous();
+        #endregion
+
+        #region Order
+
+        [Get("/order"), Headers("Authorization: Bearer")]
+        Task<ListResultViewModel<List<OrderViewModel>>> GetOrder(Guid? userId = null);
+
+        [Post("/order/changestatus"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> ChangeOrderStatus(Guid orderId, int status);
+
         #endregion
     }
 }

@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Pedidos";
+    @model List<Tacovela.MVC.Models.Order.OrderViewModel>
+}
+
+<div class="card col-lg-9">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <h1 class="h4 text-gray-900 mb-2">@ViewData["TypeView"]&nbsp;@ViewData["Title"]</h1>
+                </div>
+                <br />
+                <div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="card mb-4 py-3 border-bottom-dark">
+                            <div class="pl-5 pr-5 row" data-toggle="collapse" href="@string.Concat("#", item.UserName, item.Id).Replace(" ", "")" role="button" aria-expanded="false" aria-controls="@string.Concat(item.UserName, item.Id).Replace(" ", "")">
+                                <div class="media-body">
+                                    <span>17:53</span>
+                                    <p>@item.UserName</p>
+                                </div>
+                                <div class="font-weight-bolder">
+                                    <p class="m-0">$ @item.Value</p>
+                                    <span class="badge badge-warning">@item.Status</span>
+                                </div>
+                                <div class="pl-5" style="margin-top: -0.3rem; color:#E93F3A;">
+                                    <span class="fas fa-angle-down fa-2x"></span>
+                                </div>
+                            </div>
+                            <div class="pl-5 pr-5 collapse" id="@string.Concat(item.UserName, item.Id).Replace(" ", "")">
+                                <hr>
+                                @foreach (var products in item.Products)
+                                {
+                                    <div class="row pl-5 pr-5 col-lg-12">
+                                        <div class="col-lg-8">
+                                            <p class="m-0"><span>@string.Concat(products.Quantity, "x ")</span>@products.Product.Name</p>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <span>$ @products.Product.Value</span>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row pl-5 pr-5 col-lg-12 font-weight-bolder">
+                                    <div class="col-lg-8">
+                                        <p class="m-0">Total</p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>$ @item.Value</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row pl-5 col-lg-12">
+                                    <div class="col-lg-4">
+                                        <p id="street-number" class="m-0">@string.Concat(item.UserAddress.Street, ", ", item.UserAddress.Number)</p>
+                                        <p id="subcity" class="m-0">@item.UserAddress.SubCity</p>
+                                        <p id="city-state" class="m-0">@string.Concat(item.UserAddress.City, " - ", item.UserAddress.State)</p>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <p id="phone" class="m-0 font-weight-bolder">@item.UserPhone</p>
+                                        <p id="postal-code" class="m-0">@item.UserAddress.PostalCode</p>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align: right; align-self: center;">
+                                        @if (item.Status != Tacovela.MVC.Models.Order.OrderStatus.Delivered)
+                                        {
+                                            <button class="btn btn-secondary" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 4 })">Cancel</button>
+                                        }
+
+                                        @if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.Pending)
+                                        {
+                                            <button class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 2 })">En Preparación</button>
+                                        }
+                                        else if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.InPreparation)
+                                        {
+                                            <button class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 3 })">En camino</button>
+                                        }
+                                        else if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.OnWay)
+                                        {
+                                            <button class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 5 })">Entregado</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

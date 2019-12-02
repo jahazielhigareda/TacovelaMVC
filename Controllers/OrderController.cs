@@ -4,6 +4,7 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Category;
@@ -31,6 +32,24 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> List()
+        {
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
 
+            var model = apiService.GetOrder().Result.Data;
+
+            return View(model);
+        }
+
+        public IActionResult ChangeStatus(Guid orderId, int status)
+        {
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+
+            var resultService = apiService.ChangeOrderStatus(orderId, status);
+
+            ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
+
+            return RedirectToAction("Index");
+        }
     }
 }
