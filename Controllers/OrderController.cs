@@ -66,8 +66,9 @@ namespace Tacovela.MVC.Controllers
         public async Task<IActionResult> List()
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var userId = GetUserSession().Id;
-            var model = apiService.GetOrder(userId).Result.Data;
+            var user = GetUserSession();
+            
+            var model = apiService.GetOrder(user.Type == (int)UserType.Client ? user.Id : (Guid?)null).Result.Data;
             return View(model);
         }
         public async Task<IActionResult> EndOrder()

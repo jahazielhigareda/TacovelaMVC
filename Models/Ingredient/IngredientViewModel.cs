@@ -16,5 +16,7 @@ namespace Tacovela.MVC.Models.Ingredient
         [Required(ErrorMessage = "El Valor es obligatorio.")]
         [Range(0, 5000, ErrorMessage = "El valor tiene que ser entre 0 a 5000")]
         public decimal? Value { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

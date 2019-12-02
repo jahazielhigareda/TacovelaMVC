@@ -18,7 +18,7 @@ namespace Tacovela.MVC.Controllers
         public IActionResult Index()
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var categories = apiService.GetCategory().Result.Data;
+            var categories = apiService.GetCategory().Result.Data.Where(w => w.IsActive).ToList();
 
             return View(categories);
         }

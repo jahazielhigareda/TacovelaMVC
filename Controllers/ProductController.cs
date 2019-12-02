@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
@@ -24,7 +21,7 @@ namespace Tacovela.MVC.Controllers
         public IActionResult Index()
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var model = apiService.ProductList().Result.Data;
+            var model = apiService.ProductList().Result.Data.Where(w => w.IsActive).ToList();
 
             return View(model);
         }
@@ -97,7 +94,7 @@ namespace Tacovela.MVC.Controllers
 
             var categories = apiService.GetCategory().Result.Data;
             ViewBag.Categories = new SelectList(categories.Select(p => new { p.Id, p.Name }), "Id", "Name");
-            
+
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
 
             var productIngredients = apiService.GetIngredients(id).Result.Data;
@@ -106,7 +103,7 @@ namespace Tacovela.MVC.Controllers
             model.ProductIngredients = productIngredients;
             foreach (var ingredient in ingredients)
             {
-                if(!productIngredients.Select(p => p.IngredientId).Contains(ingredient.Id))
+                if (!productIngredients.Select(p => p.IngredientId).Contains(ingredient.Id))
                 {
                     model.ProductIngredients.Add(new ProductIngredientViewModel()
                     {
@@ -163,13 +160,13 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete()
         {
-            return View(new ProductViewModel() { Id = id });
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteProduct(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
