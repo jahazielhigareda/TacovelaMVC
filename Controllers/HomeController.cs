@@ -11,6 +11,7 @@ using Tacovela.MVC.Models.User;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace Tacovela.MVC.Controllers
 {
@@ -41,7 +42,8 @@ namespace Tacovela.MVC.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var Exeption = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, Message = Exeption.Error.Message });
         }
     }
 }

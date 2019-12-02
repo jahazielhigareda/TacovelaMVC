@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
@@ -16,11 +17,13 @@ namespace Tacovela.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = new List<IngredientViewModel>();
+            //string[] array = null;
+            //var x = array[100];
+            //var model = new List<IngredientViewModel>();
             var apiService = RestServiceExtension<IIngredientAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var resultService = await apiService.GetList(new IngredientViewModel());
 
-            model = GetPagginationData<List<IngredientViewModel>>(resultService);
+            var model = GetPagginationData<List<IngredientViewModel>>(resultService).Where(w => w.IsActive).ToList();
             return View(model);
         }
 
