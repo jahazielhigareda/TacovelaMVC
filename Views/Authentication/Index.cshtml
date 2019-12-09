@@ -4,8 +4,10 @@
     @model Tacovela.MVC.Models.Authentication.UserLoginViewModel
 }
 
-<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-<div class="col-lg-6" style="min-height: 42rem">
+<div class="col-lg-6 d-none d-lg-block bg-login-image">
+    @*<img class="w-100 mt-2 mb-3 size-image img-cover img-max-200" src="http://www.files.tacovela.com/App_File/tacovela/3054d153-b174-4910-83df-782ac2d625183688.jpg">*@
+</div>
+<div class="col-lg-6">
     <div class="p-5">
         <div class="text-center">
             <h1 class="h4 text-gray-900 mb-4">TACOVELA</h1>
@@ -15,11 +17,13 @@
         <form class="user" method="post" asp-action="Index">
             <div class="form-group">
                 <span asp-validation-for="Email" class="text-danger"></span>
-                <input asp-for="Email" type="email" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Email" autofocus value="jahaziel.higareda@gmail.com">
+                @*<input asp-for="Email" type="email" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Email" autofocus value="jahaziel.higareda@gmail.com">*@
+                <input asp-for="Email" type="email" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Email" autofocus>
             </div>
             <div class="form-group">
                 <span asp-validation-for="Password" class="text-danger"></span>
-                <input asp-for="Password" type="password" class="form-control form-control-user" placeholder="Contrasenña" value="Mex19--!#4(yxwz">
+                @*<input asp-for="Password" type="password" class="form-control form-control-user" placeholder="Contrasenña" value="Mex19--!#4(yxwz">*@
+                <input asp-for="Password" type="password" class="form-control form-control-user" placeholder="Contrasenña">
             </div>
             <button class="btn btn-primary btn-user btn-block" type="submit">Login</button>
         </form>

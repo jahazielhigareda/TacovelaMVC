@@ -1,7 +1,6 @@
 ﻿
 @{
     ViewData["Title"] = "Pedido";
-    Layout = "_OrderLayout";
     @model Tacovela.MVC.Models.Order.ShopViewModel
 
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
@@ -18,6 +17,8 @@
     {
         Layout = "_Layout";
     }
+
+    var urlFiles = "http://www.files.tacovela.com";
 }
 @section Styles{
     <style type="text/css">
@@ -107,7 +108,7 @@
                                                                     }
                                                                     else
                                                                     {
-                                                                        <img src="@string.Concat("https://files.tacovela.com", subItem.UrlImage)" class="img-cover img-max-65" />
+                                                                        <img src="@string.Concat(urlFiles, subItem.UrlImage)" class="img-cover img-max-65" />
                                                                     }
                                                                 </a>
                                                             </div>

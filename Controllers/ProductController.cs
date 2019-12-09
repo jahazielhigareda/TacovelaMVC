@@ -68,7 +68,7 @@ namespace Tacovela.MVC.Controllers
                 resultService = await apiService.CreateProduct(product, null);
             }
 
-            ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
+            TempDataMessage<ApiResponse<BasicResponse>>(resultService, true);
 
             var categories = apiService.GetCategory().Result.Data;
             ViewBag.Categories = new SelectList(categories.Select(p => new { p.Id, p.Name }), "Id", "Name");

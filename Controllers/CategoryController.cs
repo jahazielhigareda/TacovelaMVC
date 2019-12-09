@@ -47,7 +47,7 @@ namespace Tacovela.MVC.Controllers
                 resultService = await apiService.CreateCategory(category, null);
             }
 
-            ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
+            TempDataMessage<ApiResponse<BasicResponse>>(resultService, true);
 
             return View(new CategoryViewModel());
         }

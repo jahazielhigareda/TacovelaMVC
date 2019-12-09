@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
+using Tacovela.MVC.Models.Common;
 using Tacovela.MVC.Models.User;
 
 namespace Tacovela.MVC.Controllers
@@ -152,16 +154,30 @@ namespace Tacovela.MVC.Controllers
             var model = new List<UserViewModel>();
 
             var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var resultService = await apiService.GetList(new UserViewModel { Type = 2 });
+            var resultService = await apiService.GetList(new FilterViewModel<UserViewModel> { ApplyFilter = true, Filter = new UserViewModel { Type = 2 } });
             model = GetPagginationData<List<UserViewModel>>(resultService);
 
             return View(model);
         }
 
-        
-        public IActionResult NewEditAdmin()
+
+        public async Task<IActionResult> NewEditAdmin(Guid? id)
         {
-            return View();
+            var model = new UserViewModel();
+            ViewData["SubTitle"] = "Nuevo";
+            ViewData["SubTitleDescription"] = "Para crear un nuevo administrador debera llenar el siguiente formulario.";
+
+            if (id != null && id != Guid.Empty)
+            {
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+
+                var result = await apiService.GetById(id.Value);
+                model = GetData<UserViewModel>(result);
+
+                ViewData["SubTitle"] = "Editar";
+                ViewData["SubTitleDescription"] = "Para editar el administrador debera llenar el siguiente formulario.";
+            }
+            return View(model);
         }
 
         [HttpPost]

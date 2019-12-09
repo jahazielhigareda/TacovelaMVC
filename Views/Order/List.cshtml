@@ -24,6 +24,9 @@
     <div class="card col-lg-12">
         <div class="card-body">
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 p-0">
+                    <div asp-msg-tempdata="None"></div>
+                </div>
                 <div class="col-lg-12">
                     <div>
                         <h1 class="h4 text-gray-900 mb-2">@ViewData["TypeView"]&nbsp;@ViewData["Title"]</h1>
@@ -50,15 +53,41 @@
                                     <hr>
                                     @foreach (var products in item.Products)
                                     {
-                                        <div class="row pl-5 pr-5 col-lg-12">
-                                            <div class="col-lg-8">
-                                                <p class="m-0"><span>@string.Concat(products.Quantity, "x ")</span>@products.Product.Name</p>
+                                        <div class="row">
+                                            <div class="row pl-5 pr-5 col-lg-12">
+                                                <div class="col-lg-8">
+                                                    <p class="m-0"><span>@string.Concat(products.Quantity, "x ")</span>@products.Product.Name</p>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <span>$ @products.Product.Value.ToString("g")</span>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <span>$ @products.Product.Value</span>
-                                            </div>
+                                            @if (products.Ingredients.Any())
+                                            {
+                                                <div class="row pl-5 pr-5 col-lg-12">
+
+                                                    <div class="col-lg-12 pl-5 pr-5">
+                                                        <p class="m-0">Complementos</p>
+                                                    </div>
+                                                    @foreach (var ingredient in products.Ingredients)
+                                                    {
+                                                        <div class="row pl-5 pr-5 col-lg-12">
+                                                            <div class="row pl-5 pr-5 col-lg-12">
+                                                                <div class="col-lg-8">
+                                                                    <p class="m-0"><span>@string.Concat("+1 ")</span>@ingredient.Ingredient.Name</p>
+                                                                </div>
+                                                                <div class="col-lg-4" style="padding-left: 68px">
+                                                                    <span>$ @ingredient.Ingredient.Value.Value.ToString("g")</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
                                         </div>
+
                                     }
+                                    <hr>
                                     <div class="row pl-5 pr-5 col-lg-12 font-weight-bolder">
                                         <div class="col-lg-8">
                                             <p class="m-0">Total</p>
