@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Producto";
+
+    @model List<Tacovela.MVC.Models.Product.ProductViewModel>
+    var urlFiles = "http://www.files.tacovela.com";
+
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @using Tacovela.MVC.Core.Extensions;
+    @using Tacovela.MVC.Models.Authentication;
+
+    var userSession = SessionExtension.GetObjectFromJson<LoginUserViewModel>(HttpContextAccessor.HttpContext.Session, "UserSession");
+    if (userSession.Type == (int)Tacovela.MVC.Core.Enums.UserType.Client)
+    {
+        Layout = "_OrderLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+<link href="~/css/orderCategory.min.css" rel="stylesheet" />
+<style>
+    .container-titulo {
+        background: #F44336;
+        border: 1px solid #F44336 !important;
+    }
+</style>
+
+@{
+    await Html.RenderPartialAsync("_CarouselTopBar", Model);
+}
+
+<div class="col-md-12">
+    <h1 class="text-uppercase text-center like-h1 mt-lg-0 pt-lg-3 Fbold" style="color: #F44336;">
+        ELIGE UNA PRODUCTO
+    </h1>
+</div>
+
+<div class="row">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-3 col-lg-3 col-sm-4 col-xs-6 p-3 d-none d-sm-block d-md-block d-lg-block">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-titulo titulo-pizza pt-2 pb-1 " style="border: 1px solid #006391;">@item.Name</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="flipCard">
+                                <div class="divcard" id="divcard_HNC">
+                                    <div class="front">
+                                        <img class="w-100 size-image img-cover img-max-100p" src="@string.Concat(urlFiles, item.UrlImage)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row no-gutters">
+                                @*<div class="col-6 col-lg-6 pt-1 detalles d-flex align-items-center justify-center position-static spanLinkDetail" data-code="HNC">
+                                        <span class="Fbold textDetaila14px">DETALLES </span>
+                                    </div>*@
+                                <!-- <div class="col-6 d-flex align-items-center p-0 bg-lg-fff" onclick="javascript:CreateSegmentEvent('Product Clicked', Product_HNC); window.location.href ='https://dominos.com.mx/menu/ordenar-especialidad/hawaiana';" href="https://dominos.com.mx/menu/ordenar-especialidad/hawaiana"> -->
+                                <div class="col-12">
+                                    <div class="text-center ordena-aqui align-items-center pt-2 justify-center">
+                                        <a href="@Url.Action("ProductDetail","Order", new { id = item.Id })" class="Fbold textDetaila14px nLoader">ORDENA AQUÍ </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

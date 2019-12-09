@@ -70,10 +70,10 @@ namespace Tacovela.MVC.Controllers
             {
                 var apiService = RestService.For<IAuthenticationAPI>(_enforcerApi.Url);
                 var resultService = await apiService.Register(model);
-                ModelStateMessage<BasicResponse>(resultService);
+                ModelStateMessage<BasicResponse>(resultService, true);
                 if (resultService.IsSuccessStatusCode)
                 {
-                    //var result = resultService.Content;
+                    TempDataMessages(new string[] { "Gracias por registrarte en Tacovela, esperemos y sean de tu gusto nuestros alimentos." }, TagHelperStatusEnum.Success.ToString());
                     return RedirectToAction("Index", "Authentication");
                 }
             }

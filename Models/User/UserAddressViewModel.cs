@@ -15,13 +15,13 @@ namespace Tacovela.MVC.Models.User
         public Guid UserId { get; set; }
 
         [Required(ErrorMessage = "La calle es obligatorio.")]
-        [MinLength(2)]
-        [MaxLength(100)]
+        [MinLength(2, ErrorMessage = "El campo calle debe contener al menos 2 caracter.")]
+        [MaxLength(100, ErrorMessage = "El campo calle solo soporta una longitud de caracteres de 100.")]
         public string Street { get; set; }
 
         [Required(ErrorMessage = "La numero es obligatorio.")]
-        [MinLength(2)]
-        [MaxLength(100)]
+        [MinLength(1, ErrorMessage = "El campo numero debe contener al menos 1 caracter.")]
+        [MaxLength(20, ErrorMessage = "El campo calle solo soporta una longitud de caracteres de 20.")]
         public string Number { get; set; }
 
         [Required(ErrorMessage = "La codigo postal es obligatorio.")]

@@ -25,12 +25,20 @@ namespace Tacovela.MVC.Controllers
 
         protected void TempDataMessages(string[] errors, string messageType)
         {
-            var dictionary = new Dictionary<string, string>();
-            foreach (var error in errors)
+            try
             {
-                dictionary.Add(messageType, error);
+                var listError = new Dictionary<string, string>();
+                foreach (var error in errors)
+                {
+                    listError.Add(messageType + listError.Count, error);
+                }
+
+                TempData[GlobalApplicationEnum.TempDataMessage.ToString()] = listError;
             }
-            TempData[GlobalApplicationEnum.TempDataMessage.ToString()] = dictionary;
+            catch (Exception)
+            {
+
+            }
         }
 
         protected void ModelStateMessages(string[] errors, string messageType)

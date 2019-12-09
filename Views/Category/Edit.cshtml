@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Editar Categoría";
     @model Tacovela.MVC.Models.Category.CategoryViewModel
+    var urlFiles = "http://www.files.tacovela.com";
 }
 
 <div class="card col-lg-6">
@@ -11,7 +12,8 @@
                     <h1 class="h4 text-gray-900 mb-2">@ViewData["TypeView"]&nbsp;@ViewData["Title"]</h1>
                 </div>
                 <form class="user" role="form" method="post" enctype="multipart/form-data" asp-action="Edit">
-                    <div asp-valitadion-summary-custom="None"></div>
+                    @*<div asp-valitadion-summary-custom="None"></div>*@
+                    <div asp-msg-tempdata="None"></div>
                     <div class="form-group">
                         <span asp-validation-for="Name" class="text-danger"></span>
                         <input asp-for="Name" type="text" class="form-control form-control-user" placeholder="Nombre" />
@@ -39,7 +41,7 @@
                                         }
                                         else
                                         {
-                                            <img src="@string.Concat("https://files.tacovela.com", Model.ImageUrl)" class="img-cover img-max-200" alt="avatar" id="img-profile" />
+                                            <img src="@string.Concat(urlFiles, Model.ImageUrl)" class="img-cover img-max-200" alt="avatar" id="img-profile" />
                                         }
                                     </div>
                                     <div class="custom-file">

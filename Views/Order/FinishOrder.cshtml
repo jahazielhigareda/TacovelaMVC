@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "FinishOrder";
+
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @using Tacovela.MVC.Core.Extensions;
+    @using Tacovela.MVC.Models.Authentication;
+
+    var userSession = SessionExtension.GetObjectFromJson<LoginUserViewModel>(HttpContextAccessor.HttpContext.Session, "UserSession");
+
+    if (userSession.Type == (int)Tacovela.MVC.Core.Enums.UserType.Client)
+    {
+        Layout = "_OrderLayout";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+
+    var urlFiles = "http://www.files.tacovela.com";
+}
+
+<h2>FinishOrder</h2>
+

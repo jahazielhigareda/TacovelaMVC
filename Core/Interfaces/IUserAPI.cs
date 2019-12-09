@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Tacovela.MVC.Models.Api;
 using Tacovela.MVC.Models.Authentication;
 using Tacovela.MVC.Models.Category;
+using Tacovela.MVC.Models.Common;
 using Tacovela.MVC.Models.Ingredient;
 using Tacovela.MVC.Models.Product;
 using Tacovela.MVC.Models.User;
@@ -26,6 +27,9 @@ namespace Tacovela.MVC.Core.Interfaces
 
         [Post("/user/get"), Headers("Authorization: Bearer")]
         Task<ApiResponse<ListResultViewModel<List<UserViewModel>>>> GetList(UserViewModel filter);
+
+        [Post("/user/get"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<ListResultViewModel<List<UserViewModel>>>> GetList(FilterViewModel<UserViewModel> filter);
 
         #endregion
 

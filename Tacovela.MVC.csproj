@@ -17,6 +17,7 @@
   <ItemGroup>
     <Folder Include="Core\Helpers\" />
     <Folder Include="wwwroot\lib\datatable\" />
+    <Folder Include="wwwroot\vendor\input-spinner\" />
   </ItemGroup>
 
   <ItemGroup>

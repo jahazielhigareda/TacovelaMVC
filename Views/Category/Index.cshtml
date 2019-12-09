@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Categorías";
     @model List<Tacovela.MVC.Models.Category.CategoryViewModel>
+    var urlFiles = "http://www.files.tacovela.com";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -40,7 +41,7 @@
                             }
                             else
                             {
-                                <img class="w-100 mt-2 mb-3 size-image img-cover img-max-200" src="@string.Concat("https://files.tacovela.com", item.ImageUrl)" />
+                                <img class="w-100 mt-2 mb-3 size-image img-cover img-max-200" src="@string.Concat(urlFiles, item.ImageUrl)" />
                             }
                             <div class="row">
                                 <div class="col-md-6">

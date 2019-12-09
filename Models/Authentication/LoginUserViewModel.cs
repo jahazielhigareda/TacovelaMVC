@@ -20,5 +20,8 @@ namespace Tacovela.MVC.Models.Authentication
         public string ImageProfile { get; set; }
 
         public string Token { get; set; }
+        public string FisrtName { get; set; }
+        public string LastName { get; set; }
+
     }
 }

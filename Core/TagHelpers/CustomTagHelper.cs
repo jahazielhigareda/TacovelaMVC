@@ -75,11 +75,11 @@ namespace Tacovela.MVC.Core.TagHelpers
 
             if (dictionary != null)
             {
-                if (dictionary.Any(x => x.Key == TagHelperStatusEnum.Error.ToString()))
+                if (dictionary.Any(x => x.Key.Contains(TagHelperStatusEnum.Error.ToString())))
                 {
                     classDiv = "alert alert-danger text-danger small";
                 }
-                else if (dictionary.Any(x => x.Key == TagHelperStatusEnum.Success.ToString()))
+                else if (dictionary.Any(x => x.Key.Contains(TagHelperStatusEnum.Success.ToString())))
                 {
                     classDiv = "alert alert-success text-success small";
                 }
@@ -90,8 +90,8 @@ namespace Tacovela.MVC.Core.TagHelpers
                                     <span aria-hidden=""true"">&times;</span>
                                   </button>");
 
-                var messages = dictionary.Where(x => x.Key == TagHelperStatusEnum.Error.ToString() ||
-                                                     x.Key == TagHelperStatusEnum.Success.ToString())
+                var messages = dictionary.Where(x => x.Key.Contains(TagHelperStatusEnum.Error.ToString()) ||
+                                                     x.Key.Contains(TagHelperStatusEnum.Success.ToString()))
                                                       .Select(x => x.Value).ToList();
                 foreach (var message in messages)
                 {
