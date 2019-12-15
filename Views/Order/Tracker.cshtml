@@ -1,0 +1,255 @@
+﻿
+@{
+    ViewData["Title"] = "Tracker";
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+
+    @model Guid;
+}
+@section Styles
+    {
+    @*<link rel="stylesheet" type="text/css" href="https://static.telepizza.com/vol/pt/css/telepizza.min.css?v=5.0.7.0">*@
+    <style type="text/css">
+        .mod_order_tracker dl {
+            background: url(https://static.telepizza.com/vol/pt/static/unique/line_order_tracker.png) 0 70px repeat-x;
+        }
+
+        .mod_order_tracker dl {
+            position: relative;
+            min-height: 200px;
+            max-width: 805px;
+            margin: 0 auto;
+        }
+
+        .mod_order_tracker dt.received {
+            background: url(/images/sprite.png) 0 -1575px no-repeat;
+        }
+
+        .mod_order_tracker .received {
+            left: 0;
+        }
+
+        .mod_order_tracker .cooking {
+            left: 33.333%;
+        }
+
+        .mod_order_tracker .shipping {
+            left: 66.666%;
+        }
+
+        .mod_order_tracker .enjoy {
+            left: 100%;
+        }
+
+        .mod_order_tracker dt.received {
+            background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -1575px no-repeat;
+        }
+
+            .mod_order_tracker dt.received.active {
+                background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -1225px no-repeat;
+            }
+
+        .mod_order_tracker dt.cooking {
+            background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -875px no-repeat;
+        }
+
+            .mod_order_tracker dt.cooking.active {
+                background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) no-repeat;
+            }
+
+        .mod_order_tracker dt.shipping {
+            background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -2022px no-repeat;
+        }
+
+            .mod_order_tracker dt.shipping.active {
+                background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -700px no-repeat;
+            }
+
+        .mod_order_tracker dt.enjoy {
+            background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -1400px no-repeat;
+        }
+
+            .mod_order_tracker dt.enjoy.active {
+                background: url(https://static.telepizza.com/vol/pt/static/_sprites/sprite.png) 0 -525px no-repeat;
+            }
+
+        .mod_order_tracker .received {
+            left: 0;
+        }
+
+        .mod_order_tracker dd, .mod_order_tracker dd.active, .mod_order_tracker dt, .mod_order_tracker dt.active {
+            -moz-transition: opacity .5s;
+            -webkit-transition: opacity .5s;
+            -o-transition: opacity .5s;
+            transition: opacity .5s;
+        }
+
+        .mod_order_tracker dt {
+            padding-top: 73px;
+            font-size: 1.6em;
+            font-weight: 700;
+            text-align: center;
+            color: #D6D6D6;
+        }
+
+        .mod_order_tracker dt {
+            height: 135px;
+            top: 0;
+        }
+
+        .mod_order_tracker dd, .mod_order_tracker dt {
+            width: 135px;
+            display: block;
+            position: absolute;
+            margin-left: -60px;
+        }
+
+
+        .mod_order_tracker .progress_bar, .mod_order_tracker .progress_bar > span {
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        .mod_order_tracker .progress_bar {
+            border: 3px solid #F1DAD8;
+            background: #FFF;
+        }
+
+        .mod_order_tracker .progress_bar {
+            max-width: 810px;
+            margin: 0 auto;
+        }
+
+        .main-content p {
+            color: #999;
+        }
+
+        .btn_success span, .btn_success strong, .mod_order_tracker .progress_bar > span {
+            border: 1px solid #F44336;
+        }
+
+        .mod_order_tracker .progress_bar > span {
+            border: 1px solid #F44336;
+        }
+
+        .mod_order_tracker .progress_bar, .mod_order_tracker .progress_bar > span {
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+            .mod_order_tracker .progress_bar > span {
+                position: relative;
+                display: block;
+                height: 45px;
+            }
+
+            #boxes .close, .btn_success, .mod_delivery_type .current .btn, .mod_ingredient_counter .amount, .mod_order_tracker .progress_bar span.last_step_done, .mod_pack_steps .active .step, .mod_select_promotions li.active {
+                background: #F44336;
+            }
+
+            .mod_order_tracker .progress_bar span.last_step_done {
+                background: #F44336;
+                -webkit-box-shadow: inset 0 0 5px #333;
+                -moz-box-shadow: inset 0 0 5px #333;
+                -o-box-shadow: inset 0 0 5px #333;
+                box-shadow: inset 0 0 5px #333;
+                -webkit-border-radius: 3px 0 0 3px;
+                -moz-border-radius: 3px 0 0 3px;
+                -ms-border-radius: 3px 0 0 3px;
+                -o-border-radius: 3px 0 0 3px;
+                border-radius: 3px 0 0 3px;
+            }
+
+            .mod_order_tracker .progress_bar span.last_step_done {
+                width: 0%;
+                z-index: 2;
+            }
+
+            .mod_order_tracker .progress_bar span span {
+                position: absolute;
+                height: 100%;
+            }
+
+        .received.active .last_step_done {
+            width: 10%;
+        }
+    </style>
+}
+@*<h2>Tracker</h2>*@
+
+<div class="main-content mt-5 mb-5">
+    <h3 class="text-center">Estado de su pedido</h3>
+    <div class="mod_text short pbm">
+
+        @*<p class="text-center">Vas a recibir el pedido aproximadamente a las XX:XXh.</p>*@
+
+    </div>
+    <div class="mod_order_tracker mt-5">
+        <dl>
+            <dt class="received active" style="font-size: .8rem">Pedido<br>registado!</dt>
+            <dt class="cooking" style="font-size: .8rem">Cocinando<br>su pedido</dt>
+            <dt class="shipping" style="font-size: .8rem">A preparar<br>el envio</dt>
+            <dt class="enjoy" style="font-size: .8rem">Buen <br>apetito!</dt>
+        </dl>
+        <p class="progress_bar">
+            <span>
+                <span class="last_step_done" style="width: 0%;"></span><span class="now" style="width: 100%;"></span>
+            </span>
+        </p>
+    </div>
+</div>
+
+<div class="mod_text short pbm">
+    <p class="text-center">Aviso: Esta informacion es meramente informativa.</p>
+</div>
+
+@section Scripts{
+    <script>
+        var status = 0;
+        GetStatusOrder();
+
+        setInterval(function () {
+            if (status != @((int)Tacovela.MVC.Models.Order.OrderStatus.Delivered)) {
+                GetStatusOrder();
+            }
+        }, 60000);
+
+        function GetStatusOrder() {
+
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("GetStatusOrder","Order" , new { id = Model })"
+            }).done(function (data) {
+                status = data.status;
+                if (data.status == @((int)Tacovela.MVC.Models.Order.OrderStatus.Pending)) {
+                    $('.last_step_done').css('width', '0%');
+                    $('.received').removeClass('active').addClass('active');
+                }
+                else if (data.status == @((int)Tacovela.MVC.Models.Order.OrderStatus.InPreparation)) {
+                    $('.last_step_done').css('width', '33.33%');
+                    $('.received').removeClass('active').addClass('active');
+                    $('.cooking').removeClass('active').addClass('active');
+                }
+                else if (data.status == @((int)Tacovela.MVC.Models.Order.OrderStatus.OnWay)) {
+                    $('.last_step_done').css('width', '66.66%');
+                    $('.received').removeClass('active').addClass('active');
+                    $('.cooking').removeClass('active').addClass('active');
+                    $('.shipping').removeClass('active').addClass('active');
+                }
+                else if (data.status == @((int)Tacovela.MVC.Models.Order.OrderStatus.Delivered)) {
+                    $('.last_step_done').css('width', '100%');
+                    $('.received').removeClass('active').addClass('active');
+                    $('.cooking').removeClass('active').addClass('active');
+                    $('.shipping').removeClass('active').addClass('active');
+                    $('.enjoy').removeClass('active').addClass('active');
+                }
+
+            })
+        }
+    </script>
+}

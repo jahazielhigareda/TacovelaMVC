@@ -66,10 +66,10 @@ namespace Tacovela.MVC.Core.Interfaces
         #region Order
 
         [Get("/order"), Headers("Authorization: Bearer")]
-        Task<ListResultViewModel<List<OrderViewModel>>> GetOrder(Guid? userId = null, OrderStatus? status = null);
+        Task<ListResultViewModel<List<OrderViewModel>>> GetOrder(Guid? userId = null, OrderStatus? status = null, Guid? id = null);
 
         [Post("/order/changestatus"), Headers("Authorization: Bearer")]
-        Task<ApiResponse<BasicResponse>> ChangeOrderStatus(Guid orderId, int status);
+        Task<ApiResponse<BasicResponse>> ChangeOrderStatus(Guid id, int status);
 
         [Post("/order"), Headers("Authorization: Bearer")]
         Task<ApiResponse<BasicResponse>> CreateOrder([FromBody] OrderViewModel model);

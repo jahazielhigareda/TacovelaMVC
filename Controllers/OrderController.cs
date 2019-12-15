@@ -161,15 +161,15 @@ namespace Tacovela.MVC.Controllers
             return RedirectToAction("Index", new { id = categoryId });
         }
 
-        public async Task<IActionResult> ChangeStatus(Guid orderId, int status)
+        public async Task<IActionResult> ChangeStatus(Guid id, int status)
         {
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
 
-            var resultService = await apiService.ChangeOrderStatus(orderId, status);
+            var resultService = await apiService.ChangeOrderStatus(id, status);
 
             ModelStateMessage<ApiResponse<BasicResponse>>(resultService, true);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("List");
         }
 
         public IActionResult Category()
@@ -229,14 +229,14 @@ namespace Tacovela.MVC.Controllers
             //return View();
         }
 
-        public async Task<IActionResult> Test(Guid id, int prodictQuantity, string ingredienstArray)
+        public async Task<IActionResult> AddCartShop(Guid id, int prodictQuantity, string ingredienstArray)
         {
             if (id == null || id == Guid.Empty || prodictQuantity <= 0)
             {
                 return RedirectToAction("Category", "Order");
             }
 
-            
+
             var listIngredient = JsonConvert.DeserializeObject<List<AddProductIngredientViewModel>>(ingredienstArray);
             var listIngredientAdd = new List<ProductOrderIngredientViewModel>();
             foreach (var item in listIngredient)
@@ -305,7 +305,98 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult FinishOrder()
         {
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var user = GetUserSession();
+
+            var result = apiService.GetOrder(user.Type == (int)UserType.Client ? user.Id : (Guid?)null, OrderStatus.InCard).Result.Data;
+            var model = result.FirstOrDefault();
+            if (model != null && model.Status != OrderStatus.InCard)
+            {
+                return RedirectToAction("Tracker", "Order", new { id = model.Id });
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FinishOrder(OrderViewModel model)
+        {
+            if (model == null || (model.Id == null || model.Id == Guid.Empty))
+            {
+                return RedirectToAction("FinishOrder", "Order");
+            }
+
+            var order = new OrderViewModel();
+
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            order.Id = model.Id;
+            order.Status = OrderStatus.Pending;
+            order.Type = model.Type;
+
+            var resultService = await apiService.UpdateOrder(order);
+            return RedirectToAction("Tracker", "Order", new { id = order.Id });
+        }
+
+        public IActionResult FinishOrderAlert(Guid id)
+        {
             return View();
+        }
+
+
+        public IActionResult RemoveProductOrder(Guid id, Guid productOrderId)
+        {
+            if ((id == null || id == Guid.Empty) || (productOrderId == null || productOrderId == Guid.Empty))
+            {
+                return RedirectToAction("FinishOrder", "Order");
+            }
+
+            var model = new OrderViewModel { Id = id, RemoveProductId = productOrderId };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProductOrder(OrderViewModel model)
+        {
+            if (model == null || ((model.Id == null || model.Id == Guid.Empty) ||
+               (model.RemoveProductId == null || model.RemoveProductId == Guid.Empty)))
+            {
+                return RedirectToAction("FinishOrder", "Order");
+            }
+
+            var order = new OrderViewModel();
+
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            order.Id = model.Id;
+            order.RemoveProductId = model.RemoveProductId;
+
+            var resultService = await apiService.UpdateOrder(order);
+
+            return RedirectToAction("FinishOrder", "Order");
+        }
+
+
+
+        public IActionResult Tracker(Guid id)
+        {
+            if (id == null || id == Guid.Empty)
+            {
+                return RedirectToAction("FinishOrder", "Order");
+            }
+            return View(id);
+        }
+
+        public JsonResult GetStatusOrder(Guid id)
+        {
+            if (id == null || id == Guid.Empty)
+            {
+                return Json(new { status = -1 });
+            }
+
+            var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+
+            var result = apiService.GetOrder(null, null, id).Result.Data;
+            var model = result.FirstOrDefault();
+
+            return Json(new { status = (int)model.Status });
         }
     }
 }

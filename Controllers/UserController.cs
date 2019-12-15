@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tacovela.MVC.Core.Enums;
 using Tacovela.MVC.Core.Extensions;
 using Tacovela.MVC.Core.Interfaces;
 using Tacovela.MVC.Models.Api;
@@ -154,37 +155,107 @@ namespace Tacovela.MVC.Controllers
             var model = new List<UserViewModel>();
 
             var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-            var resultService = await apiService.GetList(new FilterViewModel<UserViewModel> { ApplyFilter = true, Filter = new UserViewModel { Type = 2 } });
+            var resultService = await apiService.GetList(new FilterViewModel<UserViewModel> { ApplyFilter = true, Filter = new UserViewModel { Type = 2, IsActive = true } });
             model = GetPagginationData<List<UserViewModel>>(resultService);
 
             return View(model);
         }
 
 
-        public async Task<IActionResult> NewEditAdmin(Guid? id)
-        {
-            var model = new UserViewModel();
-            ViewData["SubTitle"] = "Nuevo";
-            ViewData["SubTitleDescription"] = "Para crear un nuevo administrador debera llenar el siguiente formulario.";
-
-            if (id != null && id != Guid.Empty)
-            {
-                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
-
-                var result = await apiService.GetById(id.Value);
-                model = GetData<UserViewModel>(result);
-
-                ViewData["SubTitle"] = "Editar";
-                ViewData["SubTitleDescription"] = "Para editar el administrador debera llenar el siguiente formulario.";
-            }
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> NewEditAdmin(UserRegisterViewModel model)
+        public async Task<IActionResult> NewAdmin()
         {
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> NewAdmin(CreateAdminViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                model.Type = (int)UserType.Admin;
+                var resultService = await apiService.CreateAdmin(model);
+                ModelStateMessage<BasicResponse>(resultService, true);
+                if (resultService.IsSuccessStatusCode)
+                { 
+                    TempDataMessages(new string[] { "Se agrego con succeso." }, TagHelperStatusEnum.Success.ToString());
+                    return RedirectToAction("ListAdmin", "User");
+                }
+            }
+            return PartialView("NewAdmin", model);
+        }
+      
+
+        public IActionResult DeleteAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAdmin(Guid id)
+        {
+            if (id == null || id == Guid.Empty)
+            {
+                return RedirectToAction("ListAdmin", "User");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.DeleteAdmin(id);
+                TempDataMessage<BasicResponse>(resultService, true);
+            }
+            return RedirectToAction("ListAdmin");
+        }
+
+        public async Task<IActionResult> EditAdmin(Guid? id)
+        {
+            if (id == null || id == Guid.Empty)
+            {
+                return RedirectToAction("ListAdmin", "User");
+            }
+
+            var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+            var result = await apiService.GetById(id.Value);
+            var model = GetData<UserViewModel>(result);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAdmin(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.Edit(model);
+                ModelStateMessage<UserViewModel>(resultService);
+                
+            }
+            return View(model);
+        }
+
+        public IActionResult ChangePasswordAdmin(Guid id)
+        {
+            if (id == null || id == Guid.Empty)
+            {
+                return RedirectToAction("ListAdmin", "User");
+            }
+
+            var model = new ResetPasswordViewModel { Id = id };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordAdmin(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var apiService = RestServiceExtension<IUserAPI>.For(_enforcerApi.Url, GetUserSession().Token);
+                var resultService = await apiService.ResetPasswordAdmin(model);
+                TempDataMessage<UserViewModel>(resultService, true);
+            }
+            return View();
+        }
     }
 }

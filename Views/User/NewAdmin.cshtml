@@ -1,11 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Usuario Admin";
-    @model Tacovela.MVC.Models.User.UserViewModel
+    @model Tacovela.MVC.Models.User.CreateAdminViewModel
 }
 
 <h2>@ViewData["Title"]</h2>
 
-@*<h2>Perfil de Usuario</h2>*@
 
 
 <div class="row mb-5">
@@ -18,13 +17,11 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col-lg-10">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-2">@ViewData["SubTitle"]&nbsp;@ViewData["Title"]</h1>
-                                    <p class="mb-4">@ViewData["SubTitleDescription"]</p>
-                                    @*<h1 class="h4 text-gray-900 mb-2">Perfil de Usuario</h1>*@
-                                    @*<p class="mb-4">Cualquier información mal registrada podra alterar aqui.</p>*@
+                                    <h1 class="h4 text-gray-900 mb-2">Nuevo Usuario Admin</h1>
+                                    <p class="mb-4">Para crear un nuevo administrador debera llenar el siguiente formulario.</p>
                                 </div>
 
-                                <form class="user" role="form" method="post" asp-action="EditProfile">
+                                <form class="user" role="form" method="post" asp-action="NewAdmin">
                                     <div asp-msg-tempdata="None"></div>
                                     <div class="form-group">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -43,12 +40,13 @@
                                         <input asp-for="PhoneNumber" type="tel" class="form-control form-control-user" placeholder="Teléfono" />
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control form-control-user" type="password" placeholder="Contraseña" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                        <input asp-for="Password" class="form-control form-control-user" type="password" placeholder="Contraseña" />
                                     </div>
-                                    @*<div class="form-group">
+                                    <div class="form-group">
                                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                                        <input asp-for="ConfirmPassword" type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Re-Contraseña">
-                                    </div>*@
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control form-control-user" placeholder="Re-Contraseña">
+                                    </div>
                                     <div class="form-group">
                                         <input type="reset" class="btn btn-secondary" value="Cancelar" />
                                         <button type="submit" class="btn btn-success">Guardar Cambios</button>

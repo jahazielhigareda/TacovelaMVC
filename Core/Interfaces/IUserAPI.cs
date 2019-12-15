@@ -1,4 +1,5 @@
-﻿using Refit;
+﻿using Microsoft.AspNetCore.Mvc;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,6 +31,15 @@ namespace Tacovela.MVC.Core.Interfaces
 
         [Post("/user/get"), Headers("Authorization: Bearer")]
         Task<ApiResponse<ListResultViewModel<List<UserViewModel>>>> GetList(FilterViewModel<UserViewModel> filter);
+
+        [Post("/user/createadmin"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> CreateAdmin(CreateAdminViewModel model);
+
+        [Delete("/user/deleteadmin"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> DeleteAdmin(Guid id);
+
+        [Post("/user/resetpasswordadmin"), Headers("Authorization: Bearer")]
+        Task<ApiResponse<BasicResponse>> ResetPasswordAdmin(ResetPasswordViewModel user);
 
         #endregion
 

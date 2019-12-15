@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Edit Admin";
+    @model Tacovela.MVC.Models.User.UserViewModel;
+
+    Layout = "_Layout";
+}
+
+<h2>Perfil de Usuario Admin</h2>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-2">Perfil de Usuario Admin</h1>
+                    <p class="mb-4">Cualquier información mal registrada podra alterar aqui.</p>
+                </div>
+
+                <form class="user" role="form" method="post" asp-action="EditAdmin">
+                    <div asp-msg-tempdata="None"></div>
+                    <input asp-for="Id" type="hidden" />
+                    <div class="form-group">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <input asp-for="FirstName" type="text" class="form-control form-control-user" placeholder="Nombre(s)" />
+                    </div>
+                    <div class="form-group">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                        <input asp-for="LastName" type="text" class="form-control form-control-user" placeholder="Apellido(s)" />
+                    </div>
+                    <div class="form-group">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input asp-for="Email" type="email" class="form-control form-control-user" placeholder="Email" />
+                    </div>
+                    <div class="form-group">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control form-control-user" placeholder="Teléfono" />
+                    </div>
+                    <div class="form-group text-right">
+                        <a class="form-control-label" href="@Url.Action("ChangePasswordAdmin","User", new { id = Model.Id })">Cambiar Contraseña</a>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-user" type="password" placeholder="Contraseña" value="***************" readonly />
+                    </div>
+                    <div class="form-group">
+                        <input type="reset" class="btn btn-secondary" value="Cancelar" />
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

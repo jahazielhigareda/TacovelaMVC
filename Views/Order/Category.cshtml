@@ -3,7 +3,7 @@
     @model List<Tacovela.MVC.Models.Category.CategoryViewModel>
     var urlFiles = "http://www.files.tacovela.com";
 
-    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    @*@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     @using Tacovela.MVC.Core.Extensions;
     @using Tacovela.MVC.Models.Authentication;
 
@@ -15,7 +15,9 @@
     else
     {
         Layout = "_Layout";
-    }
+    }*@
+    Layout = "_OrderLayout";
+
 }
 <link href="~/css/orderCategory.min.css" rel="stylesheet" />
 <style>
@@ -61,8 +63,8 @@
                         <div class="col-12">
                             <div class="row no-gutters">
                                 @*<div class="col-6 col-lg-6 pt-1 detalles d-flex align-items-center justify-center position-static spanLinkDetail" data-code="HNC">
-                                <span class="Fbold textDetaila14px">DETALLES </span>
-                            </div>*@
+                                        <span class="Fbold textDetaila14px">DETALLES </span>
+                                    </div>*@
                                 <!-- <div class="col-6 d-flex align-items-center p-0 bg-lg-fff" onclick="javascript:CreateSegmentEvent('Product Clicked', Product_HNC); window.location.href ='https://dominos.com.mx/menu/ordenar-especialidad/hawaiana';" href="https://dominos.com.mx/menu/ordenar-especialidad/hawaiana"> -->
                                 <div class="col-12">
                                     <div class="text-center ordena-aqui align-items-center pt-2 justify-center">

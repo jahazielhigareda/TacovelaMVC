@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+    @model Tacovela.MVC.Models.Order.OrderViewModel
+}
+
+
+<form method="post" asp-action="FinishOrder" id="form-alert">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="Type" type="hidden" id="txtTypeOrderModal" />
+    <div class="modal-header">
+        <h5 class="modal-title">Quiere finalizar el pedido?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body" id="mdl-body">
+        <p>
+            Estas seguro de finalizar el pedido?
+        </p>
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="ValidateForm(this)">Si, Finalizar</button>
+    </div>
+</form>
+
+
+<script>
+
+    function ValidateForm(btn) {
+        var $buttom = $(btn);
+
+        if ($('#txtTypeOrder').val() == '') {
+            $('#mdl-body').find('.error-modal').remove();
+            $('#mdl-body').append('<div class="alert alert-danger text-danger small error-modal">' +
+                '<button type="button" class="close"data-dismiss="alert"aria-label="Close">' +
+                '<span aria-hidden="true">×</span>' +
+                '</button><li>No seleciono ningun tipo de envio.</li>' +
+                '</div >');
+            //alert('No seleciono ningun tipo de envio.');
+        }
+        else {
+            $('#txtTypeOrderModal').val($('#txtTypeOrder').val())
+            $buttom.prop("type", "submit");
+            $buttom.click();
+        }
+
+
+    }
+</script>

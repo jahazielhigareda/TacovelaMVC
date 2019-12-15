@@ -30,7 +30,7 @@
                         <div class="card-body">
                             <h3 class="h6 mb-2 font-weight-bold text-uppercase">@item.Name</h3>
                             <div class="d-flex">
-                                <h4 class="h5 w-50 font-weight-bold text-danger">$@item.Value</h4>
+                                <h4 class="h5 w-50 font-weight-bold text-danger">@item.Value.ToString("c")</h4>
                                 <div class="w-50 text-right">
                                     <input data-filled="fa fa-star text-warning" data-empty="fa fa-star-o text-secondary" value="5" type="hidden" class="rating" data-readonly />
                                 </div>

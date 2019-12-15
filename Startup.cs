@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Globalization;
 using Tacovela.MVC.Models.Api;
 
 namespace Tacovela.MVC
@@ -51,8 +53,18 @@ namespace Tacovela.MVC
             });
 
             services.AddDistributedMemoryCache();
-            services.AddSession();
+            //services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(8);
+            });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            var cultureInfo = new CultureInfo("en-MX");
+            cultureInfo.NumberFormat.CurrencySymbol = "$";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
         }
 

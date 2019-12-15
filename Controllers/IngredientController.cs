@@ -74,10 +74,6 @@ namespace Tacovela.MVC.Controllers
 
         public IActionResult Delete()
         {
-            //var model = new DeleteIngredientViewModel
-            //{
-            //    Id = id
-            //};
             return View();
         }
 
