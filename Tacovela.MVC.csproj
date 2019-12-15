@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon>wwwroot\taco.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

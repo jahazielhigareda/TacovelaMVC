@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+    @model Tacovela.MVC.Models.Order.OrderViewModel
+}
+
+
+<form method="post" asp-action="RemoveProductOrder" id="form-alert">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="RemoveProductId" type="hidden" />
+    <div class="modal-header">
+        <h5 class="modal-title">Quieres eliminar el producto?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body" id="mdl-body">
+        <p>
+            Estas seguro de eliminar el producto del carrito?
+        </p>
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" onclick="ValidateForm(this)">Si, Eliminar</button>
+    </div>
+</form>
+
+

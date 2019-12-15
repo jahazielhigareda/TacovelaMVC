@@ -1,6 +1,7 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "FinishOrder";
+    @model Tacovela.MVC.Models.Order.OrderViewModel
+
 
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     @using Tacovela.MVC.Core.Extensions;
@@ -20,5 +21,316 @@
     var urlFiles = "http://www.files.tacovela.com";
 }
 
-<h2>FinishOrder</h2>
 
+
+<style>
+    .divTypeOrder.active {
+        background: #006391;
+    }
+
+        .divTypeOrder.active > * {
+            color: white;
+        }
+</style>
+
+<input type="hidden" name="txtTypeOrder" id="txtTypeOrder" />
+@if (Model == null || !Model.Products.Any())
+{
+    <div class="container mb-5">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <div class="row text-center">
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <h3>Finalizar Pedido</h3>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <h5>Total de articulos agregados</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 p-3 mt-1 mb-1" style="border: 3px solid #006391;">
+                        <h3 style="margin-left: auto;margin-right: auto;">Sin productos agregados al carrito</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mb-5">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <div class="row text-center">
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <h3>Finalizar Pedido</h3>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <h5>Total de articulos agregados</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 p-0 mb-3">
+                        <div class="row">
+                            <div class="row col-md-12">
+                                <div class="row col-md-10">
+                                    <div class="col-6 col-md-6">
+                                        <div class="row m-1 p-2 divTypeOrder" data-type="1" style="border: 3px solid #006391;cursor: pointer;">
+                                            <div class="col-12 col-md-8">
+                                                <h3 class="title-typeOrder">Llevamos tu orden</h3>
+                                                <p>Sólo indícanos tu dirección.</p>
+                                            </div>
+                                            <div class="col-12 col-md-4 d-none d-md-block">
+                                                <img src="~/img/motorcicle.svg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <div class="row m-1 p-2 divTypeOrder" data-type="2" style="border: 3px solid #006391;cursor: pointer;">
+                                            <div class="col-12 col-md-8">
+                                                <h3 class="title-typeOrder">Recoge tu orden</h3>
+                                                <p>En el restaurante Tacovela.</p>
+                                            </div>
+                                            <div class="col-12 col-md-4 d-none d-md-block">
+                                                <img src="~/img/togo.svg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 float-right">
+                                    <button type="button" class="btn btn-primary btn-sm btn-open-modal col-md-12" data-toggle="modal" data-target="#mdl-global" data-view="@Url.Action("FinishOrderAlert","Order", new { id = Model.Id })">Finalizar Pedido</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 p-0 pr-4">
+                                <hr style="border-top: 2px solid #006391;">
+                            </div>
+
+                            <div class="row col-md-6 mb-1 offset-6">
+                                <div class="col-md-9">
+                                    <span class="inline float-right"><strong>SUB TOTAL:</strong></span>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="inline float-right">@Model.Value.ToString("c")</span>
+                                </div>
+                            </div>
+
+                            <div class="row col-md-6 mb-1 offset-6 div-taxa-delivery" style="display: none;">
+                                <div class="col-md-9">
+                                    <span class="inline float-right"><strong>ENVIO:</strong></span>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="inline float-right">$35.00</span>
+                                </div>
+                            </div>
+                            <div class="row col-md-6 mb-1 offset-6">
+                                <div class="col-md-9">
+                                    <span class="inline float-right"><strong>TOTAL:</strong></span>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="txt-total inline float-right" data-total="@Model.Value" style="color: #F44336;font-weight: bold;">@Model.Value.ToString("c")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*@foreach (var item in Model)
+                        {*@
+                    @foreach (var element in Model.Products)
+                    {
+                        <div class="row col-md-12 p-3 mt-1 mb-1" style="border: 3px solid #006391;">
+
+
+                            @*<div class="col-12 col-sm-12 col-md-12">
+                                    <hr style="border-top: 3px solid #006391;">
+                                </div>*@
+
+                            @*<div class="col-12  col-sm-12 col-md-12">
+                                    <hr style="border-top: 2px solid #006391;">
+                                </div>*@
+                            <div class="col-md-3 d-none d-sm-block " style="padding: 0px !important;">
+                                <div class="row">
+                                    <div class="col-12 ml-4 pr-1 pr-sm-3" style="padding: 0px !important;">
+                                        <img class="img-max-200" src="@string.Concat(urlFiles, element.Product.UrlImage)" alt="">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 mt-3">
+                                        <button type="button" class="btn btn-primary btn-sm btn-open-modal col-md-10" data-toggle="modal" data-target="#mdl-global" data-view="@Url.Action("RemoveProductOrder", "Order", new { id = Model.Id, productOrderId = element.Id })">
+                                            <i class="fa fa-trash"></i> Eliminar del Carrito
+                                        </button>
+
+                                        @*<a type="submit" class="btn btn-primary col-md-10">
+                                                <i class="fa fa-trash"></i> Eliminar del Carrito
+                                            </a>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3">
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-12 pl-1 pl-sm-3">
+                                        <span class=" roboto-light spanOrder">@element.Product.Name</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-12 pl-1 pl-sm-3">
+                                        <p class=" roboto-light spanOrder" style="color: #F44336;font-weight: bold;">@string.Concat(element.Product.Value.ToString("c"), " x", element.Quantity)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-12 pl-1 pl-sm-3">
+                                        <span class=" roboto-light spanOrder">@element.Product.Description</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-center">
+
+                                <div class="col-12 col-sm-12 col-md-12">
+                                    <div class="text-center">
+                                        <h4>Complementos</h4>
+                                    </div>
+
+
+                                    <div id="totals-ingredients" class="col-md-12 p-0">
+                                        @{
+                                            decimal ingredientValue = 0;
+                                        }
+                                        @foreach (var ingredient in element.Ingredients.GroupBy(g => g.IngredientId))
+                                        {
+                                            <div class="row col-md-12 mb-1">
+                                                <div class="col-md-6">
+                                                    <span class="roboto-light spanOrder inline">@ingredient.FirstOrDefault().Ingredient.Name</span>
+                                                </div><div class="col-md-2">
+                                                    <span class="roboto-light spanOrder inline float-right">@string.Concat("x", ingredient.Count())</span>
+                                                </div><div class="col-md-4">
+                                                    <span class="roboto-light spanOrder inline float-right" style="color: #F44336;font-weight: bold;">@((ingredient.FirstOrDefault().Ingredient.Value.Value * ingredient.Count()).ToString("c"))</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+
+                                    <div class="col-12 col-sm-12 col-md-12">
+                                        <hr style="border-top: 2px solid #006391;">
+                                    </div>
+
+                                    <div class="row col-md-12 mb-1">
+                                        <div class="col-md-9">
+                                            <span class="inline float-right"><strong>SUB TOTAL:</strong></span>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="inline float-right">@element.Product.Value.ToString("c")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12 mb-1">
+                                        <div class="col-md-9">
+                                            <span class="inline float-right"><strong>TOTAL:</strong></span>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="inline float-right" style="color: #F44336;font-weight: bold;">
+                                                @(((element.Product.Value + (element.Ingredients.GroupBy(g => g.IngredientId).Sum(s => s.FirstOrDefault().Ingredient.Value.Value * s.Count()))) * element.Quantity).ToString("c"))
+                                           </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    @*}*@
+                </div>
+
+                <div class="row">
+                    <div class="row col-md-6 mb-1 offset-6 mt-3">
+                        <div class="col-md-9">
+                            <span class="inline float-right"><strong>SUB TOTAL:</strong></span>
+
+                        </div>
+                        <div class="col-md-3">
+                            <span class="inline float-right">@Model.Value.ToString("c")</span>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 mb-1 offset-6 div-taxa-delivery" style="display:none;">
+                        <div class="col-md-9">
+                            <span class="inline float-right"><strong>ENVIO:</strong></span>
+
+                        </div>
+                        <div class="col-md-3">
+                            <span class="inline float-right">$35.00</span>
+                        </div>
+                    </div>
+                    <div class="row col-md-6 mb-1 offset-6">
+                        <div class="col-md-9">
+                            <span class="inline float-right"><strong>TOTAL:</strong></span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="txt-total inline float-right" data-total="@Model.Value" style="color: #F44336;font-weight: bold;">@Model.Value.ToString("c")</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 p-0 pr-3">
+                        <hr style="border-top: 2px solid #006391;">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 p-0 mt-1">
+                    <div class="col-12 col-sm-12 col-md-12 float-right p-0">
+                        @*<button type="submit" class="btn btn-primary float-right btn-end-order">Finalizar Pedido</button>*@
+                        <button type="button" class="btn btn-primary btn-sm btn-open-modal col-md-2 float-right" data-toggle="modal" data-target="#mdl-global" data-view="@Url.Action("FinishOrderAlert","Order", new { id = Model.Id})">Finalizar Pedido</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        $("#form-finishOrder").submit(function (event) {
+            alert("Handler for .submit() called.");
+            event.preventDefault();
+        });
+
+        $('.divTypeOrder').on('click', function () {
+            if (!$(this).hasClass('active')) {
+                $('.divTypeOrder.active').removeClass('active');
+                $(this).addClass('active');
+                $('#txtTypeOrder').val($(this).data('type'));
+
+                if ($(this).data('type') == '1') {
+                    $('.div-taxa-delivery').show();
+
+                    var costDelivery = 35;
+                    var total = parseFloat($('.txt-total').data('total'));
+                    $('.txt-total').text(formatMoney(total + costDelivery));
+                }
+                else {
+                    $('.div-taxa-delivery').hide();
+                    var total = parseFloat($('.txt-total').data('total'));
+                    $('.txt-total').text(formatMoney(total));
+                }
+            }
+            else {
+                $('.divTypeOrder.active').removeClass('active');
+                $('#txtTypeOrder').val('');
+
+                $('.div-taxa-delivery').hide();
+                var total = parseFloat($('.txt-total').data('total'));
+                $('.txt-total').text(formatMoney(total));
+            }
+        });
+    </script>
+}

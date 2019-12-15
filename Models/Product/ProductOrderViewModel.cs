@@ -7,6 +7,8 @@ namespace Tacovela.MVC.Models.Product
 {
     public class ProductOrderViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         public Guid ProductId { get; set; }
 

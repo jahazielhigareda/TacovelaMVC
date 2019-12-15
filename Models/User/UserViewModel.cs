@@ -26,6 +26,8 @@ namespace Tacovela.MVC.Models.User
 
         public int Type { get; set; }
         public string ImageProfile { get; set; } = "//placehold.it/60";
+        
+        public bool IsActive { get; set; }
 
         //public UserAddressViewModel Address { get; set; }
         //public string Street { get; set; }

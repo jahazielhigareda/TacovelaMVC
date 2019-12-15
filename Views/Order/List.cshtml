@@ -38,18 +38,31 @@
                             <div class="card mb-4 py-3 border-bottom-dark">
                                 <div class="pl-5 pr-5 row" data-toggle="collapse" href="@string.Concat("#", item.UserName, item.Id).Replace(" ", "")" role="button" aria-expanded="false" aria-controls="@string.Concat(item.UserName, item.Id).Replace(" ", "")">
                                     <div class="media-body">
-                                        <span>17:53</span>
+                                        <span>@item.Date.ToString("yyyy-MM-dd hh:mm")</span>
                                         <p>@item.UserName</p>
                                     </div>
                                     <div class="font-weight-bolder">
-                                        <p class="m-0">$ @item.Value</p>
+                                        <p class="m-0">@item.Value.ToString("c")</p>
                                         <span class="badge badge-warning">@item.Status</span>
+                                        <span class="badge badge-warning">@item.Type</span>
                                     </div>
                                     <div class="pl-5" style="margin-top: -0.3rem; color:#E93F3A;">
                                         <span class="fas fa-angle-down fa-2x"></span>
                                     </div>
                                 </div>
                                 <div class="pl-5 pr-5 collapse" id="@string.Concat(item.UserName, item.Id).Replace(" ", "")">
+                                    @if (item.TaxaOrder.Any())
+                                    {
+                                        <div class="row pl-5 pr-5 col-lg-12">
+                                            <div class="col-lg-8">
+                                                <p class="m-0">Costo de Envio</p>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <span>@item.TaxaOrder.FirstOrDefault().Taxa.Value.ToString("c")</span>
+                                            </div>
+                                        </div>
+                                    }
+
                                     <hr>
                                     @foreach (var products in item.Products)
                                     {
@@ -59,7 +72,7 @@
                                                     <p class="m-0"><span>@string.Concat(products.Quantity, "x ")</span>@products.Product.Name</p>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <span>$ @products.Product.Value.ToString("g")</span>
+                                                    <span>@products.Product.Value.ToString("c")</span>
                                                 </div>
                                             </div>
                                             @if (products.Ingredients.Any())
@@ -69,15 +82,15 @@
                                                     <div class="col-lg-12 pl-5 pr-5">
                                                         <p class="m-0">Complementos</p>
                                                     </div>
-                                                    @foreach (var ingredient in products.Ingredients)
+                                                    @foreach (var ingredient in products.Ingredients.GroupBy(g => g.IngredientId))
                                                     {
                                                         <div class="row pl-5 pr-5 col-lg-12">
                                                             <div class="row pl-5 pr-5 col-lg-12">
                                                                 <div class="col-lg-8">
-                                                                    <p class="m-0"><span>@string.Concat("+1 ")</span>@ingredient.Ingredient.Name</p>
+                                                                    <p class="m-0"><span>@string.Concat("+", ingredient.Count(), " ")</span>@ingredient.FirstOrDefault().Ingredient.Name</p>
                                                                 </div>
                                                                 <div class="col-lg-4" style="padding-left: 68px">
-                                                                    <span>$ @ingredient.Ingredient.Value.Value.ToString("g")</span>
+                                                                    <span>@ingredient.FirstOrDefault().Ingredient.Value.Value.ToString("c")</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -85,15 +98,15 @@
                                                 </div>
                                             }
                                         </div>
-
                                     }
+
                                     <hr>
                                     <div class="row pl-5 pr-5 col-lg-12 font-weight-bolder">
                                         <div class="col-lg-8">
                                             <p class="m-0">Total</p>
                                         </div>
                                         <div class="col-lg-4">
-                                            <span>$ @item.Value</span>
+                                            <span>@item.Value.ToString("c")</span>
                                         </div>
                                     </div>
                                     <hr>
@@ -114,20 +127,20 @@
 
                                                 @if (item.Status != Tacovela.MVC.Models.Order.OrderStatus.Delivered)
                                                 {
-                                                    <button class="btn btn-secondary" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 4 })">Cancel</button>
+                                                    <a class="btn btn-secondary" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 4 })">Cancel</a>
                                                 }
 
                                                 @if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.Pending)
                                                 {
-                                                    <button class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 2 })">En Preparación</button>
+                                                    <a class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 2 })">En Preparación</a>
                                                 }
                                                 else if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.InPreparation)
                                                 {
-                                                    <button class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 3 })">En camino</button>
+                                                    <a class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 3 })">En camino</a>
                                                 }
                                                 else if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.OnWay)
                                                 {
-                                                    <button class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 5 })">Entregado</button>
+                                                    <a class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 5 })">Entregado</a>
                                                 }
                                             </div>
                                         }
