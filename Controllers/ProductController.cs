@@ -98,7 +98,7 @@ namespace Tacovela.MVC.Controllers
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
 
             var productIngredients = apiService.GetIngredients(id).Result.Data;
-            var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+            var ingredients = apiService.IngredientList(new IngredientViewModel { IsActive = true }).Result.Data;
 
             model.ProductIngredients = productIngredients;
             foreach (var ingredient in ingredients)

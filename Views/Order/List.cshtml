@@ -19,140 +19,70 @@
         classDiv = "col-lg-9";
     }
 }
-
-<div class="@classDiv">
-    <div class="card col-lg-12">
-        <div class="card-body">
+    <form class="user" method="post" asp-action="List">
+        <div class="col-12 mb-3">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 p-0">
-                    <div asp-msg-tempdata="None"></div>
+                <div class="col-2">
+                    <label for="txtStartDate">Inicio</label>
+                    <input name="startDate" class="form-control" type="date" value="@ViewBag.StartDate.ToString("yyyy-MM-dd")" id="txtStartDate">
                 </div>
-                <div class="col-lg-12">
-                    <div>
-                        <h1 class="h4 text-gray-900 mb-2">@ViewData["TypeView"]&nbsp;@ViewData["Title"]</h1>
-                    </div>
-                    <br />
-                    <div>
-                        @foreach (var item in Model)
-                        {
-                            <div class="card mb-4 py-3 border-bottom-dark">
-                                <div class="pl-5 pr-5 row" data-toggle="collapse" href="@string.Concat("#", item.UserName, item.Id).Replace(" ", "")" role="button" aria-expanded="false" aria-controls="@string.Concat(item.UserName, item.Id).Replace(" ", "")">
-                                    <div class="media-body">
-                                        <span>@item.Date.ToString("yyyy-MM-dd hh:mm")</span>
-                                        <p>@item.UserName</p>
-                                    </div>
-                                    <div class="font-weight-bolder">
-                                        <p class="m-0">@item.Value.ToString("c")</p>
-                                        <span class="badge badge-warning">@item.Status</span>
-                                        <span class="badge badge-warning">@item.Type</span>
-                                    </div>
-                                    <div class="pl-5" style="margin-top: -0.3rem; color:#E93F3A;">
-                                        <span class="fas fa-angle-down fa-2x"></span>
-                                    </div>
-                                </div>
-                                <div class="pl-5 pr-5 collapse" id="@string.Concat(item.UserName, item.Id).Replace(" ", "")">
-                                    @if (item.TaxaOrder.Any())
-                                    {
-                                        <div class="row pl-5 pr-5 col-lg-12">
-                                            <div class="col-lg-8">
-                                                <p class="m-0">Costo de Envio</p>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <span>@item.TaxaOrder.FirstOrDefault().Taxa.Value.ToString("c")</span>
-                                            </div>
-                                        </div>
-                                    }
-
-                                    <hr>
-                                    @foreach (var products in item.Products)
-                                    {
-                                        <div class="row">
-                                            <div class="row pl-5 pr-5 col-lg-12">
-                                                <div class="col-lg-8">
-                                                    <p class="m-0"><span>@string.Concat(products.Quantity, "x ")</span>@products.Product.Name</p>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <span>@products.Product.Value.ToString("c")</span>
-                                                </div>
-                                            </div>
-                                            @if (products.Ingredients.Any())
-                                            {
-                                                <div class="row pl-5 pr-5 col-lg-12">
-
-                                                    <div class="col-lg-12 pl-5 pr-5">
-                                                        <p class="m-0">Complementos</p>
-                                                    </div>
-                                                    @foreach (var ingredient in products.Ingredients.GroupBy(g => g.IngredientId))
-                                                    {
-                                                        <div class="row pl-5 pr-5 col-lg-12">
-                                                            <div class="row pl-5 pr-5 col-lg-12">
-                                                                <div class="col-lg-8">
-                                                                    <p class="m-0"><span>@string.Concat("+", ingredient.Count(), " ")</span>@ingredient.FirstOrDefault().Ingredient.Name</p>
-                                                                </div>
-                                                                <div class="col-lg-4" style="padding-left: 68px">
-                                                                    <span>@ingredient.FirstOrDefault().Ingredient.Value.Value.ToString("c")</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                </div>
-                                            }
-                                        </div>
-                                    }
-
-                                    <hr>
-                                    <div class="row pl-5 pr-5 col-lg-12 font-weight-bolder">
-                                        <div class="col-lg-8">
-                                            <p class="m-0">Total</p>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <span>@item.Value.ToString("c")</span>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row pl-5 col-lg-12">
-                                        <div class="col-lg-4">
-                                            <p id="street-number" class="m-0">@string.Concat(item.UserAddress.Street, ", ", item.UserAddress.Number)</p>
-                                            <p id="subcity" class="m-0">@item.UserAddress.SubCity</p>
-                                            <p id="city-state" class="m-0">@string.Concat(item.UserAddress.City, " - ", item.UserAddress.State)</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p id="phone" class="m-0 font-weight-bolder">@item.UserPhone</p>
-                                            <p id="postal-code" class="m-0">@item.UserAddress.PostalCode</p>
-                                        </div>
-                                        @if (userSession.Type != (int)Tacovela.MVC.Core.Enums.UserType.Client)
-                                        {
-                                            <div class="col-lg-6" style="text-align: right; align-self: center;">
-
-
-                                                @if (item.Status != Tacovela.MVC.Models.Order.OrderStatus.Delivered)
-                                                {
-                                                    <a class="btn btn-secondary" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 4 })">Cancel</a>
-                                                }
-
-                                                @if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.Pending)
-                                                {
-                                                    <a class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 2 })">En Preparación</a>
-                                                }
-                                                else if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.InPreparation)
-                                                {
-                                                    <a class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 3 })">En camino</a>
-                                                }
-                                                else if (item.Status == Tacovela.MVC.Models.Order.OrderStatus.OnWay)
-                                                {
-                                                    <a class="btn btn-warning" href="@Url.Action("ChangeStatus","Order", new { id = item.Id, status = 5 })">Entregado</a>
-                                                }
-                                            </div>
-                                        }
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        }
-                    </div>
+                <div class="col-2">
+                    <label for="txtEndDate">Fin</label>
+                    <input name="endDate" class="form-control" type="date" value="@ViewBag.EndDate.ToString("yyyy-MM-dd")" id="txtEndDate">
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-primary btn-block" style="margin-top: 30px;" type="submit">Buscar</button>
                 </div>
             </div>
         </div>
+    </form>
+
+
+
+<div class="@classDiv">
+    <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#divPending" role="tab" aria-controls="divPending" aria-selected="true">Pendientes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#divInPreparation" role="tab" aria-controls="divInPreparation" aria-selected="false">En Preparación</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#divOnWay" role="tab" aria-controls="divOnWay" aria-selected="false">En Camino</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#divDelivered" role="tab" aria-controls="divDelivered" aria-selected="false">Entregado</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#divCanceled" role="tab" aria-controls="divCanceled" aria-selected="false">Cancelado</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="card tab-pane fade show active" id="divPending" role="tabpanel" aria-labelledby="pills-home-tab">
+            @{
+                await Html.RenderPartialAsync("_ListTabOrder", Model.Where(w => w.Status == Tacovela.MVC.Models.Order.OrderStatus.Pending).ToList());
+            }
+        </div>
+        <div class="card tab-pane fade show" id="divInPreparation" role="tabpanel" aria-labelledby="pills-home-tab">
+            @{
+                await Html.RenderPartialAsync("_ListTabOrder", Model.Where(w => w.Status == Tacovela.MVC.Models.Order.OrderStatus.InPreparation).ToList());
+            }
+        </div>
+        <div class="card tab-pane fade show" id="divOnWay" role="tabpanel" aria-labelledby="pills-home-tab">
+            @{
+                await Html.RenderPartialAsync("_ListTabOrder", Model.Where(w => w.Status == Tacovela.MVC.Models.Order.OrderStatus.OnWay).ToList());
+            }
+        </div>
+        <div class="card tab-pane fade show" id="divDelivered" role="tabpanel" aria-labelledby="pills-home-tab">
+            @{
+                await Html.RenderPartialAsync("_ListTabOrder", Model.Where(w => w.Status == Tacovela.MVC.Models.Order.OrderStatus.Delivered).ToList());
+            }
+        </div>
+        <div class="card tab-pane fade show" id="divCanceled" role="tabpanel" aria-labelledby="pills-home-tab">
+            @{
+                await Html.RenderPartialAsync("_ListTabOrder", Model.Where(w => w.Status == Tacovela.MVC.Models.Order.OrderStatus.Canceled).ToList());
+            }
+        </div>
     </div>
+
 </div>

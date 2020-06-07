@@ -21,11 +21,9 @@
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/css/site.css?v=1.0.0.0" rel="stylesheet" />
 
-    @*<style type="text/css">
-        .fa {
-            margin-right: 5px;
-        }
-    </style>*@
+    <style type="text/css">
+        
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -45,7 +43,10 @@
                         </div>
 
                     </div>
-
+                    
+                    @{
+                        await Html.RenderPartialAsync("_Footer");
+                    }
                 </div>
 
             </div>
@@ -53,9 +54,11 @@
         </div>
 
     </div>
+
+
     @*<div class="overlay">
-        <div class="lds-dual-ring"></div>
-    </div>*@
+            <div class="lds-dual-ring"></div>
+        </div>*@
 
     @*<partial name="_CookieConsentPartial" />*@
 

@@ -67,12 +67,39 @@ namespace Tacovela.MVC.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(DateTime? startDate, DateTime? endDate)
         {
+            if (startDate > endDate)
+            {
+                endDate = startDate;
+            }
+
+            if (endDate != null && (endDate.Value != DateTime.MinValue && endDate.Value != DateTime.MaxValue))
+            {
+                endDate = endDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59);
+            }
+
             var apiService = RestServiceExtension<IAPI>.For(_enforcerApi.Url, GetUserSession().Token);
             var user = GetUserSession();
 
             var model = apiService.GetOrder(user.Type == (int)UserType.Client ? user.Id : (Guid?)null).Result.Data;
+
+            if (startDate != null && endDate != null &&
+               (startDate.Value != DateTime.MinValue && startDate.Value != DateTime.MaxValue) &&
+               (endDate.Value != DateTime.MinValue && endDate.Value != DateTime.MaxValue))
+            {
+                model = model.Where(w => w.Date >= startDate.Value && w.Date <= endDate.Value).ToList();
+                ViewBag.StartDate = startDate;
+                ViewBag.EndDate = endDate;
+            }
+            else 
+            {
+                var endDateDefault = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
+                model = model.Where(w => w.Date >= DateTime.Today && w.Date <= endDateDefault).ToList();
+                ViewBag.StartDate = DateTime.Today;
+                ViewBag.EndDate = endDateDefault;
+            }
+
             return View(model);
         }
 
@@ -208,21 +235,21 @@ namespace Tacovela.MVC.Controllers
 
             var model = apiService.ProductList(id).Result.Data.FirstOrDefault();
 
-            var productIngredients = apiService.GetIngredients(id).Result.Data;
-            var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
+            //var productIngredients = apiService.GetIngredients(id).Result.Data;
+            //var ingredients = apiService.IngredientList(new IngredientViewModel()).Result.Data;
 
-            model.ProductIngredients = productIngredients;
-            foreach (var ingredient in ingredients)
-            {
-                if (!productIngredients.Select(p => p.IngredientId).Contains(ingredient.Id))
-                {
-                    model.ProductIngredients.Add(new ProductIngredientViewModel()
-                    {
-                        Ingredient = ingredient,
-                        IngredientId = ingredient.Id,
-                    });
-                }
-            }
+            //model.ProductIngredients = productIngredients;
+            //foreach (var ingredient in ingredients)
+            //{
+            //    if (productIngredients.Select(p => p.IngredientId).Contains(ingredient.Id))
+            //    {
+            //        model.ProductIngredients.Add(new ProductIngredientViewModel()
+            //        {
+            //            Ingredient = ingredient,
+            //            IngredientId = ingredient.Id,
+            //        });
+            //    }
+            //}
 
             return View(model);
 
